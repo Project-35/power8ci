@@ -1,0 +1,68 @@
+\documentclass[10pt,letterpaper,onecolumn,draftclsnofoot]{IEEEtran}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{longtable}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  columns=flexible,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+\begin{document}
+\begin{titlepage}
+  \title{CS 461 --- Fall 2016 --- Problem Statement}
+  \author{Leon Leighton, Thomas Olson, Derek Wong\\POWER8 Build and Test Infrastructure}
+  \date{October 14, 2016}
+  \maketitle
+  \vspace{4cm}
+  \begin{abstract}
+  \noindent Open Source software projects have a need for a POWER8 build and test infrastructure.
+  This project will provide this ability using Cloud and Continuous Integration technologies. 
+  Users of this project will have an easy to use method to ensure that their software works correctly on POWER8 systems running the Linux operating system.
+  \end{abstract}
+\end{titlepage}
+
+\section*{Problem Definition}
+IBM's POWER8 architecture is designed for high performance and scalability which make it ideal for today's Cloud and Big Data workloads.
+Much of the software operating in these environments is Open Source. 
+While much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need a way to build and test their software on POWER8. 
+Public Cloud-based solutions already exist to enable Open Source software developers to build and test their software on Intel's x86 architecture. 
+This project will focus on providing an easy to use, public, Cloud-based, POWER8 build and test infrastructure for Open Source projects. 
+
+
+\section*{Proposed Solution}
+The Oregon State University Open Source Lab (OSL) currently has a POWER8 cluster running OpenStack.
+We will use this POWER8 Cloud along with the Jenkins automation software to create a POWER8 build and test system for Open Source projects. 
+This system will be able to use both Linux virtual machines and Docker containers to build the software and run associated tests. 
+We will also focus on ease of use through simple configuration and by allowing developers to use Github, and possibly other, credentials for authentication.
+
+The project itself will also be Open Source which will allow others to replicate our solution on Clouds other than the one we will be utilizing at the OSL\@. 
+This will be accomplished by hosting the project on Github. 
+
+During the Engineering Expo in the Spring we will be able to show various Open Source projects being built and tested on POWER8 using this infrastructure.
+
+
+\section*{Performance Metrics}
+We will measure the success of our project by having a functioning POWER8 build and test infrastructure that is easy to use by Open Source projects. 
+
+\clearpage
+\section*{Approval}
+
+\noindent Gerrit Huizenga\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Leon Leighton\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Thomas Olson\hspace{0.3cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Derek Wong\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
+
+
+\end{document}
