@@ -36,18 +36,20 @@
 
 \section*{Problem Definition}
 Open Source software projects are often designed to work on as broad a range of hardware architectures as possible. 
-Having a diverse range of supported architectures avoids vendor lock-in and allows users of the software to consider a variety of hardware solutions. 
-The introduction of IBM's POWER8 architecture broadened the range of possible solutions available to system designers.
-While much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need a way to build and test their software on POWER8. 
+The users of Open Source software want the flexibility to consider a variety of hardware solutions in order to take advantage of different capabilities and to avoid vendor lock-in in the future. 
+To support their users, Open Source software projects spend their time and resources on adding support for new architectures as they become available. 
+The introduction of IBM's POWER8 architecture broadened the range of possible solutions available to the end users of Open Source software. 
+This creates a need for Open Source projects to ensure that their software builds and functions correctly on POWER8. 
 Open Source software projects often use Continuous Integration (CI) systems to build and test their software. 
 CI enables these projects to validate their software after each change, ensuring that it continues to work as expected. 
 Public Cloud-based solutions already exist to enable Open Source software developers to build and test their software on Intel's x86 architecture. 
-This project will focus on providing an easy to use, public, Cloud-based, POWER8 CI infrastructure for Open Source projects. 
+Thus, while much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need an easy way to build and test their software on POWER8. 
 
 \section*{Proposed Solution}
+This project will focus on providing an easy to use, public, Cloud-based, POWER8 CI infrastructure for Open Source projects in order to increase the ability of these projects to build and test their software on POWER8. 
+Creating this POWER8 CI system will lower the cost and effort needed for Open Source software developers to ensure that their software runs on POWER8.
 The Oregon State University Open Source Lab (OSL) currently has a POWER8 cluster running OpenStack.
 We will use this POWER8 Cloud along with the Jenkins automation software to create a POWER8 CI system for Open Source projects that will enable automatic validation after every change to the software. 
-Creating this POWER8 CI system will lower the cost and effort needed for Open Source software developers to ensure that their software runs on POWER8.
 This system will be able to use both Linux virtual machines and Docker containers to build the software and run associated tests. 
 We will also focus on ease of use through simple configuration and by allowing developers to use GitHub, and possibly other, credentials for authentication.
 
@@ -68,9 +70,9 @@ We will measure the success of our project by having a functioning POWER8 Contin
 \section*{Approval}
 
 \noindent Gerrit Huizenga\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
-Leon Leighton\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
-Thomas Olson\hspace{0.3cm} \makebox[1.5in]{\hrulefill}\\\\\\
-Derek Wong\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Leon Leighton\hspace{0.85cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Thomas Olson\hspace{0.9cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Derek Wong\hspace{1.2cm} \makebox[1.5in]{\hrulefill}\\\\\\
 
 
 \end{document}
