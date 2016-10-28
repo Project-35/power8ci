@@ -1,0 +1,75 @@
+\documentclass[10pt,letterpaper,onecolumn,draftclsnofoot]{IEEEtran}
+\usepackage[margin=0.75in]{geometry}
+
+\begin{document}
+\begin{titlepage}
+  \title{POWER8 Build and Test Infrastructure\\Software Requirements Specification\\CS461, Fall 2016}
+  \author{Leon Leighton, Thomas Olson, Derek Wong}
+  \date{October 28, 2016}
+  \maketitle
+  \begin{abstract}
+  \noindent Publicly available Continuous Integration systems provide a means for Open Source software developers to validate their software after each change to the code.
+  While such systems exist for other architectures, there is currently no public Continuous Integration system available for IBM's POWER8 architecture. 
+  Correcting this absence will help to ensure the existence of a healthy, diverse, architecture environment that enables flexibility in finding problem solutions. 
+  Users of this project will have an easy to use method to ensure that their software works correctly on POWER8 systems running the Linux operating system.
+  \end{abstract}
+\end{titlepage}
+
+\section{Introduction}
+\subsection{Purpose}
+The goal of this Software Requirements Specification is to set out the requirements for the POWER8 Build and Test Infrastructure project to help coordinate between the multiple stakeholders involved in bringing the project to fruition. This document is intended to be read by technically adept persons, with an emphasis on being read by the Oregon State University Open Source Lab, employees of IBM and faculty of the Oregon State University College of Engineering.
+\subsection{Scope}
+The POWER8 Build and Test Infrastructure shall automatically pull source code from online software repositories, build the required binaries for the POWER8 architecture, run required test suites on the binaries and make the binaries available for use. It shall allow interested parties to register their project's repository through an online interface to maximize ease of use. The system will vastly simplify the ability for open-source projects to test their source code on POWER8. This benefits the developers by allowing such projects to operate on a wider variety of platforms and benefits IBM by greatly increasing the accessibility of the POWER8 architecture to a enormous magnitude of open-source projects.
+%\subsection{Definitions, acronyms and abbreviations}
+%\subsection{References}
+\subsection{Overview}
+The rest of this Software Requirements Specification consists of the overall description of the system and the specific requirements for it as laid out in IEEE 830-1998, followed by the table of contents at the end of the document.
+
+\section{Overall description}
+\subsection{Product perspective}
+The POWER8 Build and Test Infrastructure will interface with software code repositories such as GitHub to automatically pull source code from those repositories to be built. It will run natively on POWER8 architecture hosted by the Oregon State University Open Source Lab.
+\subsection{Product functions}
+The system will allow people to register projects hosted on GitHub through a web interface to be automatically built, tested and released. Once a project is registered, the system will pull the updated version of the source code for a given project when it is updated. It will build the binaries for the POWER8 architecture in either a VM or a container and test them with tests provided by the user for regressions and errors. The user will be notified if the build and/or test suites failed. If everything succeeds, the system will upload the tested and verified binaries such that the user may access them.
+\subsection{User characteristics}
+This system will be intended to be used by people interested in expanding the scope of what architectures are supported by their platform. It will be targeted towards open source software developers with some experience in building and releasing software.
+%\subsection{Constraints}
+%\subsection{Assumptions and dependencies}
+\subsection{Apportioning of requirements}
+The fundamental base-line goal is for the system to be able to automatically do a pull-build-deploy cycle for a given project. Once that is complete, adding a test step to the cycle and a web interface are the next two goals. If time permits, further stretch goals may be considered.
+
+\section{Specific requirements}
+\subsection{External interfaces}
+\begin{enumerate}
+\item GitHub repository
+\item External authentication sources such as GitHub and Google.
+\item Test suites
+\item Test results
+\item Produced binaries
+\end{enumerate}
+\subsection{Functional requirements}
+\begin{enumerate}
+\item The system shall allow people to register projects hosted on GitHub through a web interface
+\item The system shall automatically build the software.
+\item The system shall run tests specified by the project.
+\item The system shall report the results of the test to the project.
+\item The system shall make the resulting binaries available to the project.
+\end{enumerate}
+%\subsection{Performance requirements}
+\subsection{Design constraints}
+The software must compile and run on Linux running on POWER8.
+\subsection{Software system attributes}
+%\subsubsection{Reliability}
+%\subsubsection{Availability}
+\subsubsection{Security}
+All project builds should be isolated from both the host system and other project builds.
+%\subsubsection{Maintainability}
+\subsubsection{Portability}
+The CI system should be able to be run on other POWER8 systems with a minimal amount of configuration.
+
+\section{Supporting information}
+
+\tableofcontents
+
+\clearpage
+
+\end{document}
