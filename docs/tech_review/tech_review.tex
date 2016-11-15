@@ -80,14 +80,21 @@ OpenStack is our chosen solution for cluster management. It meets all of our cri
 \section{Continuous Integration Software}
 \subsection{Options}
 \subsubsection{Jenkins}
+Jenkins is an automation server that can be used to automate builds, tests, and deployments.
+It is extensible and has a large number of plugins that enable it to interact with other systems. 
 \subsubsection{Buildbot}
+Buildbot is another system that enables the automation of builds, tests, and deployments.
+It can be extended through the use of Python configuration files. 
 \subsubsection{Strider}
+Strider is a continuous integration server written in Node.js.
+Like Jenkins it uses plugins to extend its functionality.
 \subsection{Goals for use}
 Automate building and testing Open Source projects.
 \subsection{Criteria for Evaluation}
 \begin{enumerate}
-  \item
-  \item
+  \item Language Support
+  \item Code Repository Support
+  \item 
 \end{enumerate}
 \subsection{Table}
 \subsection{Discussion}
@@ -128,8 +135,14 @@ We have opted for using CentOS as the operating system that builds will be ran o
 \section{Configuration Management}
 \subsection{Options}
 \subsubsection{Ansible}
+Ansible is a configuration management and infrastructure automation solution.
+It is agentless and uses YAML files for configuration.  
 \subsubsection{Chef}
+Chef is a configuration management solution.
+It uses agents running on each server to poll a central server to access configuration `cookbooks' that are written in a Ruby based DSL\@.
 \subsubsection{Puppet}
+Puppet it also a configuration management solution.
+Like Chef, it uses agents and configuration is done in a Ruby based DSL\@.
 \subsection{Goals for use}
 \subsection{Criteria for Evaluation}
 \begin{enumerate}
