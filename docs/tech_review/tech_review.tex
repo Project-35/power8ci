@@ -93,6 +93,38 @@ Automate building and testing Open Source projects.
 \subsection{Discussion}
 \subsection{Selection of best option}
 
+\section{Linux Distribution Support}
+\subsection{Options}
+\subsubsection{RedHat Enterprise Linux}
+RedHat Enterprise Linux is widely considered to be one of the standard Linux distributions for server environments, having been around for a number of years and being very stable. It is supported by the Red Had corporation and has a ten-year supported production cycle for each major version, followed by an extended support period\cite{rhlife}. Unlike most Linux distributions, it has a paid subscription requirement for support and the extended support has a higher price. However, as a paid product, Red Hat provides dedicated support and certifications which can be important if such certifications are required for a project or if the project requires high availability and dedicated support in case issues arise.
+\subsubsection{CentOS}
+CentOS is an unbranded version of RedHat Enterprise Linux, providing the same functionality and stability with only very minor functional differences. It is supported by the CentOS Project and is free for all use. As a result, it does not have the certifications nor the dedicated support of RedHat Enterprise Linux. As it tries to track the development of RedHat Enterprise Linux very closely, CentOS has approximately the same ten-year support cycle\cite{centlife}, but it does not have the same extended support period provided by Red Hat.
+\subsubsection{Ubuntu Server}
+Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu also tends to update application packages sooner, trading some amount of stability for newer functionality.
+\subsection{Goals for use}
+The operating system  selection will have a major effect on the stability and ease-of-use of the entire system. Our goal is to select an operating system that is stable, widely supported and easy to work with.
+\subsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Stability: It is important that the operating system used for running builds has as few issues as possible so as to minimize the need for manual intervention in case there's a failure.
+  \item Support: The operating system should have a strong support base to maximize ease of maintenance and help ensure longevity.
+  \item Usability: The greater the usability and ease of configuration, the easier it becomes to maintain and improve the reliability of the system.
+  \item Cost: The less the entire system costs, the better. Additionally, 
+\end{enumerate}
+\subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & RedHat & CentOS & Ubuntu Server \\ \midrule
+    Stability       & Highest & High & Moderate \\ \midrule
+    Support           & Highest & Moderate & Moderate \\ \midrule
+    Usability       & High & High & High \\ \midrule
+    Cost       & High & None & None \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsection{Discussion}
+As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux and negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement.
+\subsection{Selection of best option}
+We have opted for using CentOS as the operating system that builds will be ran on and tested against. It provides the necessary stability and a wide base of support with a ten-year life cycle, while also being easy to configure, deploy and maintain.
+
 \section{Configuration Management}
 \subsection{Options}
 \subsubsection{Ansible}
@@ -105,6 +137,55 @@ Automate building and testing Open Source projects.
   \item
 \end{enumerate}
 \subsection{Table}
+\subsection{Discussion}
+\subsection{Selection of best option}
+
+\section{Platform for Running Builds}
+\subsection{Options}
+\subsubsection{Virtual Machine}
+Virtual Machines perform hardware-level emulation and do not allow the guests any access to the underlying operating system or hardware. They're the standard for situations where multiple OS's need to be deployed. Because they emulate all the hardware, there's nearly no risk of a malicious guest system affecting the host system. However, running a virtual machine requires a full operating system to be installed on each individual instance, causing them to take up a relatively significant amount of space per virtual machine compared to to size of the applications running on them. Additionally, their performance suffers due to having to emulate assembly-level instructions instead of executing them directly.
+\subsubsection{Container}
+Containers perform operating system virtualization, allowing for multiple independent user-spaces to exist at the same time. Because they emulate parts of the operating system and not the physical hardware hardware, containers still need to allow some level of direct hardware access for applications to run properly. They also use some libraries provided by the host operating system instead of providing their own. As a result, they tend to be much smaller than a full-fledged virtual machine and run somewhat faster. A relatively new technology compared to virtual machines, they're rapidly gaining popularity in situations where hardware emulation is not required and restricting access to the host operating system is not a concern.
+\subsubsection{Bare metal}
+Bare metal servers would have no virtualization or emulation; builds and tests would be ran directly on the hardware itself. The benefits to bare metal are speed and security; no emulation layer exists between the applications and the hardware and there is no host operating system for a malicious guest to interfere with. Builds would also be unable to hoard system resources, preventing a situation where one build slows down another. The single major downside is the requirement for a full physical server per each build that would be ran, greatly restricting the ability for multiple builds to be ran in parallel
+\subsection{Goals for use}
+The goal of selecting the platform the builds would interact with is to allow builds a host system to be ran and tested on while providing reliability and security for the underlying system.
+\subsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Scalability: Ideally, it should be easy to scale the system up to allow a large number of simultaneous builds.
+  \item Performance: Our selection should not significantly decrease the performance of the build-test process.
+  \item Security: Being that we will compiling and testing untrusted and unverified code, it is important for the selected platform to minimize the ability of the build to negatively affect the host.
+  \item Reliability: It is preferable that one build does not use up so many resources as to significantly reduce the speed of other builds being ran.
+\end{enumerate}
+\subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Virtual Machines & Containers & Bare metal \\ \midrule
+    Scalability       & High & Highest & Low \\ \midrule
+    Performance           & Moderate & High & Highest \\ \midrule
+    Security       & High & Moderate & Highest \\ \midrule
+    Reliability  & High & High & Highest \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsection{Discussion}
+Although bare metal servers have undeniably the best performance, security and reliability, they simply do not have the scalability required for a project like this. Depending on storage space and resources, virtual machines and containers could potentially run upwards of one hundred builds simultaneously on a single server, negating the performance benefits. Furthermore, virtual machines provide nearly the same level of security and safety that a bare metal server provides, while containers can nearly match them in terms of performance.
+
+Between virtual machines and containers, virtual machines provide better security and have years of support behind them, while containers provide better performance; virtual machines can have a performance penalty upwards of ten percent due to overhead.\cite{RC25482} Both virtual machines and containers allow for limiting the resources provided to a running instance, meeting the reliability requirements. They are also both exceedingly easy to configure for automated deployment, making them highly scalable.
+\subsection{Selection of best option}
+Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on.
+
+\section{Configuration File Formats}
+\subsection{Options}
+\subsubsection{YAML}
+\subsubsection{JSON}
+\subsubsection{XML}
+\subsection{Goals for use}
+The configuration file will be included in a Git repository and will be how the system determines builds and tests are ran and interpreted. It should use a format powerful enough to accurately express all the information that the system will require without being unnecessarily complicated.
+\subsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Expressiveness: The file format needs to be able to sufficiently express the users needs for building and testing their project.
+  \item Readability: The ideal file format will be easy for a user to create and modify to suit the needs of their project.
+\end{enumerate}
 \subsection{Discussion}
 \subsection{Selection of best option}
 
@@ -193,10 +274,10 @@ The features in this plugin include:
 \begin{itemize}
   \item Displays the status and progress of selected jobs, the view is updated automatically every couple of seconds using AJAX\@. No `Enable Auto Refresh' needed.
   \item Displays the names of people who might be responsible for `breaking the build'.
-  \item Supports the Claim plugin, so that you can see who's fixing a broken build.
-  \item Supports View Job Filters, so that you can easily create Build Monitors for `slow builds', `only failing', etc.
-  \item Supports Build Failure Analyzer, so that you know not only who, but also what broke the build.
-  \item Supports CloudBees Folders Plugin, so that you can have project- and team-specific nested Build Monitors.
+  \item Supports the Claim plugin, so that you can see who's fixing a broken build.
+  \item Supports View Job Filters, so that you can easily create Build Monitors for `slow builds', `only failing', etc.
+  \item Supports Build Failure Analyzer, so that you know not only who, but also what broke the build.
+  \item Supports CloudBees Folders Plugin, so that you can have project- and team-specific nested Build Monitors.
   \item The number of columns and size of the font used is easily customizable, making it trivial to accommodate screens of different sizes.
   \item UI configuration is stored in a cookie, making it possible to display different number of columns and using different font size on each of the screens at your office.
   \item Can work in a colour-blind-friendly mode
