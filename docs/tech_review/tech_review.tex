@@ -2,7 +2,8 @@
 \usepackage[margin=0.75in]{geometry}
 \usepackage{listings}
 \usepackage{color}
-\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
 \usepackage{hyperref}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -58,6 +59,15 @@ The primary goal for using cluster management software is to manage the creation
   \item Jenkins Plugin Support: Jenkins is a likely piece of our solution, therefore having Jenkins plugin that interacts with our cluster management solution is highly desired.
 \end{enumerate}
 \subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & OpenStack & CloudStack & Ganeti \\ \midrule
+    Community Support       & Yes & Yes & Yes \\ \midrule
+    Linux Support           & Yes & Yes & Yes \\ \midrule
+    Container Support       & Yes & Partial & No \\ \midrule
+    Jenkins Plugin Support  & Yes & Yes & No \\ \bottomrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
 OpenStack, CloudStack, and Ganeti can all run on Linux and can host Linux virtual machines.
 Ganeti does little more than this, however, and will not be considered further.
