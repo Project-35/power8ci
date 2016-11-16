@@ -68,14 +68,14 @@ The nine pieces are:\\
 \section{Cluster Management}
 \subsection{Options}
 \subsubsection{OpenStack}
-OpenStack is a cluster management solution originally created by Rackspace and NASA, and now managed by the OpenStack Foundation.
-It contains a number of projects that provide services such as object and block storage, identity management, networking and compute resource management, bare metal provisioning, and DNS services.
+OpenStack~\cite{openstackmain} is a cluster management solution originally created by Rackspace and NASA, and now managed by the OpenStack Foundation.
+It contains a number of projects that provide services such as object and block storage, identity management, networking and compute resource management, bare metal provisioning, and DNS services~\cite{openstackservices}.
 This modular approach allows users to select which parts they need to accomplish their goals without having to install components they will not be using.
 \subsubsection{CloudStack}
-CloudStack is an Apache Software Foundation cluster management project which aims to provide many of the same services as OpenStack.
-It follows a more monolithic approach where most components are distributed as part of a single binary.
+CloudStack~\cite{cloudstackmain} is an Apache Software Foundation cluster management project which aims to provide many of the same services as OpenStack.
+It follows a more monolithic approach where most components are distributed as part of a single binary~\cite{cloudstackmono}.
 \subsubsection{Ganeti}
-Ganeti is a cluster management solution from Google that focuses on managing virtual machines.
+Ganeti~\cite{ganetimain} is a cluster management solution from Google that focuses on managing virtual machines.
 It can be used to create new virtual machines, manage disks, and manage failover of virtual machine instance.
 \subsection{Goals for use}
 The primary goal for using cluster management software is to manage the creation and destruction of temporary virtual machines and containers that will be used for building and testing projects.
@@ -99,7 +99,7 @@ The primary goal for using cluster management software is to manage the creation
 \subsection{Discussion}
 OpenStack, CloudStack, and Ganeti can all run on Linux and can host Linux virtual machines.
 Ganeti does little more than this, however, and will not be considered further.
-Both OpenStack and CloudStack can interact with Jenkins through a plugin.
+Both OpenStack and CloudStack can interact with Jenkins through a plugin~\cite{jcloudsplugin}~\cite{jcloudsproviders}.
 OpenStack appears to have a larger community and a more mature container solution than CloudStack.
 \subsection{Selection of best option}
 OpenStack is our chosen solution for cluster management. It meets all of our criteria for evaluation.
@@ -107,13 +107,13 @@ OpenStack is our chosen solution for cluster management. It meets all of our cri
 \section{Continuous Integration Software}
 \subsection{Options}
 \subsubsection{Jenkins}
-Jenkins is an automation server that can be used to automate builds, tests, and deployments.
+Jenkins~\cite{jenkinsmain} is an automation server that can be used to automate builds, tests, and deployments.
 It is extensible and has a large number of plugins that enable it to interact with other systems. 
 \subsubsection{Buildbot}
-Buildbot is another system that enables the automation of builds, tests, and deployments.
-It can be extended through the use of Python configuration files. 
+Buildbot~\cite{buildbotmain} is another system that enables the automation of builds, tests, and deployments.
+It can be extended through the use of Python configuration files~\cite{buildbotconfig}. 
 \subsubsection{Strider}
-Strider is a continuous integration server written in Node.js.
+Strider~\cite{stridermain} is a continuous integration server written in Node.js.
 Like Jenkins it uses plugins to extend its functionality.
 \subsection{Goals for use}
 Automate building and testing Open Source projects.
@@ -138,21 +138,21 @@ Automate building and testing Open Source projects.
 \end{center}
 \subsection{Discussion}
 All three of our options meet our basic evaluation criteria.
-However, there is quite a large difference in the number of plugins available, with Jenkins having a much larger number than Buildbot or Strider.
-There is also a large variety in the type of plugins for Jenkins, covering functionality such as source code management, reports and notifications, and UI elements.
+However, there is quite a large difference in the number of plugins available, with Jenkins~\cite{jenkinsplugins} having a much larger number than Buildbot~\cite{buildbotplugins} or Strider~\cite{striderplugins}.
+There is also a large variety in the type of plugins for Jenkins, covering functionality such as source code management, reports and notifications, and UI elements~\cite{jenkinsplugins}.
 \subsection{Selection of best option}
 With its large number and variety of plugins, Jenkins is our chosen solution for continuous integration software.
 
 \section{Configuration Management}
 \subsection{Options}
 \subsubsection{Ansible}
-Ansible is a configuration management and infrastructure automation solution.
+Ansible~\cite{ansiblemain} is a configuration management and infrastructure automation solution.
 It is agentless, using SSH to connect to and run commands on nodes.
 Ansible uses YAML files for configuration.
 \subsubsection{Chef}
-Chef is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby.
+Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby.
 \subsubsection{Puppet}
-Puppet is also a configuration management solution.
+Puppet~\cite{puppetmain} is also a configuration management solution.
 Like Chef, it uses agents on each node and a central `puppet master' server.
 Configuration is done in a language specific to Puppet that is meant to be accessible to system administrators.
 \subsection{Goals for use}
