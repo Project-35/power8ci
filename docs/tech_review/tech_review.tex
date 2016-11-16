@@ -204,18 +204,20 @@ The configuration file will be included in a Git repository and will be how the 
 
 \section{Login/Authentication}
 \subsection{Options}
-\begin{enumerate}
-  \item Google Login Plugin
-  \item Active Directory Plugin
-  \item Jenkins Login
-\end{enumerate}
+\subsubsection{Google Login Plugin}
+The Google Login Plugin uses google account for authentication.
+\subsubsection{Active Directory Plugin}
+The Active Directory Plugin is a plugin for Jenkins and it uses Active Directory to authenticate the username and password.
+\subsubsection{Jenkins Login}
+The Jenkins login is simply a Jenkins account and users are able to create it on the Jenkins website.
 \subsection{Goals for use}
 The goal for having an authentication is to provide our users a safe and secure place to build their project and to use our continuous integration service.
 It will help prevent hackers from obtaining private information that could be detrimental to our users.
 This is a security measure that is absolutely necessary for our project.
 \subsection{Criteria for Evaluation}
-The main criteria to look for in this technology is security.
-Security is what keeps users confidential information such as source code from being leaked.
+\begin{enumerate}
+  \item Security: Security is what keeps users confidential information such as source code from being leaked.
+\end{enumerate}
 \subsection{Table}
 \subsection{Discussion}
 The google login plugin is a really straight forward method for authentication.
@@ -232,22 +234,22 @@ We intend to build our continuous integration service project on a POWER8 archit
 
 \section{Frontend/Web frameworks}
 \subsection{Options}
-\begin{enumerate}
-  \item Tomcat
-  \item Glassfish
-  \item Jetty
-\end{enumerate}
+\subsubsection{Tomcat}
+Tomcat is an open source implementation of Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies. 
+\subsubsection{Glassfish}
+GlassFish is an open source application server; more specifically it is for the Java EE platform (Java Enterprise Edition).
+\subsubsection{Jetty}
+Jetty provides a Web server and javax.servlet container, and it supports many componenets such as HTTP/2, WebSocket, OSGi (Open Service Gateway Initiative), JMX (Java Management Extensions), JNDI (Java Naming and Directory Interface), JAAS (Java Authentication and Authorization Service) and many other integrations.
 \subsection{Goals for use}
 The goal for having a web framework is so that our users have a platform to use our continuous integration service.
 We will provide a simple and easy to use user interface (UI) so that our users would not have a complicated time using our services.
 \subsection{Criteria for Evaluation}
-The criteria in this technology are load time, usability, security, and stability.
-Having an easy-to-use user interface can give our users an easy time to use our service and it will help reduce confusion.
-The page load time should load at a reasonable speed so that our users would not have to wait a long time using our service.
-Security is important for our web framework because we don’t want hackers to gain access to our services.
-In order to provide our users a good experience, we need a secure environment.
-Having good stability is important as well.
-Our service need to maintain at a functional state at all time so that it doesn’t hinder our users from working.
+\begin{enumerate}
+  \item Usability: Having an easy-to-use user interface can give our users an easier time to use our service and it will help reduce confusion.
+  \item Security: Security is important for our web framework because we don't want hackers to gain access to our services and obtain confidential information.
+  \item Stability: Stability is needed because our service need to maintain at a functional state at all time so that it doesn't hinder our users from working
+  \item Load time: The page load time should load at a reasonable speed so that our users would not have to wait a long time using our service.
+\end{enumerate}
 \subsection{Table}
 \subsection{Discussion}
 Tomcat is very popular and it is known as a lightweight application that offers all the basic features required running a server.
@@ -266,20 +268,22 @@ Tomcat is ideal because it sits in between these two options and it offers a goo
 
 \section{Tracing State of builds/tests}
 \subsection{Options}
-\begin{enumerate}
-  \item Build Monitor Plugin
-  \item Lava Lamp Notifier
-  \item Radiator View Plugin
-\end{enumerate}
+\subsubsection{Build Monitor Plugin}
+The Build Monitor Plugin is a plugin in Jenkins that provides a detailed view of the status of selected Jenkins jobs.
+\subsubsection{Lava Lamp Notifier}
+The Lava Lamp Notifier is a notifier that indicate job status using a Lava Lamp.
+\subsubsection{Radiator View Plugin}
+The Radiator View Plugin is a plugin in Jenkins and Hudson that provides a job view, which displays project status.
 \subsection{Goals for use}
 The goal to having the functionality to trace the build and test state is so that our users can see the status of their projects.
 This will reveal the success or failure of projects that were build by our service and it will show where the failures have occurred.
 \subsection{Criteria for Evaluation}
-The criteria to look for in this technology are usability, feature to display pass or fail builds, feature to display progress of builds, and feature to display where the error has occurred for build fails.
-Having an easy-to-use user interface (UI) allows our users to operate our service with minimal issues.
-The ability to display pass or fail build is the main criteria for this technology so this is a must have.
-The feature to display progress when building a project is helpful for our users to see how much longer it will take until the build is complete.
-The feature to see where an error has occurred in the build process is another important criteria; it will help developers save time from manually tracking down the problem.
+\begin{enumerate}
+  \item Usability: Having an easy-to-use user interface (UI) allows our users to operate our service with minimal issues.
+  \item Feature to display pass or fail builds:The ability to display pass or fail build is  the main purpose for this technology so this is a must have
+  \item Feature to display progress of builds: The feature to display progress when building a project is helpful for our users to see how much longer it will take until their build is complete
+  \item Feature to display where an error has occured for build fails: The feature to see where an error has occured in the build process is another important critieria; it will help developers ave time from manually tracking down the problem.
+\end{enumerate}
 \subsection{Table}
 \subsection{Discussion}
 The build monitor plugin supports many features and incorporates other plugins as well.
