@@ -5,6 +5,7 @@
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{enumitem}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -30,13 +31,40 @@
   \maketitle
   \vspace{4cm}
   \begin{abstract}
-  \noindent
+  \noindent This document provides a technology review of nine pieces of the IBM POWER8 Continuous Integration project.
+    For each piece three options are compared using criteria based on the goal the piece is attempting to achieve.
+    A final choice of best option is chosen based on the evaluation.
   \end{abstract}
 \end{titlepage}
 
 \tableofcontents
 \clearpage
 
+\section{Introduction}
+This document contains an evaluation of nine pieces of technology that we will be using in the IBM POWER8 Continuous Integration project.
+We define evaluation criteria based on the goal we are attempting to achieve by using the stated piece.
+For each piece we have selected three options, and we choose the best option based on the evaluation.\\\\
+The nine pieces are:\\
+\begin{description}[leftmargin=12em,style=nextline]
+  \item[Cluster Management]
+    The software that will be used to manage a cluster of POWER8 nodes. Authored by Leon Leighton.
+  \item[Continuous Integration Software]
+    The software that will perform the building and testing of projects. Authored by Leon Leighton.
+  \item[Configuration Management]
+    System that will be used to manage the configuration of the system. Authored by Leon Leighton.
+  \item[Linux Distribution Support]
+    The Linux distribution that projects will be built and tested on. Authored by Thomas Olson.
+  \item[Platform For Running Builds]
+    The type of platform used for building and testing. Authored by Thomas Olson.
+  \item[Configuration File Formats]
+    The file format that will be used by projects for configuring builds. Authored by Thomas Olson.
+  \item[Login/Authentication]
+    Method for users to login to the system. Authored by Derek Wong.
+  \item[Frontend/Web Frameworks]
+    Method of creating a user interface for interacting with the system. Authored by Derek Wong.
+  \item[Tracing State of Builds/Tests]
+    Functionality to show users the status of their builds and tests. Authored by Derek Wong.
+\end{description}
 \section{Cluster Management}
 \subsection{Options}
 \subsubsection{OpenStack}
@@ -56,7 +84,7 @@ The primary goal for using cluster management software is to manage the creation
   \item Community Support: Our chosen solution should have a community that provides support in the form of documentation, bug fixes, and assistance.
   \item Linux Support: Linux must be supported as both host and guest.
   \item Container Support: Optional, but we would like to have support for building and testing in containers.
-  \item Jenkins Plugin Support: Jenkins is a likely piece of our solution, therefore having Jenkins plugin that interacts with our cluster management solution is highly desired.
+  \item Jenkins Plugin Support: Jenkins is a likely piece of our solution, therefore having a Jenkins plugin that interacts with our cluster management solution is highly desired.
 \end{enumerate}
 \subsection{Table}
 \begin{center}
@@ -76,7 +104,6 @@ OpenStack appears to have a larger community and a more mature container solutio
 \subsection{Selection of best option}
 OpenStack is our chosen solution for cluster management. It meets all of our criteria for evaluation.
 
-
 \section{Continuous Integration Software}
 \subsection{Options}
 \subsubsection{Jenkins}
@@ -92,13 +119,69 @@ Like Jenkins it uses plugins to extend its functionality.
 Automate building and testing Open Source projects.
 \subsection{Criteria for Evaluation}
 \begin{enumerate}
-  \item Language Support
-  \item Code Repository Support
-  \item 
+  \item Open Source: As our target audience is Open Source software developers, we should use an Open Source solution to be consistent with the community.
+  \item Language Support: We need to be able to build and test projects written in a variety of languages.
+  \item Notifications: We need some way of providing the user with feedback on the status of their builds and tests.
+  \item Extensible: If we find that there are missing features we will need some way of extending the functionality of the software.
+  \item Number of Existing Plugins: A larger number of plugins increases the probability that someone may have already provided functionality that we need that is not already in the software.
 \end{enumerate}
 \subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Jenkins & Buildbot & Strider \\ \midrule
+    Open Source       & Yes & Yes & Yes \\ \midrule
+    Language Support  & Any & Any & Any \\ \midrule
+    Notifications     & Yes & Yes & Yes \\ \midrule
+    Extensible        & Yes & Yes & Yes \\ \midrule
+    Number of Plugins & High & Low & Medium \\ \bottomrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
+All three of our options meet our basic evaluation criteria.
+However, there is quite a large difference in the number of plugins available, with Jenkins having a much larger number than Buildbot or Strider.
+There is also a large variety in the type of plugins for Jenkins, covering functionality such as source code management, reports and notifications, and UI elements.
 \subsection{Selection of best option}
+With its large number and variety of plugins, Jenkins is our chosen solution for continuous integration software.
+
+\section{Configuration Management}
+\subsection{Options}
+\subsubsection{Ansible}
+Ansible is a configuration management and infrastructure automation solution.
+It is agentless, using SSH to connect to and run commands on nodes.
+Ansible uses YAML files for configuration.
+\subsubsection{Chef}
+Chef is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby.
+\subsubsection{Puppet}
+Puppet is also a configuration management solution.
+Like Chef, it uses agents on each node and a central `puppet master' server.
+Configuration is done in a language specific to Puppet that is meant to be accessible to system administrators.
+\subsection{Goals for use}
+Using a configuration management system will allow us to create a solution that can be replicated by others who may wish to setup their own POWER8 Continuous Integration system.
+Used in conjunction with a version control system, it will also give us the ability to roll back changes that have been made, giving us flexibility in experimenting with different options as we progress through the project. 
+At a higher level, a configuration management system will allow us to specify what we want the state of the system to be, and it will also give us an ultimate `source of truth' for the project.
+\subsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Support for installing Jenkins
+  \item Overhead
+  \item Difficulty
+\end{enumerate}
+\subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Ansible & Chef & Puppet \\ \midrule
+    Installs Jenkins       & Yes & Yes & Yes \\ \midrule
+    Overhead           & Low & Moderate & Moderate \\ \midrule
+  \end{tabular}
+\end{center}
+\subsection{Discussion}
+As we are likely to use Jenkins for our continuous integration software we would like there to be an already existing method to install and configure it with the option we choose for configuration management.
+All three options under consideration meet this criteria through user created modules.
+We would also like to reduce the overhead involved in using a configuration management system.
+Both Puppet and Chef require the use of a master server and an agent installed on any node that will be managed.
+While this is not a high level of overhead, we do contrast that with Ansible which uses SSH which is already included on most Linux systems.
+It should be noted, however, that since Ansible uses SSH, we will need to create and secure the SSH keys that will be used for authentication.
+\subsection{Selection of best option}
+While all three options would allow us to accomplish our goals, we have selected Ansible as our best option.
 
 \section{Linux Distribution Support}
 \subsection{Options}
@@ -131,28 +214,6 @@ The operating system  selection will have a major effect on the stability and ea
 As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux and negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement.
 \subsection{Selection of best option}
 We have opted for using CentOS as the operating system that builds will be ran on and tested against. It provides the necessary stability and a wide base of support with a ten-year life cycle, while also being easy to configure, deploy and maintain.
-
-\section{Configuration Management}
-\subsection{Options}
-\subsubsection{Ansible}
-Ansible is a configuration management and infrastructure automation solution.
-It is agentless and uses YAML files for configuration.  
-\subsubsection{Chef}
-Chef is a configuration management solution.
-It uses agents running on each server to poll a central server to access configuration `cookbooks' that are written in a Ruby based DSL\@.
-\subsubsection{Puppet}
-Puppet it also a configuration management solution.
-Like Chef, it uses agents and configuration is done in a Ruby based DSL\@.
-\subsection{Goals for use}
-\subsection{Criteria for Evaluation}
-\begin{enumerate}
-  \item
-  \item
-\end{enumerate}
-\subsection{Table}
-\subsection{Discussion}
-\subsection{Selection of best option}
-
 \section{Platform for Running Builds}
 \subsection{Options}
 \subsubsection{Virtual Machine}
