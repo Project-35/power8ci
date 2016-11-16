@@ -219,6 +219,12 @@ This is a security measure that is absolutely necessary for our project.
   \item Security: Security is what keeps users confidential information such as source code from being leaked.
 \end{enumerate}
 \subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Google Login Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
+    Security       & Yes & Yes & Yes \\ \midrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
 The google login plugin is a really straight forward method for authentication.
 Users can simply use their google accounts to login.
@@ -251,6 +257,15 @@ We will provide a simple and easy to use user interface (UI) so that our users w
   \item Load time: The page load time should load at a reasonable speed so that our users would not have to wait a long time using our service.
 \end{enumerate}
 \subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Tomcat & Glassfish & Jetty \\ \midrule
+    Usability       & High & High & Moderate \\ \midrule
+    Security           & Moderate & High & High \\ \midrule
+    Stability      & Highest & High & High \\ \midrule
+    Load time  & High & High & High \\ \bottomrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
 Tomcat is very popular and it is known as a lightweight application that offers all the basic features required running a server.
 It is an open source project so it is cost free.
@@ -285,6 +300,15 @@ This will reveal the success or failure of projects that were build by our servi
   \item Feature to display where an error has occured for build fails: The feature to see where an error has occured in the build process is another important critieria; it will help developers ave time from manually tracking down the problem.
 \end{enumerate}
 \subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Build Monitor Plugin & Lava Lamp Notifier & Radiator View Plugin \\ \midrule
+    Usability       & Yes & None & Yes \\ \midrule
+    Display pass or fail builds           & Yes & Yes & Yes \\ \midrule
+    Display progress of builds       & Yes & None & None \\ \midrule
+    Display where an error has occured if build fails  & Yes & None & None \\ \bottomrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
 The build monitor plugin supports many features and incorporates other plugins as well.
 The features in this plugin include:
