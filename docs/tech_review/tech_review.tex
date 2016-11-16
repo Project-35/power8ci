@@ -25,7 +25,7 @@
 
 \begin{document}
 \begin{titlepage}
-  \title{POWER8 Continuous Integration Technology Review}
+  \title{POWER8 Continuous Integration\\ Technology Review}
   \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35}
   \date{November 14, 2016}
   \maketitle
@@ -42,28 +42,28 @@
 
 \section{Introduction}
 This document contains an evaluation of nine pieces of technology that we will be using in the IBM POWER8 Continuous Integration project.
-We define evaluation criteria based on the goal we are attempting to achieve by using the stated piece.
+We define evaluation criteria based on the goal we are attempting to achieve by using that piece.
 For each piece we have selected three options, and we choose the best option based on the evaluation.\\\\
 The nine pieces are:\\
-\begin{description}[leftmargin=12em,style=nextline]
+\begin{description}[leftmargin=12em,style=multiline]
   \item[Cluster Management]
-    The software that will be used to manage a cluster of POWER8 nodes. Authored by Leon Leighton.
+    The software that will be used to manage a cluster of POWER8 nodes. Authored by Leon Leighton.\\\\
   \item[Continuous Integration Software]
-    The software that will perform the building and testing of projects. Authored by Leon Leighton.
+    The software that will perform the building and testing of projects. Authored by Leon Leighton.\\\\
   \item[Configuration Management]
-    System that will be used to manage the configuration of the system. Authored by Leon Leighton.
+    System that will be used to manage the configuration of the system. Authored by Leon Leighton.\\\\
   \item[Linux Distribution Support]
-    The Linux distribution that projects will be built and tested on. Authored by Thomas Olson.
+    The Linux distribution that projects will be built and tested on. Authored by Thomas Olson.\\\\
   \item[Platform For Running Builds]
-    The type of platform used for building and testing. Authored by Thomas Olson.
+    The type of platform used for building and testing. Authored by Thomas Olson.\\\\
   \item[Configuration File Formats]
-    The file format that will be used by projects for configuring builds. Authored by Thomas Olson.
+    The file format that will be used by projects for configuring builds. Authored by Thomas Olson.\\\\
   \item[Login/Authentication]
-    Method for users to login to the system. Authored by Derek Wong.
+    Method for users to login to the system. Authored by Derek Wong.\\\\
   \item[Frontend/Web Frameworks]
-    Method of creating a user interface for interacting with the system. Authored by Derek Wong.
+    Method of creating a user interface for interacting with the system. Authored by Derek Wong.\\\\
   \item[Tracing State of Builds/Tests]
-    Functionality to show users the status of their builds and tests. Authored by Derek Wong.
+    Functionality to show users the status of their builds and tests. Authored by Derek Wong.\\\\
 \end{description}
 \section{Cluster Management}
 \subsection{Options}
@@ -161,9 +161,9 @@ Used in conjunction with a version control system, it will also give us the abil
 At a higher level, a configuration management system will allow us to specify what we want the state of the system to be, and it will also give us an ultimate `source of truth' for the project.
 \subsection{Criteria for Evaluation}
 \begin{enumerate}
-  \item Support for installing Jenkins
-  \item Overhead
-  \item Difficulty
+  \item Support for installing Jenkins: Our chosen solution should the ability to manage our Continuous Integration software. 
+  \item Overhead: Like most projects, we wish to reduce the amount of overhead in our system.
+  \item Difficulty: We should choose simpler solutions when possible.
 \end{enumerate}
 \subsection{Table}
 \begin{center}
@@ -396,6 +396,20 @@ It will display all the project that are building and indicate pass or fails on 
 The best option to use is the build monitor plugin.
 This technology has the most features out of all the other options I listed, and all the features are very useful for our users.
 
+\section{Conclusion}
+The following is a summary of the choices we have made for the nine pieces that we have evaluated.\\
+\begin{enumerate}
+  \item Cluster Management: OpenStack
+  \item Continuous Integration Software: Jenkins
+  \item Configuration Management: Ansible
+  \item Linux Distribution Support: CentOS
+  \item Platform For Running Builds: Virtual Machines
+  \item Configuration File Formats: 
+  \item Login/Authentication: Jenkins Login
+  \item Frontend/Web Frameworks: Tomcat
+  \item Tracing State of Builds/Tests: Build Monitor Plugin
+\end{enumerate}
+\clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{tech_review}
 \end{document}
