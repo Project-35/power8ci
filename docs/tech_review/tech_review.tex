@@ -148,13 +148,13 @@ With its large number and variety of plugins, Jenkins is our chosen solution for
 \subsubsection{Ansible}
 Ansible~\cite{ansiblemain} is a configuration management and infrastructure automation solution.
 It is agentless, using SSH to connect to and run commands on nodes.
-Ansible uses YAML files for configuration.
+Ansible uses YAML files for configuration~\cite{ansibleworks}.
 \subsubsection{Chef}
-Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby.
+Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby~\cite{chefworks}.
 \subsubsection{Puppet}
 Puppet~\cite{puppetmain} is also a configuration management solution.
-Like Chef, it uses agents on each node and a central `puppet master' server.
-Configuration is done in a language specific to Puppet that is meant to be accessible to system administrators.
+Like Chef, it uses agents on each node and a central `puppet master' server~\cite{puppetworks}.
+Configuration is done in a language specific to Puppet that is meant to be accessible to system administrators~\cite{puppetlang}.
 \subsection{Goals for use}
 Using a configuration management system will allow us to create a solution that can be replicated by others who may wish to setup their own POWER8 Continuous Integration system.
 Used in conjunction with a version control system, it will also give us the ability to roll back changes that have been made, giving us flexibility in experimenting with different options as we progress through the project. 
