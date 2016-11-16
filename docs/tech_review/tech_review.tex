@@ -150,7 +150,7 @@ Ansible~\cite{ansiblemain} is a configuration management and infrastructure auto
 It is agentless, using SSH to connect to and run commands on nodes.
 Ansible uses YAML files for configuration~\cite{ansibleworks}.
 \subsubsection{Chef}
-Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in a Ruby~\cite{chefworks}.
+Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in Ruby~\cite{chefworks}.
 \subsubsection{Puppet}
 Puppet~\cite{puppetmain} is also a configuration management solution.
 Like Chef, it uses agents on each node and a central `puppet master' server~\cite{puppetworks}.
@@ -161,7 +161,7 @@ Used in conjunction with a version control system, it will also give us the abil
 At a higher level, a configuration management system will allow us to specify what we want the state of the system to be, and it will also give us an ultimate `source of truth' for the project.
 \subsection{Criteria for Evaluation}
 \begin{enumerate}
-  \item Support for installing Jenkins: Our chosen solution should the ability to manage our Continuous Integration software. 
+  \item Support for installing Jenkins: Our chosen solution should have the ability to manage our Continuous Integration software. 
   \item Overhead: Like most projects, we wish to reduce the amount of overhead in our system.
   \item Difficulty: We should choose simpler solutions when possible.
 \end{enumerate}
@@ -171,6 +171,7 @@ At a higher level, a configuration management system will allow us to specify wh
     Criteria & Ansible & Chef & Puppet \\ \midrule
     Installs Jenkins       & Yes & Yes & Yes \\ \midrule
     Overhead           & Low & Moderate & Moderate \\ \midrule
+    Difficulty           & Low & Moderate & Moderate \\ \bottomrule
   \end{tabular}
 \end{center}
 \subsection{Discussion}
@@ -180,6 +181,7 @@ We would also like to reduce the overhead involved in using a configuration mana
 Both Puppet and Chef require the use of a master server and an agent installed on any node that will be managed.
 While this is not a high level of overhead, we do contrast that with Ansible which uses SSH which is already included on most Linux systems.
 It should be noted, however, that since Ansible uses SSH, we will need to create and secure the SSH keys that will be used for authentication.
+Ansible is also noted to be easier to setup and use.~\cite{cmcompare}
 \subsection{Selection of best option}
 While all three options would allow us to accomplish our goals, we have selected Ansible as our best option.
 
