@@ -1,0 +1,28 @@
+User stories as beginning point for design document
+
+
+
+CARD: As a system administrator, I want an easy to install CI system so that I can get up and running quickly and focus on other things.
+CONVERSATION: Possibly create an install using Ansible, Chef, Puppet, or other configuration management system.
+CONFIRMATION: Ansible playbook, Chef cookbook, or similar exists and has been tested to work in deploying the CI system.
+
+CARD: As a system administrator, I want an easy to upgrade CI system, so that bugs can be fixed easily.
+CONVERSATION: Our chosen deployment system (Ansible, Chef, Puppet) should handle upgrades.
+CONFIRMATION: Ansible playbook, Chef cookbook, or similar exists and has been tested to work in upgrading the CI system.
+
+CARD: As a system administrator, I want a configurable system, so that I can make changes that better fit my setup.
+CONVERSATION: While we should have reasonable defaults, our deployment/cm system should allow others to override/change settings. Also,
+to the extent possible, all configuration should live within the cm system.
+CONFIRMATION: We should be able to test that changes to the system can be easily done and deployed.
+
+CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
+CONVERSATION: We should have a web site that a developer can register on.
+CONFIRMATION: Web site should exist that allows a developer to register.
+
+CARD: As an open source software developer, I want to be able to use an existing login so that I don't have yet another login to keep track of.
+CONVERSATION: Pluggable authentication. Allow user to use login credentials from other sites such as GitHub, Google, etc... to login.
+CONFIRMATION: Our registration web site should allow a developer to choose from multiple options for authentication when registering.
+
+CARD: As an open source software developer, I want to be able to configure a repository to be built.
+CONVERSATION: Focus on GitHub. Possibly other git repositories. Possibly other vcs repositories as well. May depend on Jenkins plugins.
+CONFIRMATION: Developer should be able to specify the repository they want built.
