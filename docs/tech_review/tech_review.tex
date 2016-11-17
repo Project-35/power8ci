@@ -56,7 +56,7 @@ The nine pieces are:\\
     The Linux distribution that projects will be built and tested on. Authored by Thomas Olson.\\\\
   \item[Platform For Running Builds]
     The type of platform used for building and testing. Authored by Thomas Olson.\\\\
-  \item[Configuration File Formats]
+  \item[Configuration File Format]
     The file format that will be used by projects for configuring builds. Authored by Thomas Olson.\\\\
   \item[Login/Authentication]
     Method for users to login to the system. Authored by Derek Wong.\\\\
@@ -253,8 +253,11 @@ Although virtual machines can have a noticeable performance penalty due to overh
 \section{Configuration File Formats}
 \subsection{Options}
 \subsubsection{YAML}
+YAML is a data-oriented markup language that is very concise while still being highly expressive. Notably, Ansible already uses YAML for its configuration files.
 \subsubsection{JSON}
+JSON is a data-interchange format that is very concise, focused around key-value pairs. Its readability can suffer at times due to being designed with automated usage in mind instead of being human-generated.
 \subsubsection{XML}
+XML is a document markup language that is incredibly powerful and expressive. However, it tends to being excessively verbose, making it somewhat difficult to read.
 \subsection{Goals for use}
 The configuration file will be included in a Git repository and will be how the system determines builds and tests are ran and interpreted. It should use a format powerful enough to accurately express all the information that the system will require without being unnecessarily complicated.
 \subsection{Criteria for Evaluation}
@@ -262,8 +265,18 @@ The configuration file will be included in a Git repository and will be how the 
   \item Expressiveness: The file format needs to be able to sufficiently express the users needs for building and testing their project.
   \item Readability: The ideal file format will be easy for a user to create and modify to suit the needs of their project.
 \end{enumerate}
+\subsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & YAML & JSON & XML \\ \midrule
+    Expressiveness       & High & Moderate & Highest \\ \midrule
+    Readability       & Highest & High & Moderate \\ \bottomrule
+  \end{tabular}
+\end{center}
 \subsection{Discussion}
+XML is the most expressive of the three options, but it is unlikely we would need the power provided by it. JSON is on the opposing end of the spectrum, being so simple that it might not be powerful enough for what we need. In the middle lies YAML, powerful and highly readable due to it conciseness. Aditionally, Anisble using YAML gives YAML the bonus of already being used in this project.
 \subsection{Selection of best option}
+We have selected YAML as the file format for configuration files due to it being powerful, concise and consistent with what Ansible uses.
 
 \section{Login/Authentication}
 \subsection{Options}
@@ -406,7 +419,7 @@ The following is a summary of the choices we have made for the nine pieces that 
   \item Configuration Management: Ansible
   \item Linux Distribution Support: CentOS
   \item Platform For Running Builds: Virtual Machines
-  \item Configuration File Formats: 
+  \item Configuration File Format: YAML
   \item Login/Authentication: Jenkins Login
   \item Frontend/Web Frameworks: Tomcat
   \item Tracing State of Builds/Tests: Build Monitor Plugin
