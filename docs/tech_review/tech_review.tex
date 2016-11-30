@@ -280,8 +280,8 @@ We have selected YAML as the file format for configuration files due to it being
 
 \section{Login/Authentication}
 \subsection{Options}
-\subsubsection{Google Login Plugin}
-The Google Login Plugin uses google account for authentication.
+\subsubsection{GitHub Login Plugin}
+The GitHub Login Plugin uses a github account for authentication.
 \subsubsection{Active Directory Plugin}
 The Active Directory Plugin is a plugin for Jenkins and it uses Active Directory to authenticate the username and password.
 \subsubsection{Jenkins Login}
@@ -297,22 +297,21 @@ This is a security measure that is absolutely necessary for our project.
 \subsection{Table}
 \begin{center}
   \begin{tabular}{llll}
-    Criteria & Google Login Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
+    Criteria & GitHub Login Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
     Security       & Yes & Yes & Yes \\ \midrule
   \end{tabular}
 \end{center}
 \subsection{Discussion}
-The google login plugin is a really straight forward method for authentication.
-Users can simply use their google accounts to login.
-This method requires an OAuth 2.0 credentials from the Google Developers Console and there are clear instructions on the internet to accomplish this task~\cite{googlelogin}.
+The github login plugin is a really straight forward method for authentication.
+Users can simply use their github accounts to login.
 The second option is to use the active directory plugin.
 This plugin is used with Jenkins to authenticate the username and password through active directory~\cite{activedirectory}.
 The third option is to use Jenkins’ login.
 Users can simply create a Jenkins’ account and have access to its functionalities.
 They will also have the ability to give authorizations to different accounts for their projects.
 \subsection{Selection of best option}
-The best option is to use Jenkins’ login.
-We intend to build our continuous integration service project on a POWER8 architecture using a Jenkins backend; the most reasonable approach is to use Jenkins’ own login system.
+The best option is to use GitHub login plugin.
+Most of our users will be using github for their projects, so it is most resonable to use the github login plugin for authentication.
 
 \section{Frontend/Web frameworks}
 \subsection{Options}
@@ -420,7 +419,7 @@ The following is a summary of the choices we have made for the nine pieces that 
   \item Linux Distribution Support: CentOS
   \item Platform For Running Builds: Virtual Machines
   \item Configuration File Format: YAML
-  \item Login/Authentication: Jenkins Login
+  \item Login/Authentication: GitHub Login Plugin
   \item Frontend/Web Frameworks: Tomcat
   \item Tracing State of Builds/Tests: Build Monitor Plugin
 \end{enumerate}
