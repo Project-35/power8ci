@@ -16,7 +16,9 @@ to the extent possible, all configuration should live within the cm system.
 CONFIRMATION: We should be able to test that changes to the system can be easily done and deployed.
 }
 
-
+CARD: As an open source software developer, I want to be able to automatically build and test my software on POWER8. (need better wording)
+CONVERSATION: Use Jenkins to create a POWER8 Continuous Integration system. (specify how Jenkins allows us to do this)
+CONFIRMATION: 
 
 CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
 CONVERSATION: We should have a web site that a developer can register on.
