@@ -1,7 +1,7 @@
 User stories as beginning point for design document
 
 
-
+Probably combine these {
 CARD: As a system administrator, I want an easy to install CI system so that I can get up and running quickly and focus on other things.
 CONVERSATION: Possibly create an install using Ansible, Chef, Puppet, or other configuration management system.
 CONFIRMATION: Ansible playbook, Chef cookbook, or similar exists and has been tested to work in deploying the CI system.
@@ -14,6 +14,11 @@ CARD: As a system administrator, I want a configurable system, so that I can mak
 CONVERSATION: While we should have reasonable defaults, our deployment/cm system should allow others to override/change settings. Also,
 to the extent possible, all configuration should live within the cm system.
 CONFIRMATION: We should be able to test that changes to the system can be easily done and deployed.
+}
+
+CARD: As an open source software developer, I want to be able to automatically build and test my software on POWER8. (need better wording)
+CONVERSATION: Use Jenkins to create a POWER8 Continuous Integration system. (specify how Jenkins allows us to do this)
+CONFIRMATION: 
 
 CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
 CONVERSATION: We should have a web site that a developer can register on.
