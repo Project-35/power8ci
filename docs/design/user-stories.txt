@@ -38,3 +38,7 @@ CONFIRMATION: Our registration web site should allow a developer to choose from 
 CARD: As an open source software developer, I want to be able to configure a repository to be built.
 CONVERSATION: Focus on GitHub. Possibly other git repositories. Possibly other vcs repositories as well. May depend on Jenkins plugins.
 CONFIRMATION: Developer should be able to specify the repository they want built.
+
+CARD: As an open source software developer, I want to see the progress of my build so that I know when my project will be completed.
+CONVERSATION:
+CONFIRMATION:
