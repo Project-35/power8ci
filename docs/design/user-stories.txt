@@ -1,6 +1,7 @@
 User stories as beginning point for design document
 
 
+Lee:
 Probably combine these {
 CARD: As a system administrator, I want an easy to install CI system so that I can get up and running quickly and focus on other things.
 CONVERSATION: Possibly create an install using Ansible, Chef, Puppet, or other configuration management system.
