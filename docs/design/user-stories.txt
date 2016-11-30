@@ -20,6 +20,10 @@ CARD: As an open source software developer, I want to be able to automatically b
 CONVERSATION: Use Jenkins to create a POWER8 Continuous Integration system. (specify how Jenkins allows us to do this)
 CONFIRMATION: 
 
+CARD: As a system administrator, I want to be able to manage the creation and removal of virtual machines and containers.
+CONVERSATION: Use OpenStack.
+CONFIRMATION:
+
 CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
 CONVERSATION: We should have a web site that a developer can register on.
 CONFIRMATION: Web site should exist that allows a developer to register.
