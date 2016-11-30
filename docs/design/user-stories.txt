@@ -26,9 +26,11 @@ CONVERSATION: Use OpenStack.
 CONFIRMATION:
 
 CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
-CONVERSATION: We should have a web site that a developer can register on.
+CONVER
+SATION: We should have a web site that a developer can register on.
 CONFIRMATION: Web site should exist that allows a developer to register.
 
+Derek:
 CARD: As an open source software developer, I want to be able to use an existing login so that I don't have yet another login to keep track of.
 CONVERSATION: Pluggable authentication. Allow user to use login credentials from other sites such as GitHub, Google, etc... to login.
 CONFIRMATION: Our registration web site should allow a developer to choose from multiple options for authentication when registering.
