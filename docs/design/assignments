@@ -1,0 +1,16 @@
+Lee:
+POWER8 cluster
+automate VM/Containers
+Manage with Chef/Ansible
+Isolations
+
+Derek:
+Website: Register
+Website: Status
+Persistant VMs for website and Jenkins
+
+Thomas:
+Website: Binary download
+GitHub Config file
+automate build/test - Run build when repo changes
+VM/container images
