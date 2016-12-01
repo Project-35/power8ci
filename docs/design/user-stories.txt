@@ -26,8 +26,7 @@ CONVERSATION: Use OpenStack.
 CONFIRMATION:
 
 CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
-CONVER
-SATION: We should have a web site that a developer can register on.
+CONVERSATION: We should have a web site that a developer can register on.
 CONFIRMATION: Web site should exist that allows a developer to register.
 
 Derek:
@@ -42,3 +41,27 @@ CONFIRMATION: Developer should be able to specify the repository they want built
 CARD: As an open source software developer, I want to see the progress of my build so that I know when my project will be completed.
 CONVERSATION:
 CONFIRMATION:
+
+CARD: As an open source software developer, I want to access the built and tested files.
+CONVERSATION: Developers need to be able to access the created binaries and other files from building the source code, so that they may
+be able to distribute them as needed on their own.
+CONFIRMATION: The files can be downloaded from the website.
+
+CARD: As an open source software developer, I want to configure the build and testing environment and methods.
+CONVERSATION: Each repository needs a way to configure things such as required packages for building and command-line arguments.
+To that end, the system will require a configuration file in YAML format. This file will contain information such as necessary
+libraries and packages, programs and command-line arguments for building, and how to test the built code.
+CONFIRMATION: The system checks for a file called ".powerci.yml" in registered repositories and configures the build environment with it.
+
+CARD: As an open source software developer, I want the system to automatically run builds when a commit is made to the repository.
+CONVERSATION: Developers require a system that will automatically pull, build and test so they can always have the most current
+binaries available and so they can quickly know if a recent change causes the build to fail. Jenkins has plugin support for polling
+Git repositories for changes and then executing a pull-build-test-deploy sequence when a commit is detected to have been pushed since
+the last build was ran.
+CONFIRMATION: The system automatically executes a pull-build-test-deploy sequence when a commit is pushed to the Git repository.
+
+CARD: As a system administrator, I want the system to use pre-built images for the base system of VMs.
+CONVERSATION: Pre-built images that are used for spinning up VMs makes the entire process of deploying and configuring a VM
+for running a pull-build-test sequence much faster and smoother. Ubuntu will probably be the OS of choice for the base images, however
+we may look into providing images for other Linux distributions.
+CONFIRMATION: The system uses disk images with Linux installed for starting VMs.
