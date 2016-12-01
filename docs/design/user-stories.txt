@@ -1,37 +1,38 @@
-User stories as beginning point for design document
+Lee: 
+CARD: As a system administrator, I want a cluster of POWER8 servers that can be used for Continuous Integration.
+CONVERSATION: The goal of this project is to enable open source software projects to build and test their software on POWER8.
+The OSU Open Source Lab has a POWER8 cluster that will serve as the hardware basis for this project.
+The OSL POWER8 cluster runs OpenStack and is managed via the Chef configuration management system.
+We will be working closely with the OSL to ensure that we have access to the POWER8 cluster for both testing and deployment of our Continuous Integration system.
+We will also work with the OSL to ensure that any needed OpenStack components are installed.
+CONFIRMATION: The POWER8 CI team members, in coordination with the OSL, are able to deploy the CI system on the OSL's POWER8 OpenStack cluster.
 
+CARD: As a system administrator, I want to manage installing the POWER8 CI system in a reproducible way.
+CONVERSATION: We will need to deploy and configure multiple components to create the POWER8 CI system.
+In addition, one of the goals of our project is to enable others to recreate our POWER8 CI system.
+We can meet these needs and goals by using a configuration management system.
+Ansible is a IT automation solution that will allow us to manage the configuration and deployment of our CI system.
+Specifically, we will be using Ansible playbooks to install and configure Jenkins and Jenkins plugins and any additional components of the CI system. 
+Also, we will be keeping the Ansible playbooks in version control to allow us to keep track of changes and rollback changes when necessary.
+This will give us the flexibility we need to test changes while being able to return to a known good configuration.
+CONFIRMATION: Ansible playbooks exists that will deploy our CI system on a POWER8 OpenStack cluster.
 
-Lee:
-Probably combine these {
-CARD: As a system administrator, I want an easy to install CI system so that I can get up and running quickly and focus on other things.
-CONVERSATION: Possibly create an install using Ansible, Chef, Puppet, or other configuration management system.
-CONFIRMATION: Ansible playbook, Chef cookbook, or similar exists and has been tested to work in deploying the CI system.
+CARD: As a system administrator, I want project builds to be isolated from each other and other users of the cluster.
+CONVERSATION: Our project will be hosted on the OSL's POWER8 OpenStack cluster and we want to ensure that our usage of the cluster does not negatively impact other users of the system.
+Additionaly, we do not want to run builds and tests in such a way that our users could interfere with each other.
+We can achieve these ends by isolating builds and tests in virtual machines or Linux containers.
+We will work with the OSL to determine approriate quotas for usage of CPU, memory, and storage resources.
+Our primary means of lauchning and removing virtual machines and containers will be through OpenStack's Nova and Magnum components. 
+By using these components we can leverage OpenStack's ability to manage virtual machines and Linux containers to provide isolation between different projects' builds and tests.
+CONFIRMATION: Projects are built in virtual machines or containers.
 
-CARD: As a system administrator, I want an easy to upgrade CI system, so that bugs can be fixed easily.
-CONVERSATION: Our chosen deployment system (Ansible, Chef, Puppet) should handle upgrades.
-CONFIRMATION: Ansible playbook, Chef cookbook, or similar exists and has been tested to work in upgrading the CI system.
-
-CARD: As a system administrator, I want a configurable system, so that I can make changes that better fit my setup.
-CONVERSATION: While we should have reasonable defaults, our deployment/cm system should allow others to override/change settings. Also,
-to the extent possible, all configuration should live within the cm system.
-CONFIRMATION: We should be able to test that changes to the system can be easily done and deployed.
-}
-
-CARD: As an open source software developer, I want to be able to automatically build and test my software on POWER8. (need better wording)
-CONVERSATION: Use Jenkins to create a POWER8 Continuous Integration system. (specify how Jenkins allows us to do this)
-CONFIRMATION: 
-
-CARD: As a system administrator, I want to be able to manage the creation and removal of virtual machines and containers.
-CONVERSATION: Use OpenStack.
-CONFIRMATION:
-
-CARD: As an open source software developer, I want to be able to register to use the CI system so that I can build and test my software.
-CONVERSATION: We should have a web site that a developer can register on.
-CONFIRMATION: Web site should exist that allows a developer to register.
-
-CARD: As an open source software developer, I want to be able to configure a repository to be built.
-CONVERSATION: Focus on GitHub. Possibly other git repositories. Possibly other vcs repositories as well. May depend on Jenkins plugins.
-CONFIRMATION: Developer should be able to specify the repository they want built.
+CARD: As a system administrator, I want to automate the creation and removal of virtual machines and containers.
+CONVERSATION: The primary goal of this project is to provide an automated solution for open source projects to build and test their software on POWER8.
+To meet this goal we will need to have the ability to automate the creation and removal of the virtual machines and containers where the builds will take place.
+As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
+In order to automate this, we will utilize Jenkins which has the ability to interact with OpenStack by using a plugin.
+This will give us the ability to automate the creation and removal of VMs and containers.
+CONFIRMATION: The creation and removal of the virtual machines and containers used for building and testing is automated.
 
 Derek:
 CARD: As an open source software developer, I want to be able to use an existing login, so that I don't have to create another account.
