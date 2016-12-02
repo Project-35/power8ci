@@ -42,6 +42,14 @@
 \clearpage
 
 \section{Introduction}
+The goal of this document is to communicate the requirements and design of the POWER8 Continuous Integration project.
+This information is conveyed in the form of user stories which contain three parts.
+The `CARD' contains the requirement and the role of the stakeholder.
+The `CONVERSATION' conveys how we intend to meet that requirement.
+Finally, the `CONFIRMATION' indicates a way that the meeting of the requirement can be verified.
+As can be seen from the user stories, the overall design of this project is one of integrating a number of existing resources and open source projects into a system which will provide a continuous integration system for IBM's POWER8 hardware.\\\\
+Below is a list of the user stories and the author.\\
+
 \begin{description}[leftmargin=12em,style=multiline]
   \item[POWER8 Cluster]
     POWER8 servers that can be used for Continuous Integration. Authored by Leon Leighton.\\
@@ -56,7 +64,7 @@
   \item[Build Status]
     Informing user of build status. Authored by Derek Wong.\\
   \item[Persistant VMs]
-    Persistant virtual machines for our website and Jenkins. Authored by Derek Wong.\\
+    Persistent virtual machines for our website and Jenkins. Authored by Derek Wong.\\
   \item[Build Artifacts]
     Access the built and tested files. Authored by Thomas Olson.\\
   \item[Build/Environment Configuration]
@@ -88,7 +96,7 @@ We will need to deploy and configure multiple components to create the POWER8 CI
 In addition, one of the goals of our project is to enable others to recreate our POWER8 CI system.
 We can meet these needs and goals by using a configuration management system.
 Ansible is a IT automation solution that will allow us to manage the configuration and deployment of our CI system.
-Specifically, we will be using Ansible playbooks to install and configure Jenkins and Jenkins plugins and any additional components of the CI system. 
+Specifically, we will be using Ansible playbooks to install and configure Jenkins and Jenkins plugins and any additional components of the CI system.
 Also, we will be keeping the Ansible playbooks in version control to allow us to keep track of changes and rollback changes when necessary.
 This will give us the flexibility we need to test changes while being able to return to a known good configuration.
 \subsubsection{CONFIRMATION}
@@ -99,10 +107,10 @@ Ansible playbooks exists that will deploy our CI system on a POWER8 OpenStack cl
 As a system administrator, I want project builds to be isolated from each other and other users of the cluster.
 \subsubsection{CONVERSATION}
 Our project will be hosted on the OSL's POWER8 OpenStack cluster and we want to ensure that our usage of the cluster does not negatively impact other users of the system.
-Additionaly, we do not want to run builds and tests in such a way that our users could interfere with each other.
+Additionally, we do not want to run builds and tests in such a way that our users could interfere with each other.
 We can achieve these ends by isolating builds and tests in virtual machines or Linux containers.
-We will work with the OSL to determine approriate quotas for usage of CPU, memory, and storage resources.
-Our primary means of lauchning and removing virtual machines and containers will be through OpenStack's Nova and Magnum components. 
+We will work with the OSL to determine appropriate quotas for usage of CPU, memory, and storage resources.
+Our primary means of launching and removing virtual machines and containers will be through OpenStack's Nova and Magnum components.
 By using these components we can leverage OpenStack's ability to manage virtual machines and Linux containers to provide isolation between different projects' builds and tests.
 \subsubsection{CONFIRMATION}
 Projects are built in virtual machines or containers.
@@ -140,11 +148,11 @@ Our web site will allow developers to see their build status (pass/fail).
 
 Build Monitor Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Build+Monitor+Plugin
 
-\subsection{Persistant VMs}
+\subsection{Persistent VMs}
 \subsubsection{CARD}
-As a system administrator, I want persistant virtual machines (VMs) for our website and Jenkins, so that I have a platform to host my service.
+As a system administrator, I want persistent virtual machines (VMs) for our website and Jenkins, so that I have a platform to host my service.
 \subsubsection{CONVERSATION}
-We will use OpenStack to deploy our virtual machines. Then we will use those virtual machines to host our website and Jenkins. OpenStack is a set of software tools for building and managing cloud computing platforms, more specifically it is used to deploy virtual machines to handle different tasks. For our website, we will be using Apache HTTP Server. 
+We will use OpenStack to deploy our virtual machines. Then we will use those virtual machines to host our website and Jenkins. OpenStack is a set of software tools for building and managing cloud computing platforms, more specifically it is used to deploy virtual machines to handle different tasks. For our website, we will be using Apache HTTP Server.
 \subsubsection{CONFIRMATION}
 Our website and Jenkins will be hosted on virtual machines.
 
@@ -187,6 +195,5 @@ for running a pull-build-test sequence much faster and smoother. Ubuntu will pro
 we may look into providing images for other Linux distributions.
 \subsubsection{CONFIRMATION}
 The system uses disk images with Linux installed for starting VMs.
-\section{Conclusion}
 \clearpage
 \end{document}
