@@ -82,7 +82,7 @@ As a system administrator, I want a cluster of POWER8 servers that can be used f
 \subsubsection{CONVERSATION}
 The goal of this project is to enable open source software projects to build and test their software on POWER8.
 The OSU Open Source Lab has a POWER8 cluster that will serve as the hardware basis for this project.
-The OSL POWER8 cluster runs OpenStack and is managed via the Chef configuration management system.
+The OSL POWER8 cluster runs OpenStack~\cite{openstackmain} and is managed via the Chef~\cite{chefmain} configuration management system.
 We will be working closely with the OSL to ensure that we have access to the POWER8 cluster for both testing and deployment of our Continuous Integration system.
 We will also work with the OSL to ensure that any needed OpenStack components are installed.
 \subsubsection{CONFIRMATION}
@@ -95,7 +95,7 @@ As a system administrator, I want to manage installing the POWER8 CI system in a
 We will need to deploy and configure multiple components to create the POWER8 CI system.
 In addition, one of the goals of our project is to enable others to recreate our POWER8 CI system.
 We can meet these needs and goals by using a configuration management system.
-Ansible is a IT automation solution that will allow us to manage the configuration and deployment of our CI system.
+Ansible~\cite{ansiblemain} is a IT automation solution that will allow us to manage the configuration and deployment of our CI system.
 Specifically, we will be using Ansible playbooks to install and configure Jenkins and Jenkins plugins and any additional components of the CI system.
 Also, we will be keeping the Ansible playbooks in version control to allow us to keep track of changes and rollback changes when necessary.
 This will give us the flexibility we need to test changes while being able to return to a known good configuration.
@@ -122,7 +122,7 @@ As a system administrator, I want to automate the creation and removal of virtua
 The primary goal of this project is to provide an automated solution for open source projects to build and test their software on POWER8.
 To meet this goal we will need to have the ability to automate the creation and removal of the virtual machines and containers where the builds will take place.
 As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
-In order to automate this, we will utilize Jenkins which has the ability to interact with OpenStack by using a plugin.
+In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
 This will give us the ability to automate the creation and removal of VMs and containers.
 \subsubsection{CONFIRMATION}
 The creation and removal of the virtual machines and containers used for building and testing is automated.
@@ -131,22 +131,17 @@ The creation and removal of the virtual machines and containers used for buildin
 \subsubsection{CARD}
 As an open source software developer, I want to be able to use an existing login, so that I don't have to create another account.
 \subsubsection{CONVERSATION}
-We will use pluggable authentication from Jenkins. The plugins will allow user to use login credentials from other web sites, such as GitHub, Google, etc\ldots to login. The plugins can simply be installed through Jenkins.
+We will use pluggable authentication from Jenkins. The plugins will allow user to use login credentials from other web sites, such as GitHub~\cite{githublogin}, Google~\cite{googlelogin}, etc\ldots to login. The plugins can simply be installed through Jenkins.
 \subsubsection{CONFIRMATION}
 Our registration web site will allow developers to choose from multiple options for authentication when registering.
-
-Google Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Google+Login+Plugin
-GitHub OAuth Plugin: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+OAuth+Plugin
 
 \subsection{Build Status}
 \subsubsection{CARD}
 As an open source software developer, I want to see my build status, so I know if my build passed or failed.
 \subsubsection{CONVERSATION}
-We will use a plugin from Jenkins to display the status of our developer's build. More specifically, we intend to use the Build Monitor Plugin to display the information to our users. The Build Monitor Plugin supports many features such as: display the status and progress of selected jobs, display the names of people who might be responsible for `breaking the build', display who is fixing a broken build, and display what broke the build. The plugin can be installed through Jenkins.
+We will use a plugin from Jenkins to display the status of our developer's build. More specifically, we intend to use the Build Monitor Plugin~\cite{buildmonitor} to display the information to our users. The Build Monitor Plugin supports many features such as: display the status and progress of selected jobs, display the names of people who might be responsible for `breaking the build', display who is fixing a broken build, and display what broke the build. The plugin can be installed through Jenkins.
 \subsubsection{CONFIRMATION}
 Our web site will allow developers to see their build status (pass/fail).
-
-Build Monitor Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Build+Monitor+Plugin
 
 \subsection{Persistent VMs}
 \subsubsection{CARD}
@@ -196,4 +191,6 @@ we may look into providing images for other Linux distributions.
 \subsubsection{CONFIRMATION}
 The system uses disk images with Linux installed for starting VMs.
 \clearpage
+\bibliographystyle{IEEEtran}
+\bibliography{design}
 \end{document}
