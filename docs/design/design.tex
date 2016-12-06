@@ -34,7 +34,23 @@
   \begin{abstract}
   \noindent This document contains the initial design of the POWER8 CI project in the form of user stories.
     Each user story contains a requirement, how we intend to meet that requirement, and how the meeting of the requirement can be confirmed.
-  \end{abstract}
+    
+    \bigskip
+    \bigskip
+    \bigskip
+    \bigskip
+    \bigskip
+    \bigskip
+ \section*{Approval}
+    \bigskip
+    \bigskip
+    \bigskip
+\noindent Gerrit Huizenga\hspace{0.7cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Leon Leighton\hspace{0.85cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Thomas Olson\hspace{0.9cm} \makebox[1.5in]{\hrulefill}\\\\\\
+Derek Wong\hspace{1.2cm} \makebox[1.5in]{\hrulefill}\\\\\\
+
+ \end{abstract}
 \end{titlepage}
 
 \pagenumbering{arabic}
@@ -78,7 +94,7 @@ Below is a list of the user stories and the author.\\
 \section{User Stories}
 \subsection{POWER8 Cluster}
 \subsubsection{CARD}
-As a system administrator, I want a cluster of POWER8 servers that can be used for Continuous Integration.
+As an open source software developer, I want to build and test my software on POWER8, so that I can ensure proper functioning on that architecture.
 \subsubsection{CONVERSATION}
 The goal of this project is to enable open source software projects to build and test their software on POWER8.
 The OSU Open Source Lab has a POWER8 cluster that will serve as the hardware basis for this project.
@@ -90,7 +106,7 @@ The POWER8 CI team members, in coordination with the OSL, are able to deploy the
 
 \subsection{Deployment/Configuration Management}
 \subsubsection{CARD}
-As a system administrator, I want to manage installing the POWER8 CI system in a reproducible way.
+As a system administrator, I want to centralize the management of the POWER8 CI system, so that there is a single source of truth for the configuration of the system.
 \subsubsection{CONVERSATION}
 We will need to deploy and configure multiple components to create the POWER8 CI system.
 In addition, one of the goals of our project is to enable others to recreate our POWER8 CI system.
@@ -104,7 +120,7 @@ Ansible playbooks exists that will deploy our CI system on a POWER8 OpenStack cl
 
 \subsection{Isolation}
 \subsubsection{CARD}
-As a system administrator, I want project builds to be isolated from each other and other users of the cluster.
+As an open source software developer  I want my project builds to be isolated from other projects, so that my builds and test complete without outside interference.
 \subsubsection{CONVERSATION}
 Our project will be hosted on the OSL's POWER8 OpenStack cluster and we want to ensure that our usage of the cluster does not negatively impact other users of the system.
 Additionally, we do not want to run builds and tests in such a way that our users could interfere with each other.
@@ -117,7 +133,7 @@ Projects are built in virtual machines or containers.
 
 \subsection{Automation of VM and container creation/removal}
 \subsubsection{CARD}
-As a system administrator, I want to automate the creation and removal of virtual machines and containers.
+As a system administrator, I want to automate the creation and removal of virtual machines and containers, so that projects are not waiting on manual intervention.
 \subsubsection{CONVERSATION}
 The primary goal of this project is to provide an automated solution for open source projects to build and test their software on POWER8.
 To meet this goal we will need to have the ability to automate the creation and removal of the virtual machines and containers where the builds will take place.
@@ -153,7 +169,7 @@ Our website and Jenkins will be hosted on virtual machines.
 
 \subsection{Build Artifacts}
 \subsubsection{CARD}
-As an open source software developer, I want to access the built and tested files.
+As an open source software developer, I want to access the built and tested files, so that I can distribute them to users.
 \subsubsection{CONVERSATION}
 Developers need to be able to access the created binaries and other files from building the source code, so that they may
 be able to distribute them as needed on their own.
@@ -162,7 +178,7 @@ The files can be downloaded from the website.
 
 \subsection{Build/Environment Configuration}
 \subsubsection{CARD}
-As an open source software developer, I want to configure the build and testing environment and methods.
+As an open source software developer, I want to configure the build and testing environment and methods, so that I can be sure it matches my standard build process.
 \subsubsection{CONVERSATION}
 Each repository needs a way to configure things such as required packages for building and command-line arguments.
 To that end, the system will require a configuration file in YAML format. This file will contain information such as necessary
@@ -172,7 +188,7 @@ The system checks for a file called '.powerci.yml' in registered repositories an
 
 \subsection{Automation of Builds}
 \subsubsection{CARD}
-As an open source software developer, I want the system to automatically run builds when a commit is made to the repository.
+As an open source software developer, I want the system to automatically run builds when a commit is made to the repository, so that I can determine if a bug has been introduced as early as possible.
 \subsubsection{CONVERSATION}
 Developers require a system that will automatically pull, build and test so they can always have the most current
 binaries available and so they can quickly know if a recent change causes the build to fail. Jenkins has plugin support for polling
@@ -183,7 +199,7 @@ The system automatically executes a pull-build-test-deploy sequence when a commi
 
 \subsection{Pre-build VM images}
 \subsubsection{CARD}
-As a system administrator, I want the system to use pre-built images for the base system of VMs.
+As an open source software developer, I want to be able to choose from pre-built virtual machine, so that my builds and tests can target a known platform. 
 \subsubsection{CONVERSATION}
 Pre-built images that are used for spinning up VMs makes the entire process of deploying and configuring a VM
 for running a pull-build-test sequence much faster and smoother. Ubuntu will probably be the OS of choice for the base images, however
@@ -193,4 +209,5 @@ The system uses disk images with Linux installed for starting VMs.
 \clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{design}
+\clearpage
 \end{document}
