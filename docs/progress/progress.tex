@@ -1,0 +1,116 @@
+\documentclass[10pt,onecolumn,journal,draftclsnofoot]{IEEEtran}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tabu}
+\usepackage{enumitem}
+\usepackage{courier}
+\usepackage{hyperref}
+\usepackage{parskip}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=none,
+language=C,
+columns=flexible,
+numberstyle=\tiny\color{gray},
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=4,
+showstringspaces=false,
+basicstyle=\ttfamily
+}
+
+\setlength{\parindent}{0cm}
+
+\begin{document}
+\begin{titlepage}
+  \pagenumbering{gobble}
+  \title{POWER8 Continuous Integration\\ Fall Progress Report}
+  \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35}
+  \date{December 6, 2016}
+  \maketitle
+  \vspace{4cm}
+  \begin{abstract}
+  \noindent This document contains an overview of the progress of the POWER8 Continuous Integration project during the Fall 2016 term.
+    It includes the goals and purpose of the project and a reflection on the previous ten weeks.
+ \end{abstract}
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\clearpage
+
+\section{Project Goals}
+The primary goal of this project is to create a continuous integration (CI) system for IBM's POWER8 architecture.
+This CI system will be available to open source software projects, giving them the ability to build and test their software on POWER8 without the need for them to acquire new hardware.
+We will be utilizing the OSU Open Source Lab's POWER8 OpenStack cluster to deploy our project and run the builds and tests.
+We also aim to make the system easy to use while still giving users the ability to customize their build environment.
+Our focus will be on interacting with GitHub to trigger new builds as developers commit new changes to their code, with support for other version control systems as a stretch goal.
+Users will be able to access the status of their builds to gain information about build or test failures.
+They will also be able to download the binaries build by the system.
+Our project will also be open source and hosted on GitHub which will allow others to replicate our project on their own systems.
+
+\section{Current Progress}
+Over the Fall term we have been making progress in learning to work with our client, IBM, and we have been learning more about the various pieces of our project.
+We have been in regular contact with IBM with a conference call every two weeks where we have discussed the project and what we have been working on.
+We have also had regular email exchanges with our primary contact at IBM, Gerrit Huizenga.
+These email exchanges have been helpful in increasing our understanding of the goals and purpose of the project and he has provided valuable feedback on our documents.
+We have also been in contact with the OSL director, Lance Albertson, to begin discussion of access to the POWER8 OpenStack cluster.
+\\
+\\
+Through writing the documents for this term, particularly the technical review and the design document, we have gained knowledge about the individual components that will make up the completed CI system.
+The technical review allowed us to compare alternatives which is something that we will continue to do as we progress through the next stages of the project.
+Writing the design document enabled us to start thinking about how the various pieces will work together to accomplish our goals.
+In particular, we have learned about Jenkins and various Jenkins plugins.
+Jenkins is automation software that will be at the center of coordinating the builds and tests.
+Several plugins for Jenkins exist that will allow us to interact with OpenStack and GitHub.
+Writing these documents has enabled us to put together ideas about how we will go forward during Winter term to implement the system.
+
+\section{Weekly Activity Report}
+\subsection{Week 1-3} 
+From week one to three, we were mainly getting our project assigned to us and discussing the requirements for our project. We met up as a group and introduced ourselves, and exchanged contact information. There were some discussions about the requirements of our project. During week two, we had two meetings and they were with our IBM client, Gerrit and OSL director, Lance. We primarily just introduced ourselves and talked a little bit about the project. 
+
+\subsection{Week 4}
+During week 4, we had a conference call with multiple people at IBM discussing about the we were assigned and previous work that we each had done in the past. We also had worked on our problem statement which was assigned to us as a group. The problem statement was sent to our client for feedback.
+
+\subsection{Week 5}
+During week 5, we revised our problem statement with the feedback we got from our client. After revising, we got our client's signature and turned in our problem statement. Then we began to work on our requirements document. 
+
+\subsection{Week 6}
+During week 6, we had a meeting with our IBM client. There were discussions about the requirements document and that
+IBM expects us to have a more agile workflow and be more user-story oriented. This gave us some problems because IBM
+doesn't like what our class is expecting us to turn in. We had a meeting with Kevin to discuss about this issue and he simply
+told us to do what IBM wants.
+
+\subsection{Week 7}
+During week 7, we had a group meeting to discuss about the technology document. In this meeting we brainstormed 9 different pieces of technology for our project and divided the work. The nine pieces of technology were: Cluster Management, Continuous Integration Software, Configuration Management, Linux Distribution Support, Platform For Running Builds, Configuration File Format, Login/Authentication, Frontend/Web Frameworks, and Tracing State of Builds/Tests. Cluster Management, Continuous Integration Software, and Configuration Management was assigned to Leon Leighton. Linux Distribution Support, Platform For Running Builds, and Configuration File Format was assigned to Thomas Olson. Login/Authentication, Frontend/Web Frameworks, and Tracing State of Builds/Tests was assigned to Derek Wong.
+
+\subsection{Week 8}
+During week 8, everyone in the group finished their three pieces of technology for the tech review document. We met with each other and compiled all the parts together into one document and discussed about our next assignment, which was the design document. We also had a meeting with IBM and got some feedback for our technology document and revised it before we turned it in.
+
+\subsection{Week 9}
+During week 9, we were going over the design documents requirements as a group. There were issues because we knew that our client was expecting something different, so we decided to meet with Kevin to talk about this problem.
+
+\subsection{Week 10}
+During week 10, we had a meeting with Kevin and he let us write a different type of design document than what was required for the class. In our document, we primarily focused on user-stories. Each member of the group was assigned some user-stories to write and we compiled it together once we were done. We got some feedback from our client and turned in a unsigned copy.
+
+\section{Retrospective}
+\begin{center}
+	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}\hline
+		Positives & Deltas & Actions \\ \hline
+		Communication with client & Clarify design elements 	& Revise design document \\ \hline
+		Communication with OSL & Lack of feedback between team members while writing documents & Share and request feedback earlier in writing process \\ \hline
+		Communication between team members	& Some assignments rushed & Begin work earlier and keep each other up to date. \\ \hline
+		Completed and turned in required documents & Did not make full use of clients availability & Ask for help or feedback from client earlier in process \\ \hline
+	\end{tabular}
+\end{center}
+
+\end{document}
