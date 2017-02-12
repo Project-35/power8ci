@@ -1,0 +1,7 @@
+- hosts: 140.211.168.153
+  roles:
+    - geerlingguy.jenkins
+  remote_user: ubuntu
+  become: yes
+  vars_files:
+    - group_vars/jenkins

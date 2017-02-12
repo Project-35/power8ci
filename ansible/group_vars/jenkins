@@ -1,0 +1,2 @@
+jenkins_admin_username: admin
+jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
