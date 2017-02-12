@@ -36,20 +36,28 @@ CONFIRMATION: The creation and removal of the virtual machines and containers us
 
 Derek:
 CARD: As an open source software developer, I want to be able to use an existing login, so that I don't have to create another account.
-CONVERSATION: We will use pluggable authentication from Jenkins. The plugins will allow user to use login credentials from other web sites, such as GitHub, Google, etc... to login. The plugins can simply be installed through Jenkins.
+CONVERSATION: We will use pluggable authentication from Jenkins. 
+The plugins will allow user to use login credentials from other web sites, such as GitHub, Google, etc... to login. 
+The plugins can simply be installed through Jenkins.
 COMFIRMATION: Our registration web site will allow developers to choose from multiple options for authentication when registering.
 
 Google Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Google+Login+Plugin
 GitHub OAuth Plugin: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+OAuth+Plugin
 
 CARD: As an open source software developer, I want to see my build status, so I know if my build passed or failed.
-CONVERSATION: We will use a plugin from Jenkins to display the status of our developer's build. More specifically, we intend to use the Build Monitor Plugin to display the information to our users. The Build Monitor Plugin supports many features such as: display the status and progress of selected jobs, display the names of people who might be responsible for "breaking the build", display who is fixing a broken build, and display what broke the build. The plugin can be installed through Jenkins.
+CONVERSATION: We will use a plugin from Jenkins to display the status of our developer's build. 
+More specifically, we intend to use the Build Monitor Plugin to display the information to our users. 
+The Build Monitor Plugin supports many features such as: display the status and progress of selected jobs, display the names of people who might be responsible for "breaking the build", display who is fixing a broken build, and display what broke the build. 
+The plugin can be installed through Jenkins.
 COMFIRMATION: Our web site will allow developers to see their build status (pass/fail).
 
 Build Monitor Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Build+Monitor+Plugin
 
 CARD: As a system administrator, I want persistant virtual machines (VMs) for our website and Jenkins, so that I have a platform to host my service.
-CONVERSATION: We will use OpenStack to deploy our virtual machines. Then we will use those virtual machines to host our website and Jenkins. OpenStack is a set of software tools for building and managing cloud computing platforms, more specifically it is used to deploy virtual machines to handle different tasks. For our website, we will be using Apache HTTP Server. 
+CONVERSATION: We will use OpenStack to deploy our virtual machines. 
+Then we will use those virtual machines to host our website and Jenkins. 
+OpenStack is a set of software tools for building and managing cloud computing platforms, more specifically it is used to deploy virtual machines to handle different tasks. 
+For our website, we will be using Apache HTTP Server. 
 COMFIRMATION: Our website and Jenkins will be hosted on virtual machines.
 
 Thomas:
