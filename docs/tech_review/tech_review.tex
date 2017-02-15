@@ -280,8 +280,8 @@ We have selected YAML as the file format for configuration files due to it being
 
 \section{Login/Authentication}
 \subsection{Options}
-\subsubsection{GitHub Login Plugin}
-The GitHub Login Plugin uses a github account for authentication.
+\subsubsection{GitHub OAuth Plugin}
+The GitHub OAuth Plugin uses a github account for authentication and it also has the ability to set permission/authorization to users. The authorization includes: ability to create a job, build a project, configure a project, delete a project, etc...
 \subsubsection{Active Directory Plugin}
 The Active Directory Plugin is a plugin for Jenkins and it uses Active Directory to authenticate the username and password.
 \subsubsection{Jenkins Login}
@@ -297,12 +297,12 @@ This is a security measure that is absolutely necessary for our project.
 \subsection{Table}
 \begin{center}
   \begin{tabular}{llll}
-    Criteria & GitHub Login Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
+    Criteria & GitHub OAuth Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
     Security       & Yes & Yes & Yes \\ \midrule
   \end{tabular}
 \end{center}
 \subsection{Discussion}
-The github login plugin is a really straight forward method for authentication.
+The github OAuth plugin is a really straight forward method for authentication.
 Users can simply use their github accounts to login.
 The second option is to use the active directory plugin.
 This plugin is used with Jenkins to authenticate the username and password through active directory~\cite{activedirectory}.
@@ -310,8 +310,8 @@ The third option is to use Jenkins’ login.
 Users can simply create a Jenkins’ account and have access to its functionalities.
 They will also have the ability to give authorizations to different accounts for their projects.
 \subsection{Selection of best option}
-The best option is to use GitHub login plugin.
-Most of our users will be using github for their projects, so it is most resonable to use the github login plugin for authentication.
+The best option is to use GitHub OAuth plugin.
+Most of our users will be using github for their projects, so it is most resonable to use the github OAuth plugin for authentication.
 
 \section{Frontend/Web frameworks}
 \subsection{Options}
