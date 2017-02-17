@@ -14,7 +14,7 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\graphicspath{ {images/} }
+\graphicspath{{images/}}
 
 \lstset{frame=none,
 language=C,
@@ -77,16 +77,22 @@ Several plugins for Jenkins exist that will allow us to interact with OpenStack 
 Writing these documents enabled us to put together ideas about how we will go forward during Winter term to implement the system.
 
 \section{Current Progress}
-
-Lee:
+The following is the status of our project as of the sixth week of Winter term. It is separated into individual team member sections.
+\subsection{Leon Leighton}
 I started out the term by establishing the foundation for our project.
 We require a virtual machine running on the OSL's POWER8 OpenStack cluster.
 This VM is where Jenkins will run and where interactions with the OpenStack cluster will originate.
-I created the power8ci VM through the OSL's OpenStack Dashboard.
+I created the VM named power8ci through the OSL's OpenStack Dashboard.
 Since this VM is serving as our test platform, I choose to use a smaller instance than what we may use in the future.
 The power8ci VM is running Ubuntu 16.04 LE and has 2GB of RAM, 20GB of disk space, 1 VCPU, and a publicly accessible IP address.
+Below is a screenshot of the OpenStack Dashboard showing our VM\@.
 
-\includegraphics[width=\textwidth, keepaspectratio]{openstack.eps}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{openstack.eps}
+  \caption{OpenStack Dashboard showing power8ci VM}
+\end{figure}
 
 After establishing the VM, I focused on installing Jenkins using Ansible.
 Ansible provides a service called Ansible Galaxy where roles can be shared with the Ansible community.
@@ -99,51 +105,59 @@ We created one job that we expected to succeed and one that we expected to fail.
 Both of these were very simple C programs.
 We received the expected response from Jenkins in both cases.
 In addition, we were able to trigger new builds by pushing a commit to GitHub.
+Below is a screenshot showing our Jenkins jobs.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{jenkins.eps}
+  \caption{Jenkins job status}
+\end{figure}
 
-\includegraphics[width=\textwidth, keepaspectratio]{jenkins.eps}
-\includegraphics[width=\textwidth, keepaspectratio]{Current_Infrastructure.eps}
-\includegraphics[width=\textwidth, keepaspectratio]{Infrastructure.eps}
+\subsection{Thomas Olson}
+I created some diagrams to better lay out the structure of the system that we're building. I looked into the use of Docker and Kubernetes as container management solutions on a cluster. I researched methods for having Jenkins communicate with Docker, Kubernetes and Openstack to facilitate the provisioning of containers and virtual machines for running builds on. I did not do much in the form of implementation as such features would be a part of the beta release at the earliest, and not the alpha release.
 
-
-Derek:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{Current_Infrastructure.eps}
+  \caption{Current Infrastructure}
+\end{figure}
+\subsection{Derek Wong}
 I am mainly in charge of the plugins for our POWER8 continuous integration project. In the technology review document my focus was the login/authentication for our services and plugins that benefits our users. After Lee set up the basics of jenkins, I helped him set up the login/authentication portion of our service. In the technology review document I have decided to use the Github OAuth Plugin which uses the github account credentials to login into our services. I chose this plugin because most of our users will mainly be using github repository for their projects, so it is only logical to just let them use their github user accounts.
 
 
 
 \section{Future Work}
-
-Lee:
+\subsection{Leon Leighton}
 For the rest of the term, I will be focusing on improving our Ansible playbook and integration with OpenStack.
 For our solution to be reproducible, the configuration needs to be fully in Ansible.
 Our current Alpha release has some configuration that has been done through the Jenkins interface.
 These configuration changes will be moved into our Ansible playbook.
 
-Our Alpha release is running on the OSL's POWER8 OpenStack cluster and all Jenkins jobs run on this one VM.
+Our Alpha release is running on the OSL's POWER8 OpenStack cluster and all Jenkins jobs run on this one VM\@.
 Moving forward, we will be introducing the ability for a Jenkins job to be run on a separate VM and/or run in a Docker container.
 This will provide better isolation between Jenkins jobs.
 Jenkins has an OpenStack plugin, and I will be investigating how to use it to best achieve our goals.
 
-Derek:
+\subsection{Thomas Olson}
+For the future, I will need to implement the system we choose to use for managing and provisioning containers and implementing a method for users to include a YAML file for configuring their build process and environment. I will also need to look into creating basic images for containers that can be used to run builds in. Finally, I will need to put all of this into the Ansible playbook so that others may deploy this part of the system on their own clusters.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{Infrastructure.eps}
+  \caption{Future Infrastructure}
+\end{figure}
+
+\subsection{Derek Wong}
 Now that we have basic jenkins set up, we can continue working on the configurations and making improvements to it. My job will be deciding which plugins will be necessary in our continuous integration service. I have already implemented the Github OAuth Plugin to jenkins. This plugin is used for authentication and authorization. It is what we are using to set permissions for users of our service. The next plugin that I am planning to implement is the Build Monitor Plugin, which shows all the information of a project being build, as well as unique features that benefits our users. This is one of the technology in the technology review document that we decided to use and we intend to implement it before we work on other features. As of now, those are all the plugins we are going to use, and I will continue to do more research and see what other plugins will improve and benefit our project. Aside from plugins, I will begin researching more information about security. Our client has emphasized how security is really important in our project, so that is one of the top priorities we need to do. Aside from those tasks, I will help with finding solutions to problems that we might run into in the future.
 
 
 \section{Problems}
-Lee:
+\subsection{Leon Leighton}
 Unfortunately, it took longer than expected to setup and the VM and Jenkins.
 This caused a problem for Thomas Olson and Derek Wong, as they could not continue some of their work until I had completed the foundational elements.
 
-Derek:
-The authentication for the Github OAuth Plugin works fine as it lets user login with their github credentials. We have tested it on several accounts and there were no problems. The authorization part of this plugin is a little different. Currently, it does not grant users that have permission to build a project even thought they are supposed to. We set the permissions so that users who have contributed to a project in the github repository should have the ability to create a job for that project in jenkins, and have the ability to build it. There is no solution to it currently but we are looking into it.
+\subsection{Thomas Olson}
 
-\section{Retrospective}
-\begin{center}
-	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}\hline
-		Positives & Deltas & Actions \\ \hline
-		Communication with client & Clarify design elements 	& Revise design document \\ \hline
-		Communication with OSL & Lack of feedback between team members while writing documents & Share and request feedback earlier in writing process \\ \hline
-		Communication between team members	& Some assignments rushed & Begin work earlier and keep each other up to date. \\ \hline
-		Completed and turned in required documents & Did not make full use of clients availability & Ask for help or feedback from client earlier in process \\ \hline
-	\end{tabular}
-\end{center}
+\subsection{Derek Wong}
+The authentication for the Github OAuth Plugin works fine as it lets user login with their github credentials. We have tested it on several accounts and there were no problems. The authorization part of this plugin is a little different. Currently, it does not grant users that have permission to build a project even thought they are supposed to. We set the permissions so that users who have contributed to a project in the github repository should have the ability to create a job for that project in jenkins, and have the ability to build it. There is no solution to it currently but we are looking into it.
 
 \end{document}
