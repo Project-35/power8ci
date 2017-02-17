@@ -73,8 +73,8 @@ Below is a list of the user stories and the author.\\
     Manage installing the POWER8 CI system in a reproducible way. Authored by Leon Leighton.\\\\
   \item[Isolation]
     Isolate builds from each other and other users of the cluster. Authored by Leon Leighton.\\
-  \item[Automation of VM and container creation/removal]
-    Automate the creation and removal of virtual machines and containers. Authored by Leon Leighton.\\\\
+  \item[Resource Management]
+    Manage resources by automating the creation and removal of virtual machines and containers. Authored by Leon Leighton.\\\\
   \item[Login]
     Use an existing login. Authored by Derek Wong.\\
   \item[Build Status]
@@ -120,7 +120,7 @@ Ansible playbooks exists that will deploy our CI system on a POWER8 OpenStack cl
 
 \subsection{Isolation}
 \subsubsection{CARD}
-As an open source software developer  I want my project builds to be isolated from other projects, so that my builds and test complete without outside interference.
+As an open source software developer, I want my project builds to be isolated from other projects, so that my builds and test complete without outside interference.
 \subsubsection{CONVERSATION}
 Our project will be hosted on the OSL's POWER8 OpenStack cluster and we want to ensure that our usage of the cluster does not negatively impact other users of the system.
 Additionally, we do not want to run builds and tests in such a way that our users could interfere with each other.
@@ -131,17 +131,20 @@ By using these components we can leverage OpenStack's ability to manage virtual 
 \subsubsection{CONFIRMATION}
 Projects are built in virtual machines or containers.
 
-\subsection{Automation of VM and container creation/removal}
+\subsection{Resource Management}
 \subsubsection{CARD}
-As a system administrator, I want to automate the creation and removal of virtual machines and containers, so that projects are not waiting on manual intervention.
+As an open source software developer, I want my project builds to finish in a timely manner, so that I can receive build and test feedback as quickly as possible.
 \subsubsection{CONVERSATION}
-The primary goal of this project is to provide an automated solution for open source projects to build and test their software on POWER8.
-To meet this goal we will need to have the ability to automate the creation and removal of the virtual machines and containers where the builds will take place.
+The users of our project want their builds to run as soon as possible.
+However, our project has a finite amount of resources available on the POWER8 OpenStack cluster.
+This may cause a delay in starting a build if the necessary resources are not available.
+Builds should be queued to run in the order received if the resources are not available to run them immediately.
+In order to ensure that resources are available for new builds, we will need to automatically remove old VMs and containers.
 As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
 In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
-This will give us the ability to automate the creation and removal of VMs and containers.
+This will give us the ability to automate both the creation and removal of VMs and containers.
 \subsubsection{CONFIRMATION}
-The creation and removal of the virtual machines and containers used for building and testing is automated.
+Builds are triggered immediately if resources are available, and queued in the order recieved otherwise.
 
 \subsection{Login}
 \subsubsection{CARD}
