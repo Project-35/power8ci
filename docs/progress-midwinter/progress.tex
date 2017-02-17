@@ -42,7 +42,7 @@ basicstyle=\ttfamily
   \vspace{4cm}
   \begin{abstract}
   \noindent This document contains an overview of the Winter midterm progress of the POWER8 Continuous Integration project.
-    It includes the goals and purpose of the project and a reflection on the previous six weeks.
+    It includes the goals and purpose of the project, our current status, and future goals.
  \end{abstract}
 \end{titlepage}
 
@@ -77,7 +77,7 @@ Several plugins for Jenkins exist that will allow us to interact with OpenStack 
 Writing these documents enabled us to put together ideas about how we will go forward during Winter term to implement the system.
 
 \section{Current Progress}
-The following is the status of our project as of the sixth week of Winter term. It is separated into individual team member sections.
+The following is the status of our project as of the sixth week of Winter term. It is separated into individual team member sections. Our Alpha level release is available at http://140.211.168.153:8080/
 \subsection{Leon Leighton}
 I started out the term by establishing the foundation for our project.
 We require a virtual machine running on the OSL's POWER8 OpenStack cluster.
@@ -99,7 +99,7 @@ Ansible provides a service called Ansible Galaxy where roles can be shared with 
 I found a role called `geerlingguy.jenkins' that installs Jenkins and its dependencies.
 This role also allows options to be passed, such as which plugins to install.
 After successfully running Ansible to install Jenkins, and after Derek Wong used the options to install the needed GitHub plugins,
-I configured Jenkins authenticate users with their GitHub credentials.
+Derek and I configured Jenkins to authenticate users with their GitHub credentials.
 We then created some simple jobs within Jenkins to verify its ability to pull a repository from GitHub and build the software.
 We created one job that we expected to succeed and one that we expected to fail.
 Both of these were very simple C programs.
@@ -113,7 +113,7 @@ Below is a screenshot showing our Jenkins jobs.
 \end{figure}
 
 \subsection{Thomas Olson}
-I created some diagrams to better lay out the structure of the system that we're building. I looked into the use of Docker and Kubernetes as container management solutions on a cluster. I researched methods for having Jenkins communicate with Docker, Kubernetes and Openstack to facilitate the provisioning of containers and virtual machines for running builds on. I did not do much in the form of implementation as such features would be a part of the beta release at the earliest, and not the alpha release.
+I created some diagrams to better lay out the structure of the system that we're building. I looked into the use of Docker and Kubernetes as container management solutions on a cluster. I researched methods for having Jenkins communicate with Docker, Kubernetes and Openstack to facilitate the provisioning of containers and virtual machines for running builds on. I did not do much in the form of implementation as such features would be a part of the beta release at the earliest, and not the alpha release. Below is the diagram of our current infrastructure.
 
 \begin{figure}[H]
   \centering
@@ -138,7 +138,7 @@ This will provide better isolation between Jenkins jobs.
 Jenkins has an OpenStack plugin, and I will be investigating how to use it to best achieve our goals.
 
 \subsection{Thomas Olson}
-For the future, I will need to implement the system we choose to use for managing and provisioning containers and implementing a method for users to include a YAML file for configuring their build process and environment. I will also need to look into creating basic images for containers that can be used to run builds in. Finally, I will need to put all of this into the Ansible playbook so that others may deploy this part of the system on their own clusters.
+For the future, I will need to implement the system we choose to use for managing and provisioning containers and implementing a method for users to include a YAML file for configuring their build process and environment. I will also need to look into creating basic images for containers that can be used to run builds in. Finally, I will need to put all of this into the Ansible playbook so that others may deploy this part of the system on their own clusters. Below is a diagram showing our goal for our infrastructure.
 
 \begin{figure}[H]
   \centering
@@ -147,15 +147,21 @@ For the future, I will need to implement the system we choose to use for managin
 \end{figure}
 
 \subsection{Derek Wong}
-Now that we have basic jenkins set up, we can continue working on the configurations and making improvements to it. My job will be deciding which plugins will be necessary in our continuous integration service. I have already implemented the Github OAuth Plugin to jenkins. This plugin is used for authentication and authorization. It is what we are using to set permissions for users of our service. The next plugin that I am planning to implement is the Build Monitor Plugin, which shows all the information of a project being build, as well as unique features that benefits our users. This is one of the technology in the technology review document that we decided to use and we intend to implement it before we work on other features. As of now, those are all the plugins we are going to use, and I will continue to do more research and see what other plugins will improve and benefit our project. Aside from plugins, I will begin researching more information about security. Our client has emphasized how security is really important in our project, so that is one of the top priorities we need to do. Aside from those tasks, I will help with finding solutions to problems that we might run into in the future.
+Now that we have basic jenkins set up, we can continue working on the configurations and making improvements to it. My job will be deciding which plugins will be necessary in our continuous integration service. I have already implemented the Github OAuth Plugin to jenkins. This plugin is used for authentication and authorization. It is what we are using to set permissions for users of our service. The next plugin that I am planning to implement is the Build Monitor Plugin, which shows all the information of a project being built, as well as unique features that benefits our users. This is one of the technologies in the technology review document that we decided to use and we intend to implement it before we work on other features. As of now, those are all the plugins we are going to use, and I will continue to do more research and see what other plugins will improve and benefit our project. Aside from plugins, I will begin researching more information about security. Our client has emphasized how security is really important in our project, so that is one of the top priorities we need to do. Aside from those tasks, I will help with finding solutions to problems that we might run into in the future.
 
 
-\section{Problems}
+\section{Problems and Solutions}
+Below is a discussion of some problems that we ran into during the first half of Winter term and some ways we are working to resolve them
 \subsection{Leon Leighton}
-Unfortunately, it took longer than expected to setup and the VM and Jenkins.
+Unfortunately, it took longer than expected to setup the OpenStack VM and Jenkins.
 This caused a problem for Thomas Olson and Derek Wong, as they could not continue some of their work until I had completed the foundational elements.
+While we have passed this particular bottleneck, our intent going forward is to try to be aware of issues that are blocking others and to work together more effectively to overcome them.
 
-\subsection{Thomas Olson}
+We also had a problem with a lack of communication on our part with our client. Some of our issues could have probably been resolved sooner had we communicated more effectively. 
+In order to resolve this, we will be sending our client an email at the beginning of every week detailing our goals for the week.
+This will also afford us a time to discuss any ideas or problems that have come up during the previous week. 
+In addition to the weekly email, we will also begin to use the Issues feature on GitHub so that any problems we encounter will be more visible to our client. 
+
 
 \subsection{Derek Wong}
 The authentication for the Github OAuth Plugin works fine as it lets user login with their github credentials. We have tested it on several accounts and there were no problems. The authorization part of this plugin is a little different. Currently, it does not grant users that have permission to build a project even thought they are supposed to. We set the permissions so that users who have contributed to a project in the github repository should have the ability to create a job for that project in jenkins, and have the ability to build it. There is no solution to it currently but we are looking into it.
