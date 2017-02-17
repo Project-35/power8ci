@@ -192,7 +192,7 @@ RedHat Enterprise Linux is widely considered to be one of the standard Linux dis
 \subsubsection{CentOS}
 CentOS is an unbranded version of RedHat Enterprise Linux, providing the same functionality and stability with only very minor functional differences. It is supported by the CentOS Project and is free for all use. As a result, it does not have the certifications nor the dedicated support of RedHat Enterprise Linux. As it tries to track the development of RedHat Enterprise Linux very closely, CentOS has approximately the same ten-year support cycle\cite{centlife}, but it does not have the same extended support period provided by Red Hat.
 \subsubsection{Ubuntu Server}
-Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu also tends to update application packages sooner, trading some amount of stability for newer functionality.
+Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu tends to update application packages sooner, trading some amount of stability for newer functionality. Finally, Ubuntu has better support for containers compared to CentOS.
 \subsection{Goals for use}
 The operating system  selection will have a major effect on the stability and ease-of-use of the entire system. Our goal is to select an operating system that is stable, widely supported and easy to work with.
 \subsection{Criteria for Evaluation}
@@ -213,9 +213,9 @@ The operating system  selection will have a major effect on the stability and ea
   \end{tabular}
 \end{center}
 \subsection{Discussion}
-As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux are negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement.
+As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux are negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement. However, the client has expressed an interest in using containers and using Ubuntu as a result of that.
 \subsection{Selection of best option}
-We have opted for using CentOS as the operating system that builds will be ran on and tested against. It provides the necessary stability and a wide base of support with a ten-year life cycle, while also being easy to configure, deploy and maintain.
+We have opted for using Ubuntu as the operating system that builds will be ran on and tested against as per the client's request.
 \section{Platform for Running Builds}
 \subsection{Options}
 \subsubsection{Virtual Machine}
@@ -248,7 +248,7 @@ Although bare metal servers have undeniably the best performance, security and r
 
 Between virtual machines and containers, virtual machines provide better security and have years of support behind them, while containers provide better performance; virtual machines can have a performance penalty upwards of ten percent due to overhead.\cite{RC25482} Both virtual machines and containers allow for limiting the resources provided to a running instance, meeting the reliability requirements. They are also both exceedingly easy to configure for automated deployment, making them highly scalable.
 \subsection{Selection of best option}
-Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on.
+Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on. However, as per our client's request, the system should also support the use of containers if at all possible for running builds in. As such, we will support both the use of virtual machines and containers for builds to be ran in.
 
 \section{Configuration File Formats}
 \subsection{Options}
