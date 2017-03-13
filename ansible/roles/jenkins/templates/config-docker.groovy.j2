@@ -1,0 +1,63 @@
+
+import com.nirima.jenkins.plugins.docker.DockerCloud
+import com.nirima.jenkins.plugins.docker.DockerTemplate
+import com.nirima.jenkins.plugins.docker.DockerTemplateBase
+import com.nirima.jenkins.plugins.docker.strategy.DockerCloudRetentionStrategy
+import com.nirima.jenkins.plugins.docker.launcher.DockerComputerSSHLauncher
+import hudson.plugins.sshslaves.SSHConnector
+import jenkins.model.Jenkins
+
+
+ArrayList<DockerTemplate> templates = new ArrayList<DockerTemplate>()
+
+
+DockerTemplate ubuntuTemplate = new DockerTemplate(
+    new DockerTemplateBase( //DockerTemplateBase
+        'jenkins-3', // image
+        '', // dnsString
+        '/usr/sbin/sshd -D', // dockerCommand
+        '', // volumesString
+        '', // volumesFromString
+        '', // environmentsString
+        '', // lxcConfString
+        '', // hostname
+        2048, // memoryLimit
+        2048, // memorySwap
+        2, // cpuShares
+        '', // bindPorts
+        false, // bindAllPorts
+        false, // privileged
+        false, // tty
+        '' // macAddress
+    ),
+    'testslave', // labelString
+    '', // remoteFs
+    '', // remoteFsMapping
+    '50'// instanceCapStr
+)
+debianTemplate.setRetentionStrategy(
+    new DockerCloudRetentionStrategy(0) // Idle minutes
+)
+debianTemplate.setLauncher(
+    new DockerComputerSSHLauncher(
+        new SSHConnector(22, 'ssh-jenkins', null, null, null, null, null)
+    )
+)
+templates.add(ubuntuTemplate)
+
+
+DockerCloud docker = new DockerCloud(
+    'docker', // name
+    templates, // templates
+    'tcp://127.0.0.1:2375', // serverUrl
+    '400', // containerCapStr
+    5, // connectTimeout
+    15, // readTimeout
+    '', // credentialsId
+    ''  // version
+)
+
+
+Jenkins.instance.clouds.add(docker)
+Jenkins.instance.setNumExecutors(0)
+Jenkins.instance.save()

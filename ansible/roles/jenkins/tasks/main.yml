@@ -1,0 +1,52 @@
+- name: Install Docker
+  #sudo: yes
+  package: name=docker.io state=present
+
+- name: Move systemd file prior to chaning
+  command: cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
+
+- name: Set docker to listen on tcp port 2375
+  lineinfile:
+    dest: /etc/systemd/system/docker.service
+    regexp: '^ExecStart'
+    line: 'ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375'
+
+- name: Start Docker service
+    #sudo: yes
+  service:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Create docker group
+  #sudo: yes
+  group: name=docker
+
+- name: Wait for docker socket.
+  #sudo: yes
+  wait_for:
+    path: /var/run/docker.sock
+    state: present
+
+- name: Set docker socket permissions
+  #sudo: yes
+  file:
+    path: /var/run/docker.sock
+    mode: 0660
+    owner: root
+    group: docker
+
+
+- name: Configure GitHub Oauth Plugin in Jenkins
+  template: >
+    src=./roles/jenkins/templates/config-oauth.groovy.j2
+    dest=/var/lib/jenkins/init.groovy.d/config-oauth.groovy
+    owner=jenkins
+    group=jenkins
+
+- name: Configure Docker in Jenkins
+  template: >
+    src=./roles/jenkins/templates/config-docker.groovy.j2
+    dest=/var/lib/jenkins/init.groovy.d/config-docker.groovy
+    owner=jenkins
+    group=jenkins

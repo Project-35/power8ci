@@ -1,3 +1,3 @@
-jenkins_plugins: [ github, github-oauth ]
+jenkins_plugins: [ github, github-oauth, docker-plugin, simple-travis-runner ]
 jenkins_admin_username: admin
 jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
