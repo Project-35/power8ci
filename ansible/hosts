@@ -1,1 +1,5 @@
-140.211.168.153 ansible_python_interpreter=/usr/bin/python2.7
+[jenkins]
+power-ci.osuosl.org ansible_python_interpreter=/usr/bin/python2.7
+
+[docker]
+140.211.168.132 ansible_python_interpreter=/usr/bin/python2.7

@@ -1,8 +1,17 @@
 - name: Install and configure Jenkins
-- hosts: 140.211.168.153
+  hosts: jenkins
   roles:
     - geerlingguy.jenkins
     - jenkins
+  remote_user: ubuntu
+  become: yes
+  vars_files:
+    - group_vars/jenkins
+
+- name: Install and configure Docker
+  hosts: docker
+  roles:
+    - docker
   remote_user: ubuntu
   become: yes
   vars_files:
