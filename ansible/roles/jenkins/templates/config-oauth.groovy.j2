@@ -7,8 +7,8 @@ import org.jenkinsci.plugins.GithubSecurityRealm
 
 String githubWebUri = 'https://github.com'
 String githubApiUri = 'https://api.github.com'
-String clientID = {{ oauth.clientid }}
-String clientSecret = {{ oauth.clientsecret }}
+String clientID = '{{ oauth.clientid }}'
+String clientSecret = '{{ oauth.clientsecret }}'
 String oauthScopes = 'read:org'
 SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
 //check for equality, no need to modify the runtime if no settings changed
