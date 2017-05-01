@@ -1,8 +1,6 @@
-- name: Install and configure Jenkins
+- name: Install Web Server and Web Site
   hosts: jenkins
   roles:
-    - geerlingguy.jenkins
-    - jenkins
     - web
   remote_user: ubuntu
   become: yes

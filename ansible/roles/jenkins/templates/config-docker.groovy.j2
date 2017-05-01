@@ -15,6 +15,7 @@ DockerTemplate ubuntuTemplate = new DockerTemplate(
     new DockerTemplateBase( //DockerTemplateBase
         'jenkins-3', // image
         '', // dnsString
+        '', // network
         '/usr/sbin/sshd -D', // dockerCommand
         '', // volumesString
         '', // volumesFromString
@@ -35,10 +36,10 @@ DockerTemplate ubuntuTemplate = new DockerTemplate(
     '', // remoteFsMapping
     '50'// instanceCapStr
 )
-debianTemplate.setRetentionStrategy(
+ubuntuTemplate.setRetentionStrategy(
     new DockerCloudRetentionStrategy(0) // Idle minutes
 )
-debianTemplate.setLauncher(
+ubuntuTemplate.setLauncher(
     new DockerComputerSSHLauncher(
         new SSHConnector(22, 'ssh-jenkins', null, null, null, null, null)
     )
@@ -49,7 +50,7 @@ templates.add(ubuntuTemplate)
 DockerCloud docker = new DockerCloud(
     'docker', // name
     templates, // templates
-    'tcp://140.211.168.132:2375', // serverUrl
+    'tcp://192.168.0.4:2375', // serverUrl
     '400', // containerCapStr
     5, // connectTimeout
     15, // readTimeout

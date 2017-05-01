@@ -1,3 +1,71 @@
+- name: Include Secret Variables
+  include_vars: secret.yml
+
+- name: Create Plugin Directory
+  file: path=/var/lib/jenkins/plugins state=directory
+
+- name: Install Build Monitor Plugin
+  jenkins_plugin:
+    name: build-monitor-plugin
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Matrix Authorization Plugin
+  jenkins_plugin:
+    name: matrix-auth
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Docker-Build-Publish Plugin
+  jenkins_plugin:
+    name: docker-build-publish
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Docker Plugin
+  jenkins_plugin:
+    name: docker-plugin
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Email Notification Plugin
+  jenkins_plugin:
+    name: emailext-template
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Embeddable Build Status Plugin
+  jenkins_plugin:
+    name: embeddable-build-status 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install GitHub Branch Source Plugin
+  jenkins_plugin:
+    name: github-branch-source
+    params: "{{ my_jenkins_params }}"
+
+
+- name: Install Multibranch Plugin
+  jenkins_plugin:
+    name: workflow-multibranch
+    params: "{{ my_jenkins_params }}"
+
+
+- name: Install GitHub Oauth Plugin
+  jenkins_plugin:
+    name: github-oauth
+    params: "{{ my_jenkins_params }}"
+
+- name: Install GitHub Plugin
+  jenkins_plugin:
+    name: github 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Job Restrictions Plugin
+  jenkins_plugin:
+    name: job-restrictions 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install OpenStack Cloud Plugin
+  jenkins_plugin:
+    name: openstack-cloud 
+    params: "{{ my_jenkins_params }}"
+
 - name: Configure GitHub Oauth Plugin in Jenkins
   template: >
     src=./roles/jenkins/templates/config-oauth.groovy.j2
@@ -11,3 +79,12 @@
     dest=/var/lib/jenkins/init.groovy.d/config-docker.groovy
     owner=jenkins
     group=jenkins
+
+- name: Install Email config
+  copy: src=hudson.tasks.Mailer.xml dest=/var/lib/jenkins/ mode=0644
+
+- name: Restart Jenkins 
+  service:
+    name: jenkins
+    state: restarted
+

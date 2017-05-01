@@ -1,0 +1,8 @@
+- name: Install Apache
+  apt: name=apache2 state=present
+
+- name: Install index.html
+  copy: src=index.html dest=/var/www/html/index.html mode=0664
+
+- name: Enable Apache
+  systemd: name=apache2 enabled=yes state=restarted
