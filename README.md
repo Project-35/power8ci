@@ -15,5 +15,6 @@ The OSL hosts a Jenkins server on a OpenStack cluster that runs on POWER8 server
   * This is the primary target for the Ansible playbook
   * Tested with Ubuntu 16.04 ppc64le  
 * (At least) One Docker host VM on the OpenStack cluster
-
-
+  * This should have Docker installed and listening on a tcp port
+* A host computer from which to run the Ansible playbook
+  * Ansible version >= 2.3
