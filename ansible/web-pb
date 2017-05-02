@@ -1,8 +1,0 @@
-- name: Install Web Server and Web Site
-  hosts: jenkins
-  roles:
-    - web
-  remote_user: ubuntu
-  become: yes
-  vars_files:
-    - group_vars/jenkins

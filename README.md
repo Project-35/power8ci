@@ -11,10 +11,42 @@ The OSL hosts a Jenkins server on a OpenStack cluster that runs on POWER8 server
 ## Requirements
 
 * POWER8 OpenStack Cluster  
+  * Used both for hosting Jenkins and for launching build VMs
 * One VM on the OpenStack cluster to act as the Jenkins master
   * This is the primary target for the Ansible playbook
-  * Tested with Ubuntu 16.04 ppc64le  
+  * Python installed 
+  * Tested with Ubuntu 16.04 ppc64le and Python 2.7.12
 * (At least) One Docker host VM on the OpenStack cluster
   * This should have Docker installed and listening on a tcp port
 * A host computer from which to run the Ansible playbook
   * Ansible version >= 2.3
+* GitHub -- Used for both authentication, and as the source for code
+
+## Installation 
+
+First, clone our repo. Then you will need to go to GitHub and register a new OAuth application. You
+can find this under your account or organization by going to Settings -> OAuth
+applications. Select the "Register a new application" button and fill in your
+information. We use a `secret.yml` file that is not commited to GitHub to keep these in. Create that
+file in `roles/jenkins/vars/` with the following content:
+```
+oauth:
+  clientid: '<your clientid from GitHub>'
+  clientsecret: '<your clientsecret from GitHub>'
+```
+
+You will also want a to get a GitHub token for your admin user. Go to your users Settins page and click
+on Personal access tokens. Add that to the same secret.yml file as above:
+```
+my_jenkins_params:
+  url_username: <your admin user's GitHub username>
+  url_password: <your GitHub token>
+  url: < Your Jenkins url -- http://jenkins.example:8080>
+```
+Next, edit the hosts file to replace power-ci.osuosl.org with your VM's IP address or hostname.
+
+Now run the Ansible playbook. You will need your ssh key for your OpenStack VM.
+```
+ansible-playbook -i hosts jenkins.yml --private-key=<your ssh key>
+```
+
