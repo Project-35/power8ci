@@ -18,6 +18,10 @@ The OSL hosts a Jenkins server on a OpenStack cluster that runs on POWER8 server
   * Tested with Ubuntu 16.04 ppc64le and Python 2.7.12
 * (At least) One Docker host VM on the OpenStack cluster
   * This should have Docker installed and listening on a tcp port
+* An OpenStack snapshot of a VM for your builds.
+  * This allows you to create multiple VMs with different configurations
+* A Docker image
+  * We use one modified from ppc64le/ubuntu:16.04 ppc64le/ubuntu:16.04
 * A host computer from which to run the Ansible playbook
   * Ansible version >= 2.3
 * GitHub -- Used for both authentication, and as the source for code
@@ -43,10 +47,15 @@ my_jenkins_params:
   url_password: <your GitHub token>
   url: < Your Jenkins url -- http://jenkins.example:8080>
 ```
-Next, edit the hosts file to replace power-ci.osuosl.org with your VM's IP address or hostname.
+Next, edit the hosts file and group_vars/jenkins to replace power-ci.osuosl.org with your VM's IP address or hostname.
 
 Now run the Ansible playbook. You will need your ssh key for your OpenStack VM.
 ```
 ansible-playbook -i hosts jenkins.yml --private-key=<your ssh key>
 ```
 
+## Configuration
+
+You should now be able to login to the Jenkins interface and configure the OpenStack Cloud Plugin.
+Go to Manage Jenkins -> Configure System. You can also label your Docker Image(s) and Build VMs
+so that you can specify the specific platform for individual builds. 

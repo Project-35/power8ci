@@ -1,4 +1,1 @@
 jenkins_hostname: power-ci.osuosl.org
-jenkins_plugins: [github, github-oauth]
-jenkins_admin_username: admin
-jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
