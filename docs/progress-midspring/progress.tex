@@ -1,0 +1,79 @@
+\documentclass[10pt,onecolumn,journal,draftclsnofoot]{IEEEtran}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tabu}
+\usepackage{enumitem}
+\usepackage{courier}
+\usepackage{hyperref}
+\usepackage{parskip}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=none,
+language=C,
+columns=flexible,
+numberstyle=\tiny\color{gray},
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=4,
+showstringspaces=false,
+basicstyle=\ttfamily
+}
+
+\setlength{\parindent}{0cm}
+
+\begin{document}
+\begin{titlepage}
+  \pagenumbering{gobble}
+  \title{POWER8 Continuous Integration\\ Spring Midterm Progress Report}
+  \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35}
+  \date{May 15, 2017}
+  \maketitle
+  \vspace{4cm}
+  \begin{abstract}
+  \noindent This document contains an overview of the progress of the POWER8 Continuous Integration project.
+    It includes the goals and purpose of the project, the current status, items remaining to be done, 
+    and a discussion of problems we have encountered. 
+ \end{abstract}
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\clearpage
+
+\section{Project Goals}
+The primary goal of this project is to create a continuous integration (CI) system for IBM's POWER8 architecture.
+This CI system will be available to open source software projects, giving them the ability to build and test their software on POWER8 without the need for them to acquire new hardware.
+We will be utilizing the OSU Open Source Lab's POWER8 OpenStack cluster to deploy our project and run the builds and tests.
+We also aim to make the system easy to use while still giving users the ability to customize their build environment.
+Our focus will be on interacting with GitHub to trigger new builds as developers commit new changes to their code.
+Users will be able to access the status of their builds to gain information about build or test failures.
+They will also be able to download the binaries built by the system.
+Our project will also be open source and hosted on GitHub which will allow others to replicate our project on their own systems.
+
+\section{Current Progress}
+
+\section{Remaining Items}
+
+\section{Problems and Solutions}
+
+\section{Retrospective}
+\begin{center}
+	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}\hline
+		Positives & Deltas & Actions \\ \hline
+		Communication with client & Clarify design elements 	& Revise design document \\ \hline
+		Communication with OSL & Lack of feedback between team members while writing documents & Share and request feedback earlier in writing process \\ \hline
+		Communication between team members	& Some assignments rushed & Begin work earlier and keep each other up to date. \\ \hline
+		Completed and turned in required documents & Did not make full use of clients availability & Ask for help or feedback from client earlier in process \\ \hline
+	\end{tabular}
+\end{center}
+
+\end{document}
