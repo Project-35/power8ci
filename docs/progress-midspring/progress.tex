@@ -61,29 +61,26 @@ Our project will also be open source and hosted on GitHub which will allow other
 
 \section{Current Progress}
 Our project is currently feature complete with a few bugs and requested changes remaining to be resolved.
-We currently have two virtual machines running on the OSL's POWER8 OpenStack cluster. 
+We currently have two virtual machines running on the OSL's POWER8 OpenStack cluster.
 One serves as the Jenkins and web host, and the other serves as a Docker host. 
+We use Ansible to install and configure Jenkins, Jenkins plugins, and our web site. 
 Jenkins is the primary means of automating builds.
 Depending on options selected by the user, Jenkins will direct the Docker host to start a container or direct OpenStack to start
 a new virtual machine. 
 Currently, Docker is the default if no option is selected by the user.
 
 We make extensive use of existing Jenkins plugins.
-The GitHub OAuth Plugin is used for authentication.
-This means that our users are able to login to our service with their GitHub account.
+The GitHub OAuth Plugin is used for authentication allowing our users to login to our service with their GitHub account.
 For authorization, we are using the Matrix Authorization Strategy Plugin to give users the permissions that they need to run their builds and tests.
 The Build Monitor, Embeddable Build Status, and the Email Notification plugins are used to communicate the status of Jenkins jobs to the user.
-The Embeddable Build Status is used to create a GitHub Badge and will allow developers to see their build status when they go into their GitHub page.
+The Embeddable Build Status Plugin is used to create a GitHub Badge and will allow developers to see their build status on their project's GitHub page.
 The Email Notification Plugin can be used to send an email to the developers whenever a build is broken.
-The Build Monitor plugin can be used to create a view that can give a user an overview of all their projects and their statuses.
+The Build Monitor Plugin can be used to create a view that can give a user an overview of all their projects and their statuses.
 
-
-One of our goals is to have developers build their project in Docker Containers or Virtual Machine, so the Job Restriction Plugin is what we used to bind them to those options.
-If no option is chose between the two, the project will build in a Docker Container by default.
-The last plugin on my list is the Docker Plugin and that is installed so developers can build in Docker Containers.
-Most of the work is done through Ansible.
-The installation of our POWER8 CI is deployed from it.
-We have setup Ansible to configure and install plugins into Jenkins.
+To provide isolation between Jenkins jobs we use the Docker, CloudBees Docker Build and Publish, OpenStack, and Job Restriction plugins. 
+The Docker and CloudBees Docker Build and Publish plugins enable the use of either a pre-built container image, or a user supplied Dockerfile.
+The OpenStack Plugin allows a user to run their build in a completely separate VM which provides the maximum amount of isolation between project builds. 
+The Job Restriction Plugin allows us to enforce building in either a Docker container or a VM, and allows us to prevent building jobs on the Jenkins instance itself. 
 
 
 \section{Remaining Items}
