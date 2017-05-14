@@ -1,3 +1,4 @@
+ansible/roles/jenkins/vars/secret.yml
 *.swp
 
 ## Core latex/pdflatex auxiliary files:
