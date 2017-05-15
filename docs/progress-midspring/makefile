@@ -6,7 +6,7 @@ XDVI	= xdvi -gamma 4
 GH		= gv
 
 EXAMPLES = $(wildcard *.h)
-SRC	:= progress.tex #$(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
+SRC	:= progress-midspring.tex #$(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
 TRG	= $(SRC:%.tex=%.dvi)
 PSF	= $(SRC:%.tex=%.ps)
 PDF	= $(SRC:%.tex=%.pdf)

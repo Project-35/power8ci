@@ -84,6 +84,21 @@ The Job Restriction Plugin allows us to enforce building in either a Docker cont
 
 
 \section{Remaining Items}
+We have a few items remaining to be done before the end of the capstone project.
+We expect to have all of the following items done soon, but they are not complete at the time of writing this progress report.
+The first item is to use the Apache web server as a reverse proxy to the Jenkins interface.
+This change would allow us to use TLS to secure the login to Jenkins, as well as remove the need to use an alternate port number. 
+That is, instead of using http://power-ci.osuosl.org:8080 to access Jenkins, one would use https://power-ci.osuosl.org/jenkins. 
+Another item is to use our web site, https://power-ci.osuosl.org, to host basic documentation about the use of the system.
+This would include information about how to request access and what abilities our service provides.
+Also, relevant links to existing Jenkins documentation will be provided. 
+A third item to be completed is the onboarding process itself. 
+After discussions with IBM and the OSL, we will be making a change to the existing PowerLinux / OpenPOWER Request Form at http://osuosl.org/services/powerdev/request\_hosting/ to allow projects the ability to request access to the POWER8 CI system and get the GitHub username that should be added to the system. 
+This request will go to the OSL and IBM for approval before access is granted.
+The final item that we are in the process of, but remains to be completed, is to continue to build more complicated jobs to find and resolve any bugs.
+For obvious reasons, we started with very simple Jenkins jobs to ensure the basic functioning of our CI system.
+However, more complicated builds enable us refine needed components of our Docker container and virtual machine images, as well as any permission issues within Jenkins itself.
+
 
 \section{Problems and Solutions}
 
