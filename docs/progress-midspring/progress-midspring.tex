@@ -102,16 +102,20 @@ However, more complicated builds enable us refine needed components of our Docke
 
 
 \section{Problems and Solutions}
+This term we have run into two problems which slowed our progress.
+The first is not taking full advantage of the resources available from IBM\@.
+IBM has employees who have worked with Jenkins, Docker, and Ansible.
+It would have been to our benefit to reach out earlier in the process to these resources to help resolve configuration problems that we encountered.
+By not taking advantage of these available resources it has taken us longer to solve problems, and we may have missed better solutions to those problems.
+The second problem we encountered was not having a wide variety of test builds.
+As we open up our project to the public we want to be confident that they will not run into any problems in using our CI service.
+Different builds that have different requirements and complexities can show us where our virtual machine and Docker container images are lacking needed resources or configurations. 
+If we had prioritized having a variety of builds earlier we would have been solving some of the problems we have only encountered more recently at an earlier stage of development.
 
-\section{Retrospective}
-\begin{center}
-	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}\hline
-		Positives & Deltas & Actions \\ \hline
-		Communication with client & Clarify design elements 	& Revise design document \\ \hline
-		Communication with OSL & Lack of feedback between team members while writing documents & Share and request feedback earlier in writing process \\ \hline
-		Communication between team members	& Some assignments rushed & Begin work earlier and keep each other up to date. \\ \hline
-		Completed and turned in required documents & Did not make full use of clients availability & Ask for help or feedback from client earlier in process \\ \hline
-	\end{tabular}
-\end{center}
-
+To attempt to solve these problems we have been working closer with IBM to get a variety of builds to test on our CI system.
+We have been given builds that IBM has been running internally on their Jenkins infrastructure.
+At first, these builds failed on our system, but we were able to identify and fix the problems.
+IBM has also reached out to other projects to see if any are interested in beta testing our CI system.
+These projects were identified as already using virtual machines available from the OSL to run their own CI system on POWER8.
+We are currently waiting to hear back from those projects.
 \end{document}
