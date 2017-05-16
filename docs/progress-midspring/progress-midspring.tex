@@ -63,12 +63,34 @@ Our project will also be open source and hosted on GitHub which will allow other
 Our project is currently feature complete with a few bugs and requested changes remaining to be resolved.
 We currently have two virtual machines running on the OSL's POWER8 OpenStack cluster.
 One serves as the Jenkins and web host, and the other serves as a Docker host. 
-In addition, at any given time, multiple build VMs may be running to service Jenkins jobs that have requested to be built in a separate virtual machine rather than in a Docker container.
+In addition, at any given time, multiple build VMs may be running to service Jenkins jobs that have requested to be built in a separate virtual machine rather than in a Docker container.\\
+\begin{figure}[H] 
+  \includegraphics[width=\textwidth]{images/infrastructure_diagram.eps}
+  \caption{POWER8 CI Infrastructure Diagram}
+\end{figure}
+
 We use Ansible to install and configure Jenkins, Jenkins plugins, and our web site. 
-Jenkins is the primary means of automating builds.
+\begin{lstlisting} [caption={Ansible playbook to install and configure Jenkins, Jenkins plugins, and the power-ci web page}]
+- name: Install and configure Jenkins
+  hosts: jenkins
+  roles:
+    - geerlingguy.jenkins
+    - jenkins
+    - web
+  remote_user: ubuntu
+  become: yes
+  vars_files:
+    - group_vars/jenkins
+\end{lstlisting} 
+Jenkins is the primary means of automating builds, and the Jenkins interface is where users create and configure their builds.
 Depending on options selected by the user, Jenkins will direct the Docker host to start a container or direct OpenStack to start
 a new virtual machine. 
 Currently, Docker is the default if no option is selected by the user.
+
+\begin{figure}[H] 
+  \includegraphics[width=\textwidth]{images/jenkins.eps}
+  \caption{Jenkins Interface}
+\end{figure}
 
 We make extensive use of existing Jenkins plugins.
 The GitHub OAuth Plugin is used for authentication allowing our users to login to our service with their GitHub account.
@@ -82,6 +104,14 @@ To provide isolation between Jenkins jobs we use the Docker, CloudBees Docker Bu
 The Docker and CloudBees Docker Build and Publish plugins enable the use of either a pre-built container image, or a user supplied Dockerfile.
 The OpenStack Plugin allows a user to run their build in a completely separate VM which provides the maximum amount of isolation between project builds. 
 The Job Restriction Plugin allows us to enforce building in either a Docker container or a VM, and allows us to prevent building jobs on the Jenkins instance itself. 
+
+Jenkins, the various Jenkins plugins, and the integration with GitHub, Docker, and OpenStack come together to create a Continuous Integration system.
+The following workflow diagram shows how these pieces fit together to support building and testing on POWER8.
+
+\begin{figure}[H] 
+  \includegraphics[width=\textwidth]{images/workflow.eps}
+  \caption{POWER8 CI Workflow Diagram}
+\end{figure}
 
 
 \section{Remaining Items}
