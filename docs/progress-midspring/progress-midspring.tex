@@ -69,7 +69,10 @@ In addition, at any given time, multiple build VMs may be running to service Jen
   \caption{POWER8 CI Infrastructure Diagram}
 \end{figure}
 
-We use Ansible to install and configure Jenkins, Jenkins plugins, and our web site. 
+We use Ansible to install and configure Jenkins, Jenkins plugins, and our web site.
+Using Ansible gives us a reproducible deployment of our system and documentation of what we have installed and configured.
+Keeping our Ansible playbook on GitHub makes it available to others who may want to deploy their own CI system based on our work.
+
 \begin{lstlisting} [caption={Ansible playbook to install and configure Jenkins, Jenkins plugins, and the power-ci web page}]
 - name: Install and configure Jenkins
   hosts: jenkins
@@ -91,7 +94,7 @@ Currently, Docker is the default if no option is selected by the user.
   \includegraphics[width=\textwidth]{images/jenkins.eps}
   \caption{Jenkins Interface}
 \end{figure}
-
+\clearpage
 We make extensive use of existing Jenkins plugins.
 The GitHub OAuth Plugin is used for authentication allowing our users to login to our service with their GitHub account.
 For authorization, we are using the Matrix Authorization Strategy Plugin to give users the permissions that they need to run their builds and tests.
@@ -113,7 +116,7 @@ The following workflow diagram shows how these pieces fit together to support bu
   \caption{POWER8 CI Workflow Diagram}
 \end{figure}
 
-
+\clearpage
 \section{Remaining Items}
 We have a few items remaining to be done before the end of the capstone project.
 We expect to have all of the following items done soon, but they are not complete at the time of writing this progress report.
