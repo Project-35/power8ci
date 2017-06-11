@@ -1,0 +1,616 @@
+\documentclass[10pt,letterpaper,onecolumn,draftclsnofoot]{IEEEtran}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  columns=flexible,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+
+\begin{document}
+\section{Requirements Document}
+\subsection{Introduction}
+\subsubsection{Purpose}
+The goal of this Software Requirements Specification is to set out the requirements for the POWER8 Build and Test Infrastructure project to help coordinate between the multiple stakeholders involved in bringing the project to fruition. This document is intended to be read by technically adept persons, with an emphasis on being read by the Oregon State University Open Source Lab, employees of IBM and faculty of the Oregon State University College of Engineering.
+\subsubsection{Scope}
+The POWER8 Build and Test Infrastructure shall automatically pull source code from online software repositories, build the required binaries for the POWER8 architecture, run required test suites on the binaries and make the binaries available for use. It shall allow interested parties to register their project's repository through an online interface to maximize ease of use. The system will vastly simplify the ability for open-source projects to test their source code on POWER8. This benefits the developers by allowing such projects to operate on a wider variety of platforms and benefits IBM by greatly increasing the accessibility of the POWER8 architecture to a enormous magnitude of open-source projects.
+\subsubsection{Overview}
+The rest of this Software Requirements Specification consists of the overall description of the system and the specific requirements for it as laid out in IEEE 830-1998, followed by the table of contents at the end of the document.
+
+\subsection{Overall description}
+\subsubsection{Product perspective}
+The POWER8 Build and Test Infrastructure will interface with software code repositories such as GitHub to automatically pull source code from those repositories to be built. It will run natively on POWER8 architecture hosted by the Oregon State University Open Source Lab.
+\subsubsection{Product functions}
+The system will allow people to register projects hosted on GitHub through a web interface to be automatically built, tested and released. Once a project is registered, the system will pull the updated version of the source code for a given project when it is updated. It will build the binaries for the POWER8 architecture in either a VM or a container and test them with tests provided by the user for regressions and errors. The user will be notified if the build and/or test suites failed. If everything succeeds, the system will upload the tested and verified binaries such that the user may access them.
+\subsubsection{User characteristics}
+This system will be intended to be used by people interested in expanding the scope of what architectures are supported by their platform. It will be targeted towards open source software developers with some experience in building and releasing software.
+\subsubsection{Apportioning of requirements}
+The fundamental base-line goal is for the system to be able to automatically do a pull-build-deploy cycle for a given project. Once that is complete, adding a test step to the cycle and a web interface are the next two goals. If time permits, further stretch goals may be considered.
+
+\subsection{Specific requirements}
+\subsubsection{External interfaces}
+\begin{enumerate}
+\item GitHub repository
+\item External authentication sources such as GitHub and Google.
+\item Test suites
+\item Test results
+\item Produced binaries
+\end{enumerate}
+\subsubsection{Functional requirements}
+\begin{enumerate}
+\item The system shall allow people to register projects hosted on GitHub through a web interface
+\item The system shall automatically build the software.
+\item The system shall run tests specified by the project.
+\item The system shall report the results of the test to the project.
+\item The system shall make the resulting binaries available to the project.
+\end{enumerate}
+\subsubsection{Design constraints}
+The software must compile and run on Linux running on POWER8.
+\subsubsection{Software system attributes}
+\paragraph{Security}
+All project builds should be isolated from both the host system and other project builds.
+\paragraph{Portability}
+The CI system should be able to be run on other POWER8 systems with a minimal amount of configuration.
+
+\clearpage
+\section{Design Document}
+\subsection{Introduction}
+The goal of this document is to communicate the requirements and design of the POWER8 Continuous Integration project.
+This information is conveyed in the form of user stories which contain three parts.
+The `CARD' contains the requirement and the role of the stakeholder.
+The `CONVERSATION' conveys how we intend to meet that requirement.
+Finally, the `CONFIRMATION' indicates a way that the meeting of the requirement can be verified.
+As can be seen from the user stories, the overall design of this project is one of integrating a number of existing resources and open source projects into a system which will provide a continuous integration system for IBM's POWER8 hardware.\\\\
+Below is a list of the user stories and the author.\\
+
+\begin{description}[leftmargin=12em,style=multiline]
+  \item[POWER8 Cluster]
+    POWER8 servers that can be used for Continuous Integration. Authored by Leon Leighton.\\
+  \item[Deployment/Configuration Management]
+    Manage installing the POWER8 CI system in a reproducible way. Authored by Leon Leighton.\\\\
+  \item[Isolation]
+    Isolate builds from each other and other users of the cluster. Authored by Leon Leighton.\\
+  \item[Resource Management]
+    Manage resources by automating the creation and removal of virtual machines and containers. Authored by Leon Leighton.\\
+  \item[Login]
+    Use an existing login. Authored by Derek Wong.\\
+  \item[Build Status]
+    Informing user of build status. Authored by Derek Wong.\\
+  \item[Persistant VMs]
+    Persistent virtual machines for our website and Jenkins. Authored by Derek Wong.\\
+  \item[Build Artifacts]
+    Access the built and tested files. Authored by Thomas Olson.\\
+  \item[Build/Environment Configuration]
+    Configure the build and testing environment and methods. Authored by Thomas Olson.\\\\
+  \item[Automation of Builds]
+    Automatically run builds when a commit is made to the repository. Authored by Thomas Olson.\\
+  \item[Pre-build VM images]
+    The system should use pre-built images for the base system of VMs. Authored by Thomas Olson.\\
+\end{description}
+
+\subsection{User Stories}
+\subsubsection{POWER8 Cluster}
+\paragraph{CARD}
+As an open source software developer, I want to build and test my software on POWER8, so that I can ensure proper functioning on that architecture.
+\paragraph{CONVERSATION}
+The goal of this project is to enable open source software projects to build and test their software on POWER8.
+The OSU Open Source Lab has a POWER8 cluster that will serve as the hardware basis for this project.
+The OSL POWER8 cluster runs OpenStack~\cite{openstackmain} and is managed via the Chef~\cite{chefmain} configuration management system.
+We will be working closely with the OSL to ensure that we have access to the POWER8 cluster for both testing and deployment of our Continuous Integration system.
+We will also work with the OSL to ensure that any needed OpenStack components are installed.
+\paragraph{CONFIRMATION}
+The POWER8 CI team members, in coordination with the OSL, are able to deploy the CI system on the OSL's POWER8 OpenStack cluster.
+
+\subsubsection{Deployment/Configuration Management}
+\paragraph{CARD}
+As a system administrator, I want to centralize the management of the POWER8 CI system, so that there is a single source of truth for the configuration of the system.
+\paragraph{CONVERSATION}
+We will need to deploy and configure multiple components to create the POWER8 CI system.
+In addition, one of the goals of our project is to enable others to recreate our POWER8 CI system.
+We can meet these needs and goals by using a configuration management system.
+Ansible~\cite{ansiblemain} is a IT automation solution that will allow us to manage the configuration and deployment of our CI system.
+Specifically, we will be using Ansible playbooks to install and configure Jenkins and Jenkins plugins and any additional components of the CI system.
+Also, we will be keeping the Ansible playbooks in version control to allow us to keep track of changes and rollback changes when necessary.
+This will give us the flexibility we need to test changes while being able to return to a known good configuration.
+\paragraph{CONFIRMATION}
+Ansible playbooks exists that will deploy our CI system on a POWER8 OpenStack cluster.
+
+\subsubsection{Isolation}
+\paragraph{CARD}
+As an open source software developer, I want my project builds to be isolated from other projects, so that my builds and test complete without outside interference.
+\paragraph{CONVERSATION}
+Our project will be hosted on the OSL's POWER8 OpenStack cluster and we want to ensure that our usage of the cluster does not negatively impact other users of the system.
+Additionally, we do not want to run builds and tests in such a way that our users could interfere with each other.
+We can achieve these ends by isolating builds and tests in virtual machines or Linux containers.
+We will work with the OSL to determine appropriate quotas for usage of CPU, memory, and storage resources.
+Our primary means of launching and removing virtual machines and containers will be through OpenStack's Nova and Magnum components.
+By using these components we can leverage OpenStack's ability to manage virtual machines and Linux containers to provide isolation between different projects' builds and tests.
+\paragraph{CONFIRMATION}
+Projects are built in virtual machines or containers.
+
+\subsubsection{Resource Management}
+\paragraph{CARD}
+As an open source software developer, I want my project builds to finish in a timely manner, so that I can receive build and test feedback as quickly as possible.
+\paragraph{CONVERSATION}
+The users of our project want their builds to run as soon as possible.
+However, our project has a finite amount of resources available on the POWER8 OpenStack cluster.
+This may cause a delay in starting a build if the necessary resources are not available.
+Builds should be queued to run in the order received if the resources are not available to run them immediately.
+In order to ensure that resources are available for new builds, we will need to automatically remove old VMs and containers.
+As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
+In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
+This will give us the ability to automate both the creation and removal of VMs and containers.
+\paragraph{CONFIRMATION}
+Builds are triggered immediately if resources are available, and queued in the order recieved otherwise.
+
+\subsubsection{Login}
+\paragraph{CARD}
+As an open source software developer, I want to be able to use my github account credentials to login, so that I don't have to create another account, to access Jenkins.
+\paragraph{CONVERSATION}
+We will use pluggable authentication from Jenkins to accomplish this task. Specifically, we will use the GitHub OAuth Plugin to allow users to login with their GitHub credentials. 
+\paragraph{CONFIRMATION}
+Our registration web site will allow developers to simply use their GitHub credentials to login into our services.
+
+\subsubsection{Build Status}
+\paragraph{CARD}
+As an open source software developer, I want to see my build status, so I know if my build passed or failed.
+\paragraph{CONVERSATION}
+We will use a plugin from Jenkins to display the status of our developer's build. More specifically, we intend to use the Build Monitor Plugin~\cite{buildmonitor} to display the information to our users. The Build Monitor Plugin supports many features such as: display the status and progress of selected jobs, display the names of people who might be responsible for `breaking the build', display who is fixing a broken build, and display what broke the build. The plugin can be installed through Jenkins.
+\paragraph{CONFIRMATION}
+Our web site will allow developers to see their build status (pass/fail).
+
+\subsubsection{Persistent VMs}
+\paragraph{CARD}
+As a system administrator, I want persistent virtual machines (VMs) for our website and Jenkins, so that I have a platform to host my service.
+\paragraph{CONVERSATION}
+We will use OpenStack to deploy our virtual machines. Then we will use those virtual machines to host our website and Jenkins. OpenStack is a set of software tools for building and managing cloud computing platforms, more specifically it is used to deploy virtual machines to handle different tasks. For our website, we will be using Apache HTTP Server.
+\paragraph{CONFIRMATION}
+Our website and Jenkins will be hosted on virtual machines.
+
+\subsubsection{Build Artifacts}
+\paragraph{CARD}
+As an open source software developer, I want to access the built and tested files, so that I can distribute them to users.
+\paragraph{CONVERSATION}
+Developers need to be able to access the created binaries and other files from building the source code, so that they may
+be able to distribute them as needed on their own.
+\paragraph{CONFIRMATION}
+The files can be downloaded from the website.
+
+\subsubsection{Build/Environment Configuration}
+\paragraph{CARD}
+As an open source software developer, I want to configure the build and testing environment and methods, so that I can be sure it matches my standard build process.
+\paragraph{CONVERSATION}
+Each repository needs a way to configure things such as required packages for building and command-line arguments.
+To that end, the system will require a configuration file in YAML format. This file will contain information such as necessary
+libraries and packages, programs and command-line arguments for building, and how to test the built code.
+\paragraph{CONFIRMATION}
+The system checks for a file called '.powerci.yml' in registered repositories and configures the build environment with it.
+
+\subsubsection{Automation of Builds}
+\paragraph{CARD}
+As an open source software developer, I want the system to automatically run builds when a commit is made to the repository, so that I can determine if a bug has been introduced as early as possible.
+\paragraph{CONVERSATION}
+Developers require a system that will automatically pull, build and test so they can always have the most current
+binaries available and so they can quickly know if a recent change causes the build to fail. Jenkins has plugin support for polling
+Git repositories for changes and then executing a pull-build-test-deploy sequence when a commit is detected to have been pushed since
+the last build was ran.
+\paragraph{CONFIRMATION}
+The system automatically executes a pull-build-test-deploy sequence when a commit is pushed to the Git repository.
+
+\subsubsection{Pre-build VM images}
+\paragraph{CARD}
+As an open source software developer, I want to be able to choose from pre-built virtual machine, so that my builds and tests can target a known platform. 
+\paragraph{CONVERSATION}
+Pre-built images that are used for spinning up VMs makes the entire process of deploying and configuring a VM
+for running a pull-build-test sequence much faster and smoother. Ubuntu will probably be the OS of choice for the base images, however
+we may look into providing images for other Linux distributions.
+\paragraph{CONFIRMATION}
+The system uses disk images with Linux installed for starting VMs.
+\clearpage
+\section{Tech Review Document}
+\subsection{Introduction}
+This document contains an evaluation of nine pieces of technology that we will be using in the IBM POWER8 Continuous Integration project.
+We define evaluation criteria based on the goal we are attempting to achieve by using that piece.
+For each piece we have selected three options, and we choose the best option based on the evaluation.\\\\
+The nine pieces are:\\
+\begin{description}[leftmargin=12em,style=multiline]
+  \item[Cluster Management]
+    The software that will be used to manage a cluster of POWER8 nodes. Authored by Leon Leighton.\\
+  \item[Continuous Integration Software]
+    The software that will perform the building and testing of projects. Authored by Leon Leighton.\\\\
+  \item[Configuration Management]
+    System that will be used to manage the configuration of the system. Authored by Leon Leighton.\\\\
+  \item[Linux Distribution Support]
+    The Linux distribution that projects will be built and tested on. Authored by Thomas Olson.\\\\
+  \item[Platform For Running Builds]
+    The type of platform used for building and testing. Authored by Thomas Olson.\\\\
+  \item[Configuration File Format]
+    The file format that will be used by projects for configuring builds. Authored by Thomas Olson.\\\\
+  \item[Login/Authentication]
+    Method for users to login to the system. Authored by Derek Wong.\\\\
+  \item[Frontend/Web Frameworks]
+    Method of creating a user interface for interacting with the system. Authored by Derek Wong.\\\\
+  \item[Tracing State of Builds/Tests]
+    Functionality to show users the status of their builds and tests. Authored by Derek Wong.\\\\
+\end{description}
+\subsection{Cluster Management}
+\subsubsection{Options}
+\paragraph{OpenStack}
+OpenStack~\cite{openstackmain} is a cluster management solution originally created by Rackspace and NASA, and now managed by the OpenStack Foundation.
+It contains a number of projects that provide services such as object and block storage, identity management, networking and compute resource management, bare metal provisioning, and DNS services~\cite{openstackservices}.
+This modular approach allows users to select which parts they need to accomplish their goals without having to install components they will not be using.
+\paragraph{CloudStack}
+CloudStack~\cite{cloudstackmain} is an Apache Software Foundation cluster management project which aims to provide many of the same services as OpenStack.
+It follows a more monolithic approach where most components are distributed as part of a single binary~\cite{cloudstackmono}.
+\paragraph{Ganeti}
+Ganeti~\cite{ganetimain} is a cluster management solution from Google that focuses on managing virtual machines.
+It can be used to create new virtual machines, manage disks, and manage failover of virtual machine instance.
+\subsubsection{Goals for use}
+The primary goal for using cluster management software is to manage the creation and destruction of temporary virtual machines and containers that will be used for building and testing projects.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Community Support: Our chosen solution should have a community that provides support in the form of documentation, bug fixes, and assistance.
+  \item Linux Support: Linux must be supported as both host and guest.
+  \item Container Support: Optional, but we would like to have support for building and testing in containers.
+  \item Jenkins Plugin Support: Jenkins is a likely piece of our solution, therefore having a Jenkins plugin that interacts with our cluster management solution is highly desired.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & OpenStack & CloudStack & Ganeti \\ \midrule
+    Community Support       & Yes & Yes & Yes \\ \midrule
+    Linux Support           & Yes & Yes & Yes \\ \midrule
+    Container Support       & Yes & Partial & No \\ \midrule
+    Jenkins Plugin Support  & Yes & Yes & No \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+OpenStack, CloudStack, and Ganeti can all run on Linux and can host Linux virtual machines.
+Ganeti does little more than this, however, and will not be considered further.
+Both OpenStack and CloudStack can interact with Jenkins through a plugin~\cite{jcloudsplugin}~\cite{jcloudsproviders}.
+OpenStack appears to have a larger community and a more mature container solution than CloudStack.
+\subsubsection{Selection of best option}
+OpenStack is our chosen solution for cluster management. It meets all of our criteria for evaluation.
+
+\subsection{Continuous Integration Software}
+\subsubsection{Options}
+\paragraph{Jenkins}
+Jenkins~\cite{jenkinsmain} is an automation server that can be used to automate builds, tests, and deployments.
+It is extensible and has a large number of plugins that enable it to interact with other systems. 
+\paragraph{Buildbot}
+Buildbot~\cite{buildbotmain} is another system that enables the automation of builds, tests, and deployments.
+It can be extended through the use of Python configuration files~\cite{buildbotconfig}. 
+\paragraph{Strider}
+Strider~\cite{stridermain} is a continuous integration server written in Node.js.
+Like Jenkins it uses plugins to extend its functionality.
+\subsubsection{Goals for use}
+Automate building and testing Open Source projects.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Open Source: As our target audience is Open Source software developers, we should use an Open Source solution to be consistent with the community.
+  \item Language Support: We need to be able to build and test projects written in a variety of languages.
+  \item Notifications: We need some way of providing the user with feedback on the status of their builds and tests.
+  \item Extensible: If we find that there are missing features we will need some way of extending the functionality of the software.
+  \item Number of Existing Plugins: A larger number of plugins increases the probability that someone may have already provided functionality that we need that is not already in the software.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Jenkins & Buildbot & Strider \\ \midrule
+    Open Source       & Yes & Yes & Yes \\ \midrule
+    Language Support  & Any & Any & Any \\ \midrule
+    Notifications     & Yes & Yes & Yes \\ \midrule
+    Extensible        & Yes & Yes & Yes \\ \midrule
+    Number of Plugins & High & Low & Medium \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+All three of our options meet our basic evaluation criteria.
+However, there is quite a large difference in the number of plugins available, with Jenkins~\cite{jenkinsplugins} having a much larger number than Buildbot~\cite{buildbotplugins} or Strider~\cite{striderplugins}.
+There is also a large variety in the type of plugins for Jenkins, covering functionality such as source code management, reports and notifications, and UI elements~\cite{jenkinsplugins}.
+\subsubsection{Selection of best option}
+With its large number and variety of plugins, Jenkins is our chosen solution for continuous integration software.
+
+\subsection{Configuration Management}
+\subsubsection{Options}
+\paragraph{Ansible}
+Ansible~\cite{ansiblemain} is a configuration management and infrastructure automation solution.
+It is agentless, using SSH to connect to and run commands on nodes.
+Ansible uses YAML files for configuration~\cite{ansibleworks}.
+\paragraph{Chef}
+Chef~\cite{chefmain} is a configuration management solution that uses agents running on each node to poll a central server to access configuration `cookbooks' that are written in Ruby~\cite{chefworks}.
+\paragraph{Puppet}
+Puppet~\cite{puppetmain} is also a configuration management solution.
+Like Chef, it uses agents on each node and a central `puppet master' server~\cite{puppetworks}.
+Configuration is done in a language specific to Puppet that is meant to be accessible to system administrators~\cite{puppetlang}.
+\subsubsection{Goals for use}
+Using a configuration management system will allow us to create a solution that can be replicated by others who may wish to setup their own POWER8 Continuous Integration system.
+Used in conjunction with a version control system, it will also give us the ability to roll back changes that have been made, giving us flexibility in experimenting with different options as we progress through the project. 
+At a higher level, a configuration management system will allow us to specify what we want the state of the system to be, and it will also give us an ultimate `source of truth' for the project.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Support for installing Jenkins: Our chosen solution should have the ability to manage our Continuous Integration software. 
+  \item Overhead: Like most projects, we wish to reduce the amount of overhead in our system.
+  \item Difficulty: We should choose simpler solutions when possible.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Ansible & Chef & Puppet \\ \midrule
+    Installs Jenkins       & Yes & Yes & Yes \\ \midrule
+    Overhead           & Low & Moderate & Moderate \\ \midrule
+    Difficulty           & Low & Moderate & Moderate \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+As we are likely to use Jenkins for our continuous integration software we would like there to be an already existing method to install and configure it with the option we choose for configuration management.
+All three options under consideration meet this criteria through user created modules.
+We would also like to reduce the overhead involved in using a configuration management system.
+Both Puppet and Chef require the use of a master server and an agent installed on any node that will be managed.
+While this is not a high level of overhead, we do contrast that with Ansible which uses SSH which is already included on most Linux systems.
+It should be noted, however, that since Ansible uses SSH, we will need to create and secure the SSH keys that will be used for authentication.
+Ansible is also noted to be easier to setup and use.~\cite{cmcompare}
+\subsubsection{Selection of best option}
+While all three options would allow us to accomplish our goals, we have selected Ansible as our best option.
+
+\subsection{Linux Distribution Support}
+\subsubsection{Options}
+\paragraph{RedHat Enterprise Linux}
+RedHat Enterprise Linux is widely considered to be one of the standard Linux distributions for server environments, having been around for a number of years and being very stable. It is supported by the Red Hat corporation and has a ten-year supported production cycle for each major version, followed by an extended support period\cite{rhlife}. Unlike most Linux distributions, it has a paid subscription requirement for support and the extended support has a higher price. However, as a paid product, Red Hat provides dedicated support and certifications which can be important if such certifications are required for a project or if the project requires high availability and dedicated support in case issues arise.
+\paragraph{CentOS}
+CentOS is an unbranded version of RedHat Enterprise Linux, providing the same functionality and stability with only very minor functional differences. It is supported by the CentOS Project and is free for all use. As a result, it does not have the certifications nor the dedicated support of RedHat Enterprise Linux. As it tries to track the development of RedHat Enterprise Linux very closely, CentOS has approximately the same ten-year support cycle\cite{centlife}, but it does not have the same extended support period provided by Red Hat.
+\paragraph{Ubuntu Server}
+Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu tends to update application packages sooner, trading some amount of stability for newer functionality. Finally, Ubuntu has better support for containers compared to CentOS.
+\subsubsection{Goals for use}
+The operating system  selection will have a major effect on the stability and ease-of-use of the entire system. Our goal is to select an operating system that is stable, widely supported and easy to work with.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Stability: It is important that the operating system used for running builds has as few issues as possible so as to minimize the need for manual intervention in case there's a failure.
+  \item Support: The operating system should have a strong support base to maximize ease of maintenance and help ensure longevity.
+  \item Usability: The greater the usability and ease of configuration, the easier it becomes to maintain and improve the reliability of the system.
+  \item Cost: The less the entire system costs, the better.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & RedHat & CentOS & Ubuntu Server \\ \midrule
+    Stability       & Highest & High & Moderate \\ \midrule
+    Support           & Highest & Moderate & Moderate \\ \midrule
+    Usability       & High & High & High \\ \midrule
+    Cost       & High & None & None \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux are negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement. However, the client has expressed an interest in using containers and using Ubuntu as a result of that.
+\subsubsection{Selection of best option}
+We have opted for using Ubuntu as the operating system that builds will be ran on and tested against as per the client's request.
+\subsection{Platform for Running Builds}
+\subsubsection{Options}
+\paragraph{Virtual Machine}
+Virtual Machines perform hardware-level emulation and do not allow the guests any access to the underlying operating system or hardware. They're the standard for situations where multiple OS's need to be deployed. Because they emulate all the hardware, there's nearly no risk of a malicious guest system affecting the host system. However, running a virtual machine requires a full operating system to be installed on each individual instance, causing them to take up a relatively significant amount of space per virtual machine compared to to size of the applications running on them. Additionally, their performance suffers due to having to emulate assembly-level instructions instead of executing them directly.
+\paragraph{Container}
+Containers perform operating system virtualization, allowing for multiple independent user-spaces to exist at the same time. Because they emulate parts of the operating system and not the physical hardware hardware, containers still need to allow some level of direct hardware access for applications to run properly. They also use some libraries provided by the host operating system instead of providing their own. As a result, they tend to be much smaller than a full-fledged virtual machine and run somewhat faster. A relatively new technology compared to virtual machines, they're rapidly gaining popularity in situations where hardware emulation is not required and restricting access to the host operating system is not a concern.
+\paragraph{Bare metal}
+Bare metal servers would have no virtualization or emulation; builds and tests would be ran directly on the hardware itself. The benefits of bare metal are speed and security; no emulation layer exists between the applications and the hardware and there is no host operating system for a malicious guest to interfere with. Builds would also be unable to hoard system resources, preventing a situation where one build slows down another. The single major downside is the requirement for a full physical server per each build that would be ran, greatly restricting the ability for multiple builds to be ran in parallel
+\subsubsection{Goals for use}
+The goal of selecting the platform the builds would interact with is to allow builds a host system to be ran and tested on while providing reliability and security for the underlying system.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Scalability: Ideally, it should be easy to scale the system up to allow a large number of simultaneous builds.
+  \item Performance: Our selection should not significantly decrease the performance of the build-test process.
+  \item Security: Being that we will compiling and testing untrusted and unverified code, it is important for the selected platform to minimize the ability of the build to negatively affect the host.
+  \item Reliability: It is preferable that one build does not use up so many resources as to significantly reduce the speed of other builds being ran.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Virtual Machines & Containers & Bare metal \\ \midrule
+    Scalability       & High & Highest & Low \\ \midrule
+    Performance           & Moderate & High & Highest \\ \midrule
+    Security       & High & Moderate & Highest \\ \midrule
+    Reliability  & High & High & Highest \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+Although bare metal servers have undeniably the best performance, security and reliability, they simply do not have the scalability required for a project like this. Depending on storage space and resources, virtual machines and containers could potentially run upwards of one hundred builds simultaneously on a single server, negating the performance benefits. Furthermore, virtual machines provide nearly the same level of security and safety that a bare metal server provides, while containers can nearly match them in terms of performance.
+
+Between virtual machines and containers, virtual machines provide better security and have years of support behind them, while containers provide better performance; virtual machines can have a performance penalty upwards of ten percent due to overhead.\cite{RC25482} Both virtual machines and containers allow for limiting the resources provided to a running instance, meeting the reliability requirements. They are also both exceedingly easy to configure for automated deployment, making them highly scalable.
+\subsubsection{Selection of best option}
+Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on. However, as per our client's request, the system should also support the use of containers if at all possible for running builds in. As such, we will support both the use of virtual machines and containers for builds to be ran in.
+
+\subsection{Configuration File Formats}
+\subsubsection{Options}
+\paragraph{YAML}
+YAML is a data-oriented markup language that is very concise while still being highly expressive. Notably, Ansible already uses YAML for its configuration files.
+\paragraph{JSON}
+JSON is a data-interchange format that is very concise, focused around key-value pairs. Its readability can suffer at times due to being designed with automated usage in mind instead of being human-generated.
+\paragraph{XML}
+XML is a document markup language that is incredibly powerful and expressive. However, it tends to being excessively verbose, making it somewhat difficult to read.
+\subsubsection{Goals for use}
+The configuration file will be included in a Git repository and will be how the system determines builds and tests are ran and interpreted. It should use a format powerful enough to accurately express all the information that the system will require without being unnecessarily complicated.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Expressiveness: The file format needs to be able to sufficiently express the users needs for building and testing their project.
+  \item Readability: The ideal file format will be easy for a user to create and modify to suit the needs of their project.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & YAML & JSON & XML \\ \midrule
+    Expressiveness       & High & Moderate & Highest \\ \midrule
+    Readability       & Highest & High & Moderate \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+XML is the most expressive of the three options, but it is unlikely we would need the power provided by it. JSON is on the opposing end of the spectrum, being so simple that it might not be powerful enough for what we need. In the middle lies YAML, powerful and highly readable due to it conciseness. Aditionally, Anisble using YAML gives YAML the bonus of already being used in this project.
+\subsubsection{Selection of best option}
+We have selected YAML as the file format for configuration files due to it being powerful, concise and consistent with what Ansible uses.
+
+\subsection{Login/Authentication}
+\subsubsection{Options}
+\paragraph{GitHub OAuth Plugin}
+The GitHub OAuth Plugin uses a github account for authentication and it also has the ability to set permission/authorization to users. The authorization includes: ability to create a job, build a project, configure a project, delete a project, etc...
+\paragraph{Active Directory Plugin}
+The Active Directory Plugin is a plugin for Jenkins and it uses Active Directory to authenticate the username and password.
+\paragraph{Jenkins Login}
+The Jenkins login is simply a Jenkins account and users are able to create it on the Jenkins website.
+\subsubsection{Goals for use}
+The goal for having an authentication is to provide our users a safe and secure place to build their project and to use our continuous integration service.
+It will help prevent hackers from obtaining private information that could be detrimental to our users.
+This is a security measure that is absolutely necessary for our project.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Security: Security is what keeps users confidential information such as source code from being leaked.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & GitHub OAuth Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
+    Security       & Yes & Yes & Yes \\ \midrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+The github OAuth plugin is a really straight forward method for authentication.
+Users can simply use their github accounts to login.
+The second option is to use the active directory plugin.
+This plugin is used with Jenkins to authenticate the username and password through active directory~\cite{activedirectory}.
+The third option is to use Jenkins’ login.
+Users can simply create a Jenkins’ account and have access to its functionalities.
+They will also have the ability to give authorizations to different accounts for their projects.
+\subsubsection{Selection of best option}
+The best option is to use GitHub OAuth plugin.
+Most of our users will be using github for their projects, so it is most resonable to use the github OAuth plugin for authentication.
+
+\subsection{Frontend/Web frameworks}
+\subsubsection{Options}
+\paragraph{Tomcat}
+Tomcat is an open source implementation of Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies. 
+\paragraph{Glassfish}
+GlassFish is an open source application server; more specifically it is for the Java EE platform (Java Enterprise Edition).
+\paragraph{Jetty}
+Jetty provides a Web server and javax.servlet container, and it supports many components such as HTTP/2, WebSocket, OSGi (Open Service Gateway Initiative), JMX (Java Management Extensions), JNDI (Java Naming and Directory Interface), JAAS (Java Authentication and Authorization Service) and many other integrations.
+\subsubsection{Goals for use}
+The goal for having a web framework is so that our users have a platform to use our continuous integration service.
+We will provide a simple and easy to use user interface (UI) so that our users would not have a complicated time using our services.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Usability: Having an easy-to-use user interface can give our users an easier time to use our service and it will help reduce confusion.
+  \item Security: Security is important for our web framework because we don't want hackers to gain access to our services and obtain confidential information.
+  \item Stability: Stability is needed because our service need to maintain at a functional state at all time so that it doesn't hinder our users from working
+  \item Load time: The page load time should load at a reasonable speed so that our users would not have to wait a long time using our service.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Tomcat & Glassfish & Jetty \\ \midrule
+    Usability       & High & High & Moderate \\ \midrule
+    Security           & Moderate & High & High \\ \midrule
+    Stability      & Highest & High & High \\ \midrule
+    Load time  & High & High & High \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+Tomcat is very popular and it is known as a lightweight application that offers all the basic features required running a server.
+It is an open source project so it is cost free.
+It is highly flexible because it allows users to tweak their code as they see fit, and it has many built-in features~\cite{tomcat}.
+The second option is Glassfish and it is also an open source project, which means that it is free of cost.
+It has high performance and it was considered the fastest open source application server, according to SPECjAppServer2004 benchmark results~\cite{glassfish}.
+Jetty provides a Web server and javax.servlet container.
+They have a heavy focus on multi-connection HTTP and features such as SPYDY, which can significantly reduce page load latencies~\cite{jetty}.
+\subsubsection{Selection of best option}
+Overall, all three of the options are great, but the best option to use is Tomcat.
+Glassfish has a lot of features and is the biggest out of the three options, but we are only using it for our frontend, so most features are unnecessary.
+It has a big memory footprint, which means that it would consume more resources.
+Jetty is a very light application and it consumes the least amount of resources but it is too small for our project.
+Tomcat is ideal because it sits in between these two options and it offers a good amount of features to use.
+
+\subsection{Tracing State of builds/tests}
+\subsubsection{Options}
+\paragraph{Build Monitor Plugin}
+The Build Monitor Plugin is a plugin in Jenkins that provides a detailed view of the status of selected Jenkins jobs.
+\paragraph{Lava Lamp Notifier}
+The Lava Lamp Notifier is a notifier that indicate job status using a Lava Lamp.
+\paragraph{Radiator View Plugin}
+The Radiator View Plugin is a plugin in Jenkins and Hudson that provides a job view, which displays project status.
+\subsubsection{Goals for use}
+The goal to having the functionality to trace the build and test state is so that our users can see the status of their projects.
+This will reveal the success or failure of projects that were build by our service and it will show where the failures have occurred.
+\subsubsection{Criteria for Evaluation}
+\begin{enumerate}
+  \item Usability: Having an easy-to-use user interface (UI) allows our users to operate our service with minimal issues.
+  \item Feature to display pass or fail builds:The ability to display pass or fail build is  the main purpose for this technology so this is a must have
+  \item Feature to display progress of builds: The feature to display progress when building a project is helpful for our users to see how much longer it will take until their build is complete
+  \item Feature to display where an error has occurred for build fails: The feature to see where an error has occurred in the build process is another important criteria; it will help developers ave time from manually tracking down the problem.
+\end{enumerate}
+\subsubsection{Table}
+\begin{center}
+  \begin{tabular}{llll}
+    Criteria & Build Monitor Plugin & Lava Lamp Notifier & Radiator View Plugin \\ \midrule
+    Usability       & Yes & None & Yes \\ \midrule
+    Display pass or fail builds           & Yes & Yes & Yes \\ \midrule
+    Display progress of builds       & Yes & None & None \\ \midrule
+    Display where an error has occurred if build fails  & Yes & None & None \\ \bottomrule
+  \end{tabular}
+\end{center}
+\subsubsection{Discussion}
+The build monitor plugin supports many features and incorporates other plugins as well.
+The features in this plugin include:
+\begin{itemize}
+  \item Displays the status and progress of selected jobs, the view is updated automatically every couple of seconds using AJAX\@. No `Enable Auto Refresh' needed.
+  \item Displays the names of people who might be responsible for `breaking the build'.
+  \item Supports the Claim plugin, so that you can see who's fixing a broken build.
+  \item Supports View Job Filters, so that you can easily create Build Monitors for `slow builds', `only failing', etc.
+  \item Supports Build Failure Analyzer, so that you know not only who, but also what broke the build.
+  \item Supports CloudBees Folders Plugin, so that you can have project- and team-specific nested Build Monitors.
+  \item The number of columns and size of the font used is easily customizable, making it trivial to accommodate screens of different sizes.
+  \item UI configuration is stored in a cookie, making it possible to display different number of columns and using different font size on each of the screens at your office.
+  \item Can work in a colour-blind-friendly mode
+  \item~\cite{buildmonitor}
+\end{itemize}
+The lava lamp notifier is a really simple design created to indicate if a build passed or fail.
+The only necessary component to use this type of method to track our build status is a USB LED light.
+The light will simply light up green for pass and red for fail~\cite{lavalamp}.
+This is not ideal for our type of project because our users would like to know more information than just a pass or fail notification.
+The third option is the radiator view plugin.
+This plugin is somewhat similar to the build monitor plugin but with less features.
+It will display all the project that are building and indicate pass or fails on screen~\cite{radiatorview}.
+\subsubsection{Selection of best option}
+The best option to use is the build monitor plugin.
+This technology has the most features out of all the other options I listed, and all the features are very useful for our users.
+
+\subsection{Conclusion}
+The following is a summary of the choices we have made for the nine pieces that we have evaluated.\\
+\begin{enumerate}
+  \item Cluster Management: OpenStack
+  \item Continuous Integration Software: Jenkins
+  \item Configuration Management: Ansible
+  \item Linux Distribution Support: CentOS
+  \item Platform For Running Builds: Virtual Machines
+  \item Configuration File Format: YAML
+  \item Login/Authentication: GitHub Login Plugin
+  \item Frontend/Web Frameworks: Tomcat
+  \item Tracing State of Builds/Tests: Build Monitor Plugin
+\end{enumerate}
+
+\section{Weekly Blog Posts}
+\clearpage
+\bibliographystyle{IEEEtran}
+\bibliography{final}
+\end{document}
