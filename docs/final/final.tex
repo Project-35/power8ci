@@ -11,6 +11,8 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
+\hypersetup{colorlinks=true, linkcolor=black}
+
 \lstset{frame=tb,
   language=C,
   columns=flexible,
@@ -22,9 +24,40 @@
   breakatwhitespace=true,
   tabsize=4
 }
-
-
 \begin{document}
+\begin{titlepage}
+  \pagenumbering{gobble}
+  \title{POWER8 Continuous Integration\\ Final Report}
+  \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35}
+  \date{June 13, 2017}
+  \maketitle
+  \vspace{4cm}
+  \begin{abstract}
+  \noindent This document contains an overview of the progress of the POWER8 Continuous Integration project.
+    It includes the goals and purpose of the project, the current status, items remaining to be done, 
+    and a discussion of problems we have encountered. 
+ \end{abstract}
+\end{titlepage}
+
+\pagenumbering{arabic}
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
+\section{Introduction}
+IBM requested a project that would create an easy to use, public, Cloud-based, 
+POWER8 Continuous Integration service in order to increase the ability
+of Open Source projects to build and test their software on POWER8.
+Open Source software projects are often designed to work on as broad a range of hardware architectures as possible. 
+The users of Open Source software want the flexibility to consider a variety of hardware solutions in order to take advantage of different capabilities and to avoid vendor lock-in in the future. 
+To support their users, Open Source software projects spend their time and resources on adding support for new architectures as they become available. 
+The introduction of IBM's POWER8 architecture broadened the range of possible solutions available to the end users of Open Source software. 
+This creates a need for Open Source projects to ensure that their software builds and functions correctly on POWER8. 
+Open Source software projects often use Continuous Integration (CI) systems to build and test their software. 
+CI enables these projects to validate their software after each change, ensuring that it continues to work as expected. 
+Public Cloud-based solutions already exist to enable Open Source software developers to build and test their software on Intel's x86 architecture. 
+Thus, while much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need an easy way to build and test their software on POWER8. 
+
+
 \section{Requirements Document}
 \subsection{Introduction}
 \subsubsection{Purpose}
@@ -610,6 +643,464 @@ The following is a summary of the choices we have made for the nine pieces that 
 \end{enumerate}
 
 \section{Weekly Blog Posts}
+\subsection{Fall Week 6}
+\subsubsection{Leon Leighton}
+\paragraph{This week} Had conference call with client. Discussed using user stories as basis of requirements/design document.
+\paragraph{Next week} Focus on creating user stories for various roles.
+\subsubsection{Thomas Olson}
+\paragraph{This week}Had conference call with IBM folks. Established the use of user stories as the basis of our requirements and design document. Discussed with Kevin on how to use user stories instead of the IEEE 830-1998 standard for a requirements document. Informed us to do what the customer requires.
+\paragraph{Next week}Work on user stories and start work on the technical review.
+\subsubsection{Derek Wong}
+\paragraph{This week}Went over requirement doc with group. Meeting with IBM client on Thursday.
+\paragraph{Next week}Create user stories for requirement doc./design doc.
+
+\subsection{Fall Week 7}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Worked with group to identify nine pieces for technology review and divide tasks. Began work on tech review.
+\paragraph{Next week}Finish tech review. Work on user stories and design document.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}Established nine separate pieces for the technology review. 
+I chose to work on reviewing the operating system choices, the platform choices (VM vs Container vs Baremetal) 
+and formats of configuration files.
+\paragraph{Next week}Finish the tech review. Work on user stories and the design document.
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Had meetings with group members to discuss about the technology document.    
+Brainstormed 9 different piece of technology for our project and divided the work.
+\paragraph{Next week}Edit/Put together technology document with group.                         
+Meeting with IBM on Thursday.        
+Work on Design Document with Group.
+
+\subsection{Fall Week 8}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Finished work on tech review. Had conference call with IBM.
+\paragraph{Next week}Continue work on user stories and design document.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Completed my 3 piece of technology for the tech document.                     
+Had a meeting with IBM on Thursday.               
+Met with group to compile all of our parts together into one document.                
+Discuss with group about design document.
+\paragraph{Next week}Work on my part for the design document.                       
+Meet with group to merge our parts together.
+
+\subsection{Fall Week 9}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Review requirements for design document.
+\paragraph{Next week}Write design document. Start on Progress Report and presentation.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Go over design documents with group.
+\paragraph{Next week}Split design document work with group.                  
+Start on design document.                
+Start on progress report.             
+Meeting with IBM.
+
+\subsection{Fall Week 10}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Finished work on design document.
+\paragraph{Next week}Finish and turn in Fall Progress Report.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Finish up design document.
+\paragraph{Next week}Start on Progress Report.
+
+\subsection{Winter Week 1}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Worked on scheduling. Cancelled weekly call with IBM due to time conflict with a class.  
+Continued to read about Ansible.
+\paragraph{Next week}Work with OSL to setup testing environment.  
+Begin work on Ansible playbook for Jenkins installation.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}First week of term; getting readjusted with everything.
+\paragraph{Next week}Meet with group; sort out scheduling for the regular meetings for the rest of term.
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Canceled Meeting with IBM\@. Review documents.
+\paragraph{Next week}Have a meeting with group and talk over the project.
+
+
+\subsection{Winter Week 2}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Scheduled new conference call date/times with IBM for winter term.   
+Continued to read about Ansible.
+\paragraph{Next week}Work with OSL to setup testing environment.  
+Continue work on Ansible playbook for Jenkins.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}Established time and day for bi-weekly meetings with IBM and OSL.
+\paragraph{Next week}Bi-weekly meeting with IBM and OSL; work with group on documents.
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Set up meeting times with TA and IBM\@.
+Discussed about how we are beginning our project.
+\paragraph{Next week}Plan out our project and schedules.
+Split up Group work.
+
+\subsection{Winter Week 3}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Created Ubuntu VM on OSL's OpenPower OpenStack cluster.  
+Did proof of concept install of Jenkins with Ansible.  
+Had conference call with IBM. Discussed CIAAS and travis file compatability 
+\paragraph{Next week}Work on updating Design Document. 
+Clarify with IBM which parts of previous work (such as CIAAS) that they may want us to use.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Meeting with TA to discuss about alpha stage of our project.  
+Meeting with IBM discussing where we are at with our project.   
+Set up group meeting time for next week.
+\paragraph{Next week}Revise design document to better fit requirements.   
+Work on alpha stage of project.
+
+
+\subsection{Winter Week 4}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Received clarification from client on direction of project. There was some confusion on whether we were to implement our own solution or try to put in to production a solution that was already being worked on. Client indicated that we could pursue our own solution.
+\paragraph{Next week}Finish configuring Jenkins with basic plugins and go over configuration options.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Group meeting.    
+Sent email to our client to clarify some information.
+\paragraph{Next week}Take a look at jenkins plugin and go over configuration for jenkins.
+
+
+\subsection{Winter Week 5}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Finished initial work on getting Ansible to install Jenkins and plugins.  
+Configured Jenkins to allow the creation of jobs.  
+Had conference call with IBM. We discussed the need for more communication from us to students to our client.
+\paragraph{Next week}Finish revisions of all documents. Updating as needed.  
+Finish progress report.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Have VM set up with jenkin install with group.       
+Added plugins to jenkins.      
+Conference call with IBM discussing about progress and what needs to be done. 
+\paragraph{Next week}Finish updating document with group.       
+Meet up with group to complete progress report.
+
+
+\subsection{Winter Week 6}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Primarily worked on midterm progress report and presentation.
+\paragraph{Next week}Start work on configuring Jenkins to do builds in separte VMs/containers.  
+Work on putting configurations done through Jenkins interface into Ansible.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Winter Week 7}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Enabled building Jenkins jobs in Docker containers.\\
+- Used docker-plugin in Jenkinsi\\
+- Used ppc64le/ubuntu as base image for Docker container \\ 
+Had conference call with IBM. Received clarifications on suggestion to create a backlog of issues that we pull from for weekly focus. Also received some ideas about where to look for Ansible configurations.  
+\paragraph{Next week}Will focus on getting configurations that have been done in Jenkins interface into Docker.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Conference call with IBM. They gave us suggestions on what to do next, such as creating a backlog of issues, which is essentially small tasks for us to do
+\paragraph{Next week}Create "issues" and start working on them.
+
+
+\subsection{Winter Week 8}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Researched ways to add configuration to Ansible.
+\paragraph{Next week}Continue to work to put configuration in Ansible that is currently only in Jenkins
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Winter Week 9}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Moved more of configuration that had been done directly in Jenkins to Ansible.  
+Had conference call with client.
+\paragraph{Next week} Based on conference call I am going to focus on the security of our project.  
+Also, work on end of term progress report, presentation, and draft of poster.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Conference call with IBM\@.
+Research how to integrate TravisCI yml file into our service.
+
+\paragraph{Next week}Work on progress report, presentation.            
+Meet with group to create a draft of our poster.
+
+\subsection{Winter Week 10}
+\subsubsection{Leon Leighton}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+
+\subsection{Spring Week 1}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Conference call with IBM. Travis compatibility no longer a priority.
+Created private network on OpenStack for Docker and build VMs.
+\paragraph{Next week}Create Docker and VM images for use in builds.
+Configure Matrix authorization.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}Conference call with IBM.     
+Installed Embeddable Build Status Plugin and Build Monitor Plugin to Jenkins.   
+Set-up Email-Notification Plugin.
+\paragraph{Next week}Look for a new task to work on in the back log.
+
+\subsection{Spring Week 2}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Configured Matrix Authorization for Admin users.    
+Created virtual machine image for use in builds. Test build now works in VM.
+\paragraph{Next week}Configured Matrix Authorization for normal users.  
+Additional VM images and test builds.
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsection{Spring Week 3}
+\subsubsection{Leon Leighton}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Spring Week 4}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Worked on poster.  
+Began review of Ansible for code pull on May 1.
+\paragraph{Next week}(Weekend) Make sure all code is in repo and updated.  
+Begin work on landing page for project.  
+Intall TLS cert.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Spring Week 5}
+\subsubsection{Leon Leighton}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Spring Week 6}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Installed TLS certificate for web page.  
+Rebuilt Docker container with additional options to resolve build issues.  
+Completed first draft of Demo for Expo.  
+Began work on Midterm Progress Report.
+\paragraph{Next week}Finish Midterm Progress Report.  
+Proxy connection to Jenkins interface through Apache for TLS support.  
+Continue to troubleshoot build issues in Docker.  
+EXPO!!! (Friday)
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsection{Spring Week 7}
+\subsubsection{Leon Leighton}
+\paragraph{This week}Finished and turned in our Spring Midterm Progress Report.  
+Attended the Engineering Expo and explained our project to both industry representatives and members of the OSU and Corvallis community.  
+\paragraph{Next week}Apache to Jenkins reverse proxy.  
+PR to change OSL's powerdev request form to include information about project and allow access to be requested.
+
+
+\subsubsection{Thomas Olson}
+\paragraph{This week}
+\paragraph{Next week}
+
+
+\subsubsection{Derek Wong}
+\paragraph{This week}
+\paragraph{Next week}
+
+\subsection{Post Engineering Expo}
+\subsubsection{Leon Leighton}
+\textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
+
+Focus on the project workflow. Set deadlines and meet them. Use a task management system from the beginning. Set aside time in the Fall to make sure everyone on the project has a basic understanding of all the technical areas. Always communicate with team members and client.
+\textit{\\What's the biggest skill you've learned?}
+
+Something that we didn't do terribly well in the beginning, but I think got better at as we went. Being able to see what tasks need to be done from the goals that are set, and then breaking up tasks into individual assignments to meet those goals.
+
+\textit{\\What skills do you see yourself using in the future?}
+
+Technical: Ansible and configuration management in general.
+
+Non-technical: Project coordination. Working with teammates.
+
+\textit{\\What did you like about the project, and what did you not?}
+
+I enjoyed being part of a project that will continue after I am done with it. I liked that I got to use Ansible as a configuration management system since I had not used it before.
+
+I did not like the way that Jenkins is configured. I also did not enjoy the near constant coordination problems.
+
+\textit{\\What did you learn from your teammates?}
+
+Everyone has strengths and weaknesses. Understanding what those are and how to plan with those in mind is an important part of working together.
+
+\textit{\\If you were the client for this project, would you be satisfied with the work done?}
+
+I would be satisfied with the work that was done while feeling that more could have been accomplished.
+
+\textit{\\If your project were to be continued next year, what do you think needs to be working on?}
+
+There are a variety of ways that the build containers and virtual machines could be configured. A more thorough understanding of the needs of projects with regard to building and testing could guide a group to making a number of preconfigured containers and VMs that projects could take advantage of rather than having to specify what needs to be installed in the job configuration.\\
+
+\subsubsection{Thomas Olson}
+\textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
+
+Start early; communicate often. Because we needed to use Agile, but the class was designed for Waterfall, we couldn't do the necessary testing for Agile until Winter, putting our documentation a good bit behind where it should've been. We probably would've done better if we utilized IBM's willingness to help to its fullest potential.
+\textit{\\What's the biggest skill you've learned?}
+
+How to communicate directly and effectively. This includes knowing when and how to ask for assistance and how to ask questions in a simple and lucid manner.
+\textit{\\What skills do you see yourself using in the future?}
+
+Probably the project management and communication skills, more than anything else.
+\textit{\\What did you like about the project, and what did you not?}
+
+I liked that it was different from what the other projects were, as we were developing a service more than a product, and how it was quite different from what we had experienced in classes. On the flip-side, I didn't like how the project had almost nothing in common with the majority of the technical classes I had taken, leaving me without a foundation of relevant knowledge.
+\textit{\\What did you learn from your teammates?}
+
+The best way to have a project succeed is to leverage the strengths of each teammate to account for their weaknesses, instead of trying to arbitrarily divide the work up without regards to who is good at what.
+\textit{\\If you were the client for this project, would you be satisfied with the work done?}
+
+I would consider it sufficient for a service that is going to be transitioned to another team for further development and support.
+\textit{\\If your project were to be continued next year, what do you think needs to be working on?}
+
+Testing, testing, testing. The system could use some stress and scalability testing. It could also do for testing more and more intense builds with more complicated build procedures.\\
+
+\subsubsection{Derek Wong}
+\textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
+If I could redo the project from Fall term I would start my project earlier and have a detailed plan of what we need to do. One of the key problems we ran into was splitting up work between my team members. We didn't have a good workflow and things got done slow because of it. During winter term, our client suggested us to come up with a list of task to accomplish and that workflow was much better than the one we previously had.
+
+\textit{\\What's the biggest skill you've learned? What skills do you see yourself using in the future?}
+I learned a lot about communication and teamwork. It is very valuable life skill that I can apply to anywhere in the future. In a development team, having good communication is what gets work done and having a good workflow. Having a well defined plan of goals and milestone can greatly improve efficiency. I will be applying all the skills I learned in my future job as a software developer. I also learned a lot of Jenkins as well. Jenkins is used by many development team because continuous integration is a very useful tool in developing software.
+
+\textit{\\What did you like about the project, and what did you not?}
+I liked that our project involves Jenkins because my previous job was using this and I could easily relate to it. I also got to learn more about what it does. I didn't like that our project didn't involve much coding because that was what I was hoping to do from the start.
+
+\textit{\\What did you learn from your teammates?}
+I learned new technologies from my teammates that I didn't know existed, such as ansible and openstack.
+
+\textit{\\If you were the client for this project, would you be satisfied with the work done?}
+I would be satisfied with the work done. We have a functional continuous integration system which is what the goal of this project is. There can be more improvements made, but what we have now is sufficient.
+
+\textit{\\If your project were to be continued next year, what do you think needs to be working on?}
+There can be more testing done to our system and just general refinement. We could add more features or just have a more secure system.\\
+
+
 \clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{final}
