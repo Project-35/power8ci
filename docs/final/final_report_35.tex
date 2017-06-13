@@ -6,7 +6,6 @@
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{enumitem}
-%\usepackage{underscore}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{parskip}
@@ -28,21 +27,22 @@
   breaklines=true,
   breakatwhitespace=true,
   tabsize=4
-  %showstringspaces=false,
-  %basicstyle=\ttfamily
 }
 \begin{document}
 \begin{titlepage}
   \pagenumbering{gobble}
   \title{POWER8 Continuous Integration\\ Final Report}
-  \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35}
+  \author{Leon Leighton, Thomas Olson, Derek Wong\\Project 35\\Spring 2017}
   \date{June 13, 2017}
   \maketitle
   \vspace{4cm}
   \begin{abstract}
-  \noindent This document contains an overview of the progress of the POWER8 Continuous Integration project.
-    It includes the goals and purpose of the project, the current status, items remaining to be done, 
-    and a discussion of problems we have encountered. 
+  \noindent This document contains the final report of the POWER8 Continuous Integration project.
+    It includes an overview of the project, the client, and the team members. It also includes
+    the original design, requirement, and tech review documents, as well as discussions of the 
+    changes to those documents. Following that are our blog posts for the year, our Expo poster,
+    and project documentation. We then discuss how we learned new technology and what we learned
+    from our Capstone experience. Finally, Ansible code and status tracking are included as appendices.
  \end{abstract}
 \end{titlepage}
 
@@ -120,7 +120,7 @@ The CI system should be able to be run on other POWER8 systems with a minimal am
 
 \section{Discussion of Requirements Document}
 The requirements document is incomplete. In our discussions with IBM during the writing of this
-document, they expressed that they wanted us to follow a more Agile style of developement to match
+document, they expressed that they wanted us to follow a more Agile style of development to match
 their internal use of Agile. As such, they did not want us to do an up front requirements document,
 but rather focus on user stories as a basis of a design document. After speaking to Kevin McGrath
 about these concerns he advised us to follow the direction from our client.
@@ -300,7 +300,7 @@ As mentioned in another user story, OpenStack has the ability to manage virtual 
 In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
 This will give us the ability to automate both the creation and removal of VMs and containers.
 \subsubsection{CONFIRMATION}
-Builds are triggered immediately if resources are available, and queued in the order recieved otherwise.
+Builds are triggered immediately if resources are available, and queued in the order received otherwise.
 \clearpage
 \section{Tech Review Document}
 \subsection{Introduction}
@@ -688,10 +688,17 @@ The following is a summary of the choices we have made for the nine pieces that 
 \end{enumerate}
 \section{Updates to Tech Review Document}
 One minor point of revision for the Tech Review Document involved fixing an error in the Login/Authentication section.
-The GitHub login plugin was supposed to be GitHub OAuth plugin and that is the plugin that we implemented in Jenkins.  
+The GitHub login plugin was supposed to be GitHub OAuth plugin and that is the plugin that we installed in Jenkins.  
 
 Two larger changes for our Tech Review was a change to the OS selection to indicate the client's desire that we use Ubuntu
 and the platform selection to indicate the client's desire that we also support containers along with virtual machines.
+
+Another large change was that we  dropped the need for a configuration file format.
+The original idea was to provide a TravisCI-like experience, however, this goal was deprioritized by IBM. 
+
+Finally, we changed the Frontend/Web Framework to the Apache web server and the Jenkins user interface. As the TravisCI-like
+experience was deprioritzed, we decided that simply providing the full Jenkins interface was a better option than trying to
+create a new interface. Apache provides for a reverse proxy which terminates the TLS connection.
 \clearpage
 \section{Weekly Blog Posts}
 Below are our weekly blog posts from Fall term week 6 through the Post-Expo post.
@@ -942,6 +949,7 @@ PR to change OSL's powerdev request form to include information about project an
 \textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
 
 Focus on the project workflow. Set deadlines and meet them. Use a task management system from the beginning. Set aside time in the Fall to make sure everyone on the project has a basic understanding of all the technical areas. Always communicate with team members and client.
+
 \textit{\\What's the biggest skill you've learned?}
 
 Something that we didn't do terribly well in the beginning, but I think got better at as we went. Being able to see what tasks need to be done from the goals that are set, and then breaking up tasks into individual assignments to meet those goals.
@@ -974,42 +982,54 @@ There are a variety of ways that the build containers and virtual machines could
 \textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
 
 Start early; communicate often. Because we needed to use Agile, but the class was designed for Waterfall, we couldn't do the necessary testing for Agile until Winter, putting our documentation a good bit behind where it should've been. We probably would've done better if we utilized IBM's willingness to help to its fullest potential.
+
 \textit{\\What's the biggest skill you've learned?}
 
 How to communicate directly and effectively. This includes knowing when and how to ask for assistance and how to ask questions in a simple and lucid manner.
+
 \textit{\\What skills do you see yourself using in the future?}
 
 Probably the project management and communication skills, more than anything else.
+
 \textit{\\What did you like about the project, and what did you not?}
 
 I liked that it was different from what the other projects were, as we were developing a service more than a product, and how it was quite different from what we had experienced in classes. On the flip-side, I didn't like how the project had almost nothing in common with the majority of the technical classes I had taken, leaving me without a foundation of relevant knowledge.
+
 \textit{\\What did you learn from your teammates?}
 
 The best way to have a project succeed is to leverage the strengths of each teammate to account for their weaknesses, instead of trying to arbitrarily divide the work up without regards to who is good at what.
+
 \textit{\\If you were the client for this project, would you be satisfied with the work done?}
 
 I would consider it sufficient for a service that is going to be transitioned to another team for further development and support.
+
 \textit{\\If your project were to be continued next year, what do you think needs to be working on?}
 
 Testing, testing, testing. The system could use some stress and scalability testing. It could also do for testing more and more intense builds with more complicated build procedures.\\
 
 \subsubsection{Derek Wong}
 \textit{\\If you were to redo the project from Fall term, what would you tell yourself?}
+
 If I could redo the project from Fall term I would start my project earlier and have a detailed plan of what we need to do. One of the key problems we ran into was splitting up work between my team members. We didn't have a good workflow and things got done slow because of it. During winter term, our client suggested us to come up with a list of task to accomplish and that workflow was much better than the one we previously had.
 
 \textit{\\What's the biggest skill you've learned? What skills do you see yourself using in the future?}
+
 I learned a lot about communication and teamwork. It is very valuable life skill that I can apply to anywhere in the future. In a development team, having good communication is what gets work done and having a good workflow. Having a well defined plan of goals and milestone can greatly improve efficiency. I will be applying all the skills I learned in my future job as a software developer. I also learned a lot of Jenkins as well. Jenkins is used by many development team because continuous integration is a very useful tool in developing software.
 
 \textit{\\What did you like about the project, and what did you not?}
+
 I liked that our project involves Jenkins because my previous job was using this and I could easily relate to it. I also got to learn more about what it does. I didn't like that our project didn't involve much coding because that was what I was hoping to do from the start.
 
 \textit{\\What did you learn from your teammates?}
+
 I learned new technologies from my teammates that I didn't know existed, such as ansible and openstack.
 
 \textit{\\If you were the client for this project, would you be satisfied with the work done?}
+
 I would be satisfied with the work done. We have a functional continuous integration system which is what the goal of this project is. There can be more improvements made, but what we have now is sufficient.
 
 \textit{\\If your project were to be continued next year, what do you think needs to be working on?}
+
 There can be more testing done to our system and just general refinement. We could add more features or just have a more secure system.\\
 \clearpage
 \section{Poster}
@@ -1072,7 +1092,7 @@ oauth:
   clientsecret: '<your clientsecret from GitHub>'
 \end{verbatim}
 You will also want a to get a GitHub token for your admin user.
-Go to your users Settins page and click on Personal access tokens.
+Go to your users Settings page and click on Personal access tokens.
 Add that to the same secret.yml file as above:
 
 \begin{verbatim}
@@ -1159,7 +1179,7 @@ If I could do it all over I would focus on making better use of the resources av
 As a student it is sometimes useful to struggle alone to understand a concept or solve a problem.
 But as a member of a team trying to accomplish a goal it is better to utilize every resource available to 
 meet the goal in a timely manner.
-I would also try to divide up tasks and responsiblities in such a way that one person does not frequently 
+I would also try to divide up tasks and responsibilities in such a way that one person does not frequently 
 block others from getting their work done. 
 
 

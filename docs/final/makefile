@@ -6,7 +6,7 @@ XDVI	= xdvi -gamma 4
 GH		= gv
 
 EXAMPLES = $(wildcard *.h)
-SRC	:= final.tex #$(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
+SRC	:= final_report_35.tex #$(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
 TRG	= $(SRC:%.tex=%.dvi)
 PSF	= $(SRC:%.tex=%.ps)
 PDF	= $(SRC:%.tex=%.pdf)
