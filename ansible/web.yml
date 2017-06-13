@@ -1,0 +1,6 @@
+- name: Install and configure Apache
+  hosts: jenkins
+  roles:
+    - web
+  remote_user: ubuntu
+  become: yes

@@ -4,5 +4,16 @@
 - name: Install index.html
   copy: src=index.html dest=/var/www/html/index.html mode=0664
 
+- name: Install power-ci Apache config
+  copy: src=power-ci.conf dest=/etc/apache2/sites-available/power-ci.conf mode=0644
+
+- name: Link power-ci Apache config to sites-enabled
+  file: 
+    src: /etc/apache2/sites-available/power-ci.conf
+    dest: /etc/apache2/sites-enabled/power-ci.conf
+    owner: root
+    group: root
+    state: link
+
 - name: Enable Apache
   systemd: name=apache2 enabled=yes state=restarted

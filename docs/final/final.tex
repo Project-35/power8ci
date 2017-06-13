@@ -6,15 +6,20 @@
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{enumitem}
-
+%\usepackage{underscore}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{courier}
+\usepackage{pdfpages}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \hypersetup{colorlinks=true, linkcolor=black}
 
-\lstset{frame=tb,
-  language=C,
+\lstset{frame=none,
+  language=Python,
   columns=flexible,
   numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
@@ -23,6 +28,8 @@
   breaklines=true,
   breakatwhitespace=true,
   tabsize=4
+  %showstringspaces=false,
+  %basicstyle=\ttfamily
 }
 \begin{document}
 \begin{titlepage}
@@ -55,8 +62,17 @@ This creates a need for Open Source projects to ensure that their software build
 Open Source software projects often use Continuous Integration (CI) systems to build and test their software. 
 CI enables these projects to validate their software after each change, ensuring that it continues to work as expected. 
 Public Cloud-based solutions already exist to enable Open Source software developers to build and test their software on Intel's x86 architecture. 
-Thus, while much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need an easy way to build and test their software on POWER8. 
+Thus, while much of the work needed to enable software to compile on POWER8 has already been done at the compiler level, Open Source software developers still need an easy way to build and test their software on POWER8. \\
 
+Our primary client at IBM was Gerrit Huizenga. Gerrit, along with Stan Gowen and
+other IBM employees, took an active role in guiding the project while allowing us
+to do the development. They provided us with the goals of the project and pointed
+us to resources that were available for us to learn from. Toward the end of the
+project they assisted us by providing test builds for the CI system. \\
+
+The project team members were Leon Leighton, Thomas Olson, and Derek Wong. Leon
+Leighton focused on OpenStack, Jenkins, and Ansible. Thomas Olson focused on build configuration and troubleshooting.
+Derek Wong focused on deciding which plugins to use in Jenkins, such as the GitHub OAuth and the Build Notification Plugins. 
 
 \section{Requirements Document}
 \subsection{Introduction}
@@ -102,6 +118,13 @@ All project builds should be isolated from both the host system and other projec
 \paragraph{Portability}
 The CI system should be able to be run on other POWER8 systems with a minimal amount of configuration.
 
+\section{Discussion of Requirements Document}
+The requirements document is incomplete. In our discussions with IBM during the writing of this
+document, they expressed that they wanted us to follow a more Agile style of developement to match
+their internal use of Agile. As such, they did not want us to do an up front requirements document,
+but rather focus on user stories as a basis of a design document. After speaking to Kevin McGrath
+about these concerns he advised us to follow the direction from our client.
+
 \clearpage
 \section{Design Document}
 \subsection{Introduction}
@@ -120,8 +143,8 @@ Below is a list of the user stories and the author.\\
     Manage installing the POWER8 CI system in a reproducible way. Authored by Leon Leighton.\\\\
   \item[Isolation]
     Isolate builds from each other and other users of the cluster. Authored by Leon Leighton.\\
-  \item[Resource Management]
-    Manage resources by automating the creation and removal of virtual machines and containers. Authored by Leon Leighton.\\
+  \item[Automation of VM and container creation/removal]
+    Automate the creation and removal of virtual machines and containers. Authored by Leon Leighton.\\\\
   \item[Login]
     Use an existing login. Authored by Derek Wong.\\
   \item[Build Status]
@@ -137,6 +160,7 @@ Below is a list of the user stories and the author.\\
   \item[Pre-build VM images]
     The system should use pre-built images for the base system of VMs. Authored by Thomas Olson.\\
 \end{description}
+
 
 \subsection{User Stories}
 \subsubsection{POWER8 Cluster}
@@ -177,29 +201,25 @@ Our primary means of launching and removing virtual machines and containers will
 By using these components we can leverage OpenStack's ability to manage virtual machines and Linux containers to provide isolation between different projects' builds and tests.
 \paragraph{CONFIRMATION}
 Projects are built in virtual machines or containers.
-
-\subsubsection{Resource Management}
+\subsubsection{Automation of VM and container creation/removal}
 \paragraph{CARD}
-As an open source software developer, I want my project builds to finish in a timely manner, so that I can receive build and test feedback as quickly as possible.
+As a system administrator, I want to automate the creation and removal of virtual machines and containers, so that projects are not waiting on manual intervention.
 \paragraph{CONVERSATION}
-The users of our project want their builds to run as soon as possible.
-However, our project has a finite amount of resources available on the POWER8 OpenStack cluster.
-This may cause a delay in starting a build if the necessary resources are not available.
-Builds should be queued to run in the order received if the resources are not available to run them immediately.
-In order to ensure that resources are available for new builds, we will need to automatically remove old VMs and containers.
+The primary goal of this project is to provide an automated solution for open source projects to build and test their software on POWER8.
+To meet this goal we will need to have the ability to automate the creation and removal of the virtual machines and containers where the builds will take place.
 As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
 In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
-This will give us the ability to automate both the creation and removal of VMs and containers.
+This will give us the ability to automate the creation and removal of VMs and containers.
 \paragraph{CONFIRMATION}
-Builds are triggered immediately if resources are available, and queued in the order recieved otherwise.
+The creation and removal of the virtual machines and containers used for building and testing is automated.
 
 \subsubsection{Login}
 \paragraph{CARD}
-As an open source software developer, I want to be able to use my github account credentials to login, so that I don't have to create another account, to access Jenkins.
+As an open source software developer, I want to be able to use an existing login, so that I don't have to create another account.
 \paragraph{CONVERSATION}
-We will use pluggable authentication from Jenkins to accomplish this task. Specifically, we will use the GitHub OAuth Plugin to allow users to login with their GitHub credentials. 
+We will use pluggable authentication from Jenkins. The plugins will allow user to use login credentials from other web sites, such as GitHub~\cite{githublogin}, Google~\cite{googlelogin}, etc\ldots to login. The plugins can simply be installed through Jenkins.
 \paragraph{CONFIRMATION}
-Our registration web site will allow developers to simply use their GitHub credentials to login into our services.
+Our registration web site will allow developers to choose from multiple options for authentication when registering.
 
 \subsubsection{Build Status}
 \paragraph{CARD}
@@ -256,6 +276,31 @@ for running a pull-build-test sequence much faster and smoother. Ubuntu will pro
 we may look into providing images for other Linux distributions.
 \paragraph{CONFIRMATION}
 The system uses disk images with Linux installed for starting VMs.
+
+\section{Updates to Design Document}
+\subsection{Login}
+Updated the "Login" user story. Originally, we planned to let users use their existing credentials from different websites such as GitHub, Google, etc, but we narrowed it down to just GitHub for now. Allowing them to use other accounts will be more of a stretch goal in the future. The following is the updated user story.
+\subsubsection{CARD}
+As an open source software developer, I want to be able to use my github account credentials to login, so that I don't have to create another account, to access Jenkins.
+\subsubsection{CONVERSATION}
+We will use pluggable authentication from Jenkins to accomplish this task. Specifically, we will use the GitHub OAuth Plugin to allow users to login with their GitHub credentials.
+\subsubsection{CONFIRMATION}
+Our registration web site will allow developers to simply use their GitHub credentials to login into our services.
+\subsection{Resource Management}
+Replaced "Automation of VM/container creation/removal" card with "Resource Management" card in order to capture the reasoning behind automating creation/removal of build resources. The following is the updated user story.
+\subsubsection{CARD}
+As an open source software developer, I want my project builds to finish in a timely manner, so that I can receive build and test feedback as quickly as possible.
+\subsubsection{CONVERSATION}
+The users of our project want their builds to run as soon as possible.
+However, our project has a finite amount of resources available on the POWER8 OpenStack cluster.
+This may cause a delay in starting a build if the necessary resources are not available.
+Builds should be queued to run in the order received if the resources are not available to run them immediately.
+In order to ensure that resources are available for new builds, we will need to automatically remove old VMs and containers.
+As mentioned in another user story, OpenStack has the ability to manage virtual machines and containers through the Nova and Magnum components.
+In order to automate this, we will utilize Jenkins~\cite{jenkinsmain} which has the ability to interact with OpenStack by using a plugin~\cite{jcloudsplugin}.
+This will give us the ability to automate both the creation and removal of VMs and containers.
+\subsubsection{CONFIRMATION}
+Builds are triggered immediately if resources are available, and queued in the order recieved otherwise.
 \clearpage
 \section{Tech Review Document}
 \subsection{Introduction}
@@ -410,7 +455,7 @@ RedHat Enterprise Linux is widely considered to be one of the standard Linux dis
 \paragraph{CentOS}
 CentOS is an unbranded version of RedHat Enterprise Linux, providing the same functionality and stability with only very minor functional differences. It is supported by the CentOS Project and is free for all use. As a result, it does not have the certifications nor the dedicated support of RedHat Enterprise Linux. As it tries to track the development of RedHat Enterprise Linux very closely, CentOS has approximately the same ten-year support cycle\cite{centlife}, but it does not have the same extended support period provided by Red Hat.
 \paragraph{Ubuntu Server}
-Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu tends to update application packages sooner, trading some amount of stability for newer functionality. Finally, Ubuntu has better support for containers compared to CentOS.
+Ubuntu Server is a version of the Ubuntu distribution that differs from the desktop version only by the installer and the life cycle\cite{ubuntulife}. It is supported by Canonical and has a five-year life cycle per major version. Like CentOS, it is free to use, but Canonical optionally offers a contract for dedicated support. Ubuntu also tends to update application packages sooner, trading some amount of stability for newer functionality.
 \subsubsection{Goals for use}
 The operating system  selection will have a major effect on the stability and ease-of-use of the entire system. Our goal is to select an operating system that is stable, widely supported and easy to work with.
 \subsubsection{Criteria for Evaluation}
@@ -431,9 +476,9 @@ The operating system  selection will have a major effect on the stability and ea
   \end{tabular}
 \end{center}
 \subsubsection{Discussion}
-As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux are negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement. However, the client has expressed an interest in using containers and using Ubuntu as a result of that.
+As this project does not require high availability or dedicated support, the benefits of buying a subscription for Red Hat Enterprise Linux are negligible, especially being that CentOS has much of the same functionality and the same length support cycle. This project also does not require an operating system that provides newer functionalities sooner like Ubuntu does, stability being a more important requirement.
 \subsubsection{Selection of best option}
-We have opted for using Ubuntu as the operating system that builds will be ran on and tested against as per the client's request.
+We have opted for using CentOS as the operating system that builds will be ran on and tested against. It provides the necessary stability and a wide base of support with a ten-year life cycle, while also being easy to configure, deploy and maintain.
 \subsection{Platform for Running Builds}
 \subsubsection{Options}
 \paragraph{Virtual Machine}
@@ -466,7 +511,7 @@ Although bare metal servers have undeniably the best performance, security and r
 
 Between virtual machines and containers, virtual machines provide better security and have years of support behind them, while containers provide better performance; virtual machines can have a performance penalty upwards of ten percent due to overhead.\cite{RC25482} Both virtual machines and containers allow for limiting the resources provided to a running instance, meeting the reliability requirements. They are also both exceedingly easy to configure for automated deployment, making them highly scalable.
 \subsubsection{Selection of best option}
-Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on. However, as per our client's request, the system should also support the use of containers if at all possible for running builds in. As such, we will support both the use of virtual machines and containers for builds to be ran in.
+Although virtual machines can have a noticeable performance penalty due to overhead, this can be reduced with proper tuning. Furthermore, we believe that the better isolation and security provided by virtual machines can easily outweigh the performance penalties. Therefore, we have decided that virtual machines are the ideal platform for running the builds and tests on.
 
 \subsection{Configuration File Formats}
 \subsubsection{Options}
@@ -498,8 +543,8 @@ We have selected YAML as the file format for configuration files due to it being
 
 \subsection{Login/Authentication}
 \subsubsection{Options}
-\paragraph{GitHub OAuth Plugin}
-The GitHub OAuth Plugin uses a github account for authentication and it also has the ability to set permission/authorization to users. The authorization includes: ability to create a job, build a project, configure a project, delete a project, etc...
+\paragraph{GitHub Login Plugin}
+The GitHub Login Plugin uses a github account for authentication.
 \paragraph{Active Directory Plugin}
 The Active Directory Plugin is a plugin for Jenkins and it uses Active Directory to authenticate the username and password.
 \paragraph{Jenkins Login}
@@ -515,12 +560,12 @@ This is a security measure that is absolutely necessary for our project.
 \subsubsection{Table}
 \begin{center}
   \begin{tabular}{llll}
-    Criteria & GitHub OAuth Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
+    Criteria & GitHub Login Plugin & Active Directory Plugin & Jenkins Login\\ \midrule
     Security       & Yes & Yes & Yes \\ \midrule
   \end{tabular}
 \end{center}
 \subsubsection{Discussion}
-The github OAuth plugin is a really straight forward method for authentication.
+The github login plugin is a really straight forward method for authentication.
 Users can simply use their github accounts to login.
 The second option is to use the active directory plugin.
 This plugin is used with Jenkins to authenticate the username and password through active directory~\cite{activedirectory}.
@@ -528,8 +573,8 @@ The third option is to use Jenkins’ login.
 Users can simply create a Jenkins’ account and have access to its functionalities.
 They will also have the ability to give authorizations to different accounts for their projects.
 \subsubsection{Selection of best option}
-The best option is to use GitHub OAuth plugin.
-Most of our users will be using github for their projects, so it is most resonable to use the github OAuth plugin for authentication.
+The best option is to use GitHub login plugin.
+Most of our users will be using github for their projects, so it is most resonable to use the github login plugin for authentication.
 
 \subsection{Frontend/Web frameworks}
 \subsubsection{Options}
@@ -641,7 +686,12 @@ The following is a summary of the choices we have made for the nine pieces that 
   \item Frontend/Web Frameworks: Tomcat
   \item Tracing State of Builds/Tests: Build Monitor Plugin
 \end{enumerate}
+\section{Updates to Tech Review Document}
+One minor point of revision for the Tech Review Document involved fixing an error in the Login/Authentication section.
+The GitHub login plugin was supposed to be GitHub OAuth plugin and that is the plugin that we implemented in Jenkins.  
 
+Two larger changes for our Tech Review was a change to the OS selection to indicate the client's desire that we use Ubuntu
+and the platform selection to indicate the client's desire that we also support containers along with virtual machines.
 \section{Weekly Blog Posts}
 \subsection{Fall Week 6}
 \subsubsection{Leon Leighton}
@@ -1100,8 +1150,440 @@ I would be satisfied with the work done. We have a functional continuous integra
 \textit{\\If your project were to be continued next year, what do you think needs to be working on?}
 There can be more testing done to our system and just general refinement. We could add more features or just have a more secure system.\\
 
+\section{Poster}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{images/PosterV4.eps}
+  \caption{Engineering Expo Poster}
+\end{figure}
+
+%\includepdf{PosterV4.pdf}
+\section{Project Documentation}
+\subsection{Requirements}
+\begin{itemize}
+  \item POWER8 OpenStack Cluster
+    \begin{itemize}
+       \item Used both for hosting Jenkins and for launching build VMs
+    \end{itemize}
+      \item One VM on the OpenStack cluster to act as the Jenkins master
+
+    \begin{itemize}
+        \item  This is the primary target for the Ansible playbook
+        \item  Python installed
+        \item  Tested with Ubuntu 16.04 ppc64le and Python 2.7.12
+    \end{itemize}
+      \item    (At least) One Docker host VM on the OpenStack cluster
+    \begin{itemize}
+      \item  This should have Docker installed and listening on a tcp port
+    \end{itemize}
+      \item    An OpenStack snapshot of a VM for your builds.
+    \begin{itemize}
+        \item This allows you to create multiple VMs with different configurations
+    \end{itemize}
+      \item    A Docker image
+    \begin{itemize}
+        \item We use one modified from ppc64le/ubuntu:16.04 ppc64le/ubuntu:16.04
+    \end{itemize}
+      \item    A host computer from which to run the Ansible playbook
+    \begin{itemize}
+       \item Ansible version $>=$ 2.3
+    \end{itemize}
+      \item    GitHub 
+    \begin{itemize}
+       \item Used for both authentication, and as the source for code
+    \end{itemize}
+\end{itemize}
+\subsection{Infrastructure Diagram}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{images/infrastructure_diagram.eps}
+  \caption{POWER8 CI Infrastructure Diagram}
+\end{figure}
+\subsection{Installation}
+
+First, clone our repo. Then you will need to go to GitHub and register a new OAuth application.
+You can find this under your account or organization by going to Settings $\rightarrow$ OAuth applications.
+Select the "Register a new application" button and fill in your information.
+We use a secret.yml file that is not commited to GitHub to keep these in.
+Create that file in roles/jenkins/vars/ with the following content:
+
+\begin{verbatim}
+oauth:
+  clientid: '<your clientid from GitHub>'
+  clientsecret: '<your clientsecret from GitHub>'
+\end{verbatim}
+You will also want a to get a GitHub token for your admin user.
+Go to your users Settins page and click on Personal access tokens.
+Add that to the same secret.yml file as above:
+
+\begin{verbatim}
+my_jenkins_params:
+  url_username: <your admin user's GitHub username>
+  url_password: <your GitHub token>
+  url: < Your Jenkins url -- http://jenkins.example:8080>
+\end{verbatim}
+Next, edit the hosts file and group\textunderscore vars/jenkins to replace power-ci.osuosl.org with your VM's IP address or hostname.
+
+Now run the Ansible playbook. You will need your ssh key for your OpenStack VM.
+
+\begin{verbatim}
+ansible-playbook -i hosts jenkins.yml --private-key=<your ssh key>
+\end{verbatim}
+\subsection{Jenkins Interface}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{images/jenkins.eps}
+  \caption{Jenkins Interface}
+\end{figure}
+\subsection{Configuration}
+
+You should now be able to login to the Jenkins interface and configure the OpenStack Cloud Plugin.
+Go to Manage Jenkins $\rightarrow$ Configure System. You can also label your Docker Image(s) and Build VMs so that you can specify the specific platform for individual builds.
+\subsection{Workflow}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{images/workflow.eps}
+  \caption{POWER8 CI Workflow Diagram}
+\end{figure}
+\section{Learning New Technologies}
+In learning new technologies we primarily relied upon web resources. For our main technologies of Jenkins, OpenStack, Docker, and Ansible
+we used the documentation on their main web pages.
+\begin{itemize}
+  \item https://jenkins.io/doc/
+  \item https://docs.openstack.org/
+  \item http://docs.ansible.com/
+  \item https://docs.docker.com/
+\end{itemize}
+
+In addition, our project relied heavily on various Jenkins plugins and their documentation.
+\begin{itemize}
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Openstack+Cloud+Plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Build+and+Publish+plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Docker+Plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Job+Restrictions+Plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Embeddable+Build+Status+Plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/GitHub+OAuth+Plugin
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Build+Monitor+Plugin
+\end{itemize}
+
+We also found Stack Exchange to be useful for finding solutions to errors that we encountered.
+\begin{itemize}
+  \item https://stackexchange.com/
+\end{itemize}
+
+When configuring Jenkins to run behind Apache, both the Apache documenation and the Jenkins wiki were useful.
+\begin{itemize}
+  \item https://httpd.apache.org/docs/
+  \item https://wiki.jenkins-ci.org/display/JENKINS/Running+Jenkins+behind+Apache
+\end{itemize}
+
+In addition to these online resources, we also were able to speak to people at IBM such as our client Gerrit Huizenga
+and Amit Ghatwal who assisted with the Docker configuration and with testing. We also had help from the Open Source
+Lab where the project is hosted. The OSL Director Lance Albertson gave us feedback on the use of OpenStack, and Ken
+Lett, the Senior Software Engineer, assisted with our understanding of Ansible.
+
+\section{What We Learned From Capstone}
+\subsection{Leon Leighton}
+Going through this Capstone project has taught me quite a few things.
+On the technical side, I learned about setting up services in a cloud environment and gained at least a beginners
+understanding of Ansible. I also learned a great deal about configuring Jenkins. 
+
+However, most of what I learned was not technical. 
+I have learned a great deal about the need to understand the strengths and weaknesses of ones teammates 
+and the importance of dividing up tasks with those strengths and weaknesses in mind. 
+I have also learned how absolutely vital good communication is both within a project and with a client. 
+Scheduling is also something that can be difficult, particularly when everyone has different schedules, but
+I have learned that it is important to get scheduling problems resolved quickly in order to prevent delays
+in working on a project.
+
+If I could do it all over I would focus on making better use of the resources available to me.
+As a student it is sometimes useful to struggle alone to understand a concept or solve a problem.
+But as a member of a team trying to accomplish a goal it is better to utilize every resource available to 
+meet the goal in a timely manner.
+I would also try to divide up tasks and responsiblities in such a way that one person does not frequently 
+block others from getting their work done. 
+
+
+\subsection{Thomas Olson}
+I didn't learn a lot of technical information. Some stuff about Jenkins, some about Ansible and some about OpenStack.
+However, I did learn a good amount of non-technical information. In particular, how to communicate more effectively and
+the importance of communicating often. I found out that project work can be fairly demanding and very stressful,
+especially when there's a large amount of documentation needed and tight deadlines that must be met. I saw first-hand
+how much more effective a team is when the members get together and work with one another instead of trying to work
+on their own.
+
+There are a few things I would do differently if I were to do this project all over again:
+
+The first, by far, is to disregard being told to do development in Winter term and just start it in Fall term. The fact
+of the matter is that our client wanted us to do Agile, and Agile requires rapid prototyping instead of big design
+up-front. Without being able to effectively test our ideas and present prototypes until Winter term, but still having
+to do our documentation in an Agile-esque way, we really didn't have a firm sense of what our design was until halfway
+through Winter term, setting us back a fair bit behind schedule. By the time Fall term was over, we had essentially
+wasted our and the client's time trying to do Agile development without actually doing the parts that make Agile
+effective.
+
+The second thing I'd do differently is try and organize regular times for the team to meet together for working. In one
+four-to-six-hour session as a group, we'd get more done than we would in two or three weeks combined. We also would run
+into problems when working apart that we wouldn't communicate effectively with each other and oftentimes failed to
+leverage each team member's individual strengths to their fullest.
+
+Third, I would try to have the work distributed more evenly. One of the issues with this project was how it had a really
+bad positive feedback loop that encouraged one person to do far more work than anyone else. The inter-connectedness of
+all the parts of the project combined with the steep learning curve of Ansible to put us in a situation where once one
+person has a firm grasp of part of the project, it was a lot simpler to just have them do most of the work instead of
+trying to get every group member on equal footing regarding the nitty-gritty of the project. This is incredibly unfair
+to that one person and I would try to prevent that from occurring again.
+
+Finally, the last thing I would do differently is engage more often with the client. On some level, we did a good job
+squandering the help IBM offered us by not requesting help when we needed it and by trying to solve problems on our own
+instead of asking IBM questions.
+
+\subsection{Derek Wong}
+Throughout this project I've learned many technical and non-technical skills.
+This project introduced me to continuous integration which many software development team uses.
+Our project was to create a continuous integration for IBM's POWER8 machine and the technologies used were:
+OpenStack, Jenkins, and Ansible. I learned a little about OpenStack and its ability to create VMs and Docker Containers.
+As for Jenkins, I already had prior knowledge of this technology from an internship I had before.
+For Ansible, I learned about the "Playbook" which was what we used to install our system and
+all the add-ons we had and the configurations as well.
+From working on this project, I learned that having a well defined workflow is really important.
+It provides a structure of how task can be accomplished and it makes it easier to divide work amongst team members.
+Sharing schedule with team members and having a deadline for each task or just milestone in 
+general is really useful in project management.
+I learned that working in teams, communication is the most important.
+It is really hard to work on a team project if we can't communicate with our group members or what task is each person is working on.
+If I could do this project all over again, I would begin the project more early and have a well defined workflow.
+In the beginning, I was confused and I didn't know where to start and had to rely on my group members to guide me.
+I would look into my project earlier and try to do more research and learn more about it so I 
+had a good grasp of what I needed to do when our group began to work on the project.
 
 \clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{final}
+\clearpage
+
+\section{Appendix 1}
+
+\begin{lstlisting}[caption=Ansible Host file]
+[jenkins]
+power-ci.osuosl.org ansible_python_interpreter=/usr/bin/python2.7
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Ansible Playbook]
+- name: Install and configure Jenkins
+  hosts: jenkins
+  roles:
+    - geerlingguy.jenkins
+    - jenkins
+    - web
+  remote_user: ubuntu
+  become: yes
+  vars_files:
+- group_vars/jenkins
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption=Playbook Variables]
+jenkins_hostname: power-ci.osuosl.org
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Jenkins Task]
+- name: Include Secret Variables
+  include_vars: secret.yml
+
+- name: Create Plugin Directory
+  file: path=/var/lib/jenkins/plugins state=directory
+
+- name: Install Build Monitor Plugin
+  jenkins_plugin:
+    name: build-monitor-plugin
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Matrix Authorization Plugin
+  jenkins_plugin:
+    name: matrix-auth
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Docker-Build-Publish Plugin
+  jenkins_plugin:
+    name: docker-build-publish
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Docker Plugin
+  jenkins_plugin:
+    name: docker-plugin
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Email Notification Plugin
+  jenkins_plugin:
+    name: emailext-template
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Embeddable Build Status Plugin
+  jenkins_plugin:
+    name: embeddable-build-status 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install GitHub Branch Source Plugin
+  jenkins_plugin:
+    name: github-branch-source
+    params: "{{ my_jenkins_params }}"
+
+
+- name: Install Multibranch Plugin
+  jenkins_plugin:
+    name: workflow-multibranch
+    params: "{{ my_jenkins_params }}"
+
+
+- name: Install GitHub Oauth Plugin
+  jenkins_plugin:
+    name: github-oauth
+    params: "{{ my_jenkins_params }}"
+
+- name: Install GitHub Plugin
+  jenkins_plugin:
+    name: github 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install Job Restrictions Plugin
+  jenkins_plugin:
+    name: job-restrictions 
+    params: "{{ my_jenkins_params }}"
+
+- name: Install OpenStack Cloud Plugin
+  jenkins_plugin:
+    name: openstack-cloud 
+    params: "{{ my_jenkins_params }}"
+
+- name: Configure GitHub Oauth Plugin in Jenkins
+  template: >
+    src=./roles/jenkins/templates/config-oauth.groovy.j2
+    dest=/var/lib/jenkins/init.groovy.d/config-oauth.groovy
+    owner=jenkins
+    group=jenkins
+
+- name: Configure Docker in Jenkins
+  template: >
+    src=./roles/jenkins/templates/config-docker.groovy.j2
+    dest=/var/lib/jenkins/init.groovy.d/config-docker.groovy
+    owner=jenkins
+    group=jenkins
+
+- name: Install Email config
+  copy: src=hudson.tasks.Mailer.xml dest=/var/lib/jenkins/ mode=0644
+
+- name: Restart Jenkins 
+  service:
+    name: jenkins
+    state: restarted
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Template for configuring authentication]
+import hudson.security.*
+import jenkins.model.*
+import org.jenkinsci.plugins.GithubAuthorizationStrategy
+import hudson.security.AuthorizationStrategy
+import hudson.security.SecurityRealm
+import org.jenkinsci.plugins.GithubSecurityRealm
+import hudson.security.ProjectMatrixAuthorizationStrategy
+import hudson.security.csrf.DefaultCrumbIssuer
+
+Jenkins.instance.crumbIssuer = new DefaultCrumbIssuer(true)
+
+// Authenticatin
+String githubWebUri = 'https://github.com'
+String githubApiUri = 'https://api.github.com'
+String clientID = '{{ oauth.clientid }}'
+String clientSecret = '{{ oauth.clientsecret }}'
+String oauthScopes = 'read:org'
+SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
+//check for equality, no need to modify the runtime if no settings changed
+if(!github_realm.equals(Jenkins.instance.getSecurityRealm())) {
+    Jenkins.instance.setSecurityRealm(github_realm)
+    Jenkins.instance.save()
+}
+
+// Authorization
+class BuildPermission {
+  static buildNewAccessList(userOrGroup, permissions) {
+    def newPermissionsMap = [:]
+    permissions.each {
+      newPermissionsMap.put(Permission.fromId(it), userOrGroup)
+    }
+    return newPermissionsMap
+  }
+}
+
+auth_strategy = new hudson.security.ProjectMatrixAuthorizationStrategy()
+
+authenticatedPermissions = [ "hudson.model.Hudson.Read" ]
+authenticated = BuildPermission.buildNewAccessList("authenticated", authenticatedPermissions)
+authenticated.each { p, u -> auth_strategy.add(p, u) }
+
+adminPermissions = [
+	"com.cloudbees.plugins.credentials.CredentialsProvider.Create",
+	"com.cloudbees.plugins.credentials.CredentialsProvider.Delete",
+	"com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains",
+	"com.cloudbees.plugins.credentials.CredentialsProvider.Update",
+	"com.cloudbees.plugins.credentials.CredentialsProvider.View",
+	"hudson.model.Computer.Build",
+	"hudson.model.Computer.Configure",
+	"hudson.model.Computer.Connect",
+	"hudson.model.Computer.Create",
+	"hudson.model.Computer.Delete",
+	"hudson.model.Computer.Disconnect",
+//	"hudson.model.Computer.Provision",
+	"hudson.model.Hudson.Administer",
+	"hudson.model.Hudson.Read",
+	"hudson.model.Item.Build",
+	"hudson.model.Item.Cancel",
+	"hudson.model.Item.Configure",
+	"hudson.model.Item.Create",
+	"hudson.model.Item.Delete",
+	"hudson.model.Item.Discover",
+	"hudson.model.Item.Read",
+	"hudson.model.Item.ViewStatus",
+	"hudson.model.Item.Workspace",
+	"hudson.model.Run.Delete",
+	"hudson.model.Run.Update",
+	"hudson.model.View.Configure",
+	"hudson.model.View.Create",
+	"hudson.model.View.Delete",
+	"hudson.model.View.Read"
+]
+{% for aduser in admins %}
+admin = BuildPermission.buildNewAccessList("{{ aduser }}", adminPermissions)
+admin.each { p, u -> auth_strategy.add(p, u) }
+{% endfor %}
+
+userPermissions = [
+	"hudson.model.Item.Build",
+	"hudson.model.Item.Cancel",
+	"hudson.model.Item.Configure",
+	"hudson.model.Item.Create",
+	"hudson.model.Item.Delete",
+	"hudson.model.Item.Discover",
+	"hudson.model.Item.Read",
+	"hudson.model.Item.ViewStatus",
+	"hudson.model.Item.Workspace"
+]
+{% for nuser in normal_users %}
+user = BuildPermission.buildNewAccessList("{{ nuser }}", userPermissions)
+user.each { p, u -> auth_strategy.add(p, u) }
+{% endfor %}
+
+//check for equality, no need to modify the runtime if no settings changed
+if(!auth_strategy.equals(Jenkins.instance.getAuthorizationStrategy())) {
+    Jenkins.instance.setAuthorizationStrategy(auth_strategy)
+    Jenkins.instance.save()
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=]
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption=]
+
+\end{lstlisting}
+
+
 \end{document}

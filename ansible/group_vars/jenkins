@@ -1,1 +1,2 @@
 jenkins_hostname: power-ci.osuosl.org
+jenkins_url_prefix: "/jenkins"
